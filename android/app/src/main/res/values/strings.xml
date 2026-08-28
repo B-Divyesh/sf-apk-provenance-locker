@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">APK Provenance Locker</string>
+    <string name="title_activity_main">APK Provenance Locker</string>
+    <string name="package_name">in.sociobot.apk_provenance_locker</string>
+    <string name="custom_url_scheme">in.sociobot.apk_provenance_locker</string>
+</resources>

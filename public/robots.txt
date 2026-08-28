@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://apk-provenance-locker.sociobot.in/sitemap.xml

@@ -1,0 +1,6 @@
+{
+  "slug": "apk-provenance-locker",
+  "title": "APK Provenance Locker",
+  "summary": "Record APK hashes and signers before you need to restore them.",
+  "artifact_class": "android-apk"
+}

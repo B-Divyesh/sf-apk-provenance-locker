@@ -1,0 +1,37 @@
+name: Android release
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '17'}
+      - uses: android-actions/setup-android@v3
+      - run: npm ci
+      - run: npm run build
+      - run: npx cap sync android
+      - name: Generate release signing key
+        run: keytool -genkeypair -keystore $RUNNER_TEMP/release.jks -storepass android -keypass android -alias release -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=APK Provenance Locker,OU=Release,O=Param Factory,L=Internet,ST=Internet,C=IN"
+      - name: Build signed APK and AAB
+        working-directory: android
+        env:
+          KEYSTORE: ${{ runner.temp }}/release.jks
+        run: |
+          ./gradlew assembleRelease bundleRelease \
+            -Pandroid.injected.signing.store.file="$KEYSTORE" \
+            -Pandroid.injected.signing.store.password=android \
+            -Pandroid.injected.signing.key.alias=release \
+            -Pandroid.injected.signing.key.password=android
+          cp app/build/outputs/apk/release/app-release.apk ../app-release.apk
+          cp app/build/outputs/bundle/release/app-release.aab ../app-release.aab
+      - run: sha256sum app-release.apk app-release.aab > SHA256SUMS
+      - uses: softprops/action-gh-release@v2
+        with: {files: "app-release.apk\napp-release.aab\nSHA256SUMS"}

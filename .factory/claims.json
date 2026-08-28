@@ -1,0 +1,6 @@
+[
+  {"id":"encrypted-export","claim":"Exports an encrypted restoration manifest","where":"Export restore kit dialog, README","test":"npm test -- --grep @claim:encrypted-export","sandbox":"sample records; exported text has no record names; the supplied password opens it"},
+  {"id":"hash-check","claim":"Hashes selected APK bytes on this device","where":"Record APK dialog","test":"npm test -- --grep @claim:hash-check","sandbox":"fixed selected-file bytes; SHA-256 digest is asserted"},
+  {"id":"demo-sandbox","claim":"Demo data is not saved with real records","where":"Demo banner, README","test":"npm test -- --grep @claim:demo-sandbox","sandbox":"demo uses the demo:apk-locker:records namespace and seeded sample inventory"}
+  ,{"id":"local-storage","claim":"Records are stored on this device","where":"Landing facts, Privacy, README","test":"npm test -- --grep @claim:local-storage","sandbox":"real and demo storage keys are distinct local browser namespaces"}
+]

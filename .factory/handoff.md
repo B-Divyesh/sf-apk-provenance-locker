@@ -36,7 +36,7 @@ Verified on 2026-08-28:
 
 - `npm test`: 4 passing tests, including each claim tag in `claims.json`.
 - `npm run build`: passed; `dist/index.html` is the deploy root. Initial JS is
-  18.96 KB raw / 7.32 KB gzip and CSS is 8.78 KB raw / 2.84 KB gzip.
+  19.00 KB raw / 7.33 KB gzip and CSS is 8.78 KB raw / 2.84 KB gzip.
 - Playwright mobile smoke at 390×844: exactly one h1 and one main landmark,
   correct title, demo banner present, and no console errors.
 - axe Playwright scan of `/demo`: zero violations after fixing contrast and the

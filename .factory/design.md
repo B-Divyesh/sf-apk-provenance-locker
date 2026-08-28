@@ -12,7 +12,7 @@ owned and traceable rather than like an app-store listing.
 - **Night ink:** `#16231f` (page, header)
 - **Moss paper:** `#dce8c6` (primary paper surface)
 - **Warm pulp:** `#f7f0df` (secondary paper surface)
-- **Archive orange:** `#d65d2f` (primary action and provenance thread)
+- **Archive orange:** `#a84422` (primary action and provenance thread; darkened for white-text contrast)
 - **Seal teal:** `#0f6256` (verified state)
 - **Red pencil:** `#a43c32` (mismatch warning)
 - **Ink:** `#14221e`; **muted ink:** `#4d5c53`

@@ -49,7 +49,7 @@ jobs:
           unzip -l app-release.aab | grep -q 'manifest/AndroidManifest.xml'
           AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)"
           APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -1)"
-          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='9' versionName='0.5.4'"
+          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='10' versionName='0.5.5'"
           "$AAPT" dump xmltree app-release.apk AndroidManifest.xml > packaged-manifest.txt
           grep -q 'android:allowBackup.*0x0' packaged-manifest.txt
           grep -q 'android:fullBackupContent' packaged-manifest.txt

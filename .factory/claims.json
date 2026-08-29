@@ -134,7 +134,7 @@
   },
   {
     "id": "release-assets",
-    "claim": "The landing page links directly to the v0.5.4 APK, AAB, and SHA256SUMS assets",
+    "claim": "The landing page links directly to the v0.5.5 APK, AAB, and SHA256SUMS assets",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
     "sandbox": "Assert deterministic GitHub release-asset URLs and that page load makes no GitHub API request"

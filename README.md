@@ -55,11 +55,11 @@ exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.4/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.4/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.4/SHA256SUMS)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.5/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.5/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.5/SHA256SUMS)
 
-These links use the current `v0.5.4` release. Compare its SHA-256 file
+These links use the current `v0.5.5` release. Compare its SHA-256 file
 fingerprint with the matching line in `SHA256SUMS`.
 
 ## Optional Locker Plus

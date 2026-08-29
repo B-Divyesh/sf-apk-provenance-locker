@@ -127,9 +127,23 @@
   },
   {
     "id": "release-assets",
-    "claim": "The landing page links directly to the v0.3.0 APK, AAB, and SHA256SUMS assets",
+    "claim": "The landing page links directly to the v0.4.0 APK, AAB, and SHA256SUMS assets",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
     "sandbox": "Assert deterministic GitHub release-asset URLs and that page load makes no GitHub API request"
+  },
+  {
+    "id": "paid-unlock",
+    "claim": "A valid $12 one-time Locker Plus license adds private device labels and can be restored on another device",
+    "where": "Landing paid tier, evidence dialog, Privacy, Terms, README",
+    "test": "npm test -- --grep @claim:paid-unlock",
+    "sandbox": "Mock a valid Sociobot verdict, paste a license, assert the namespaced token and daily verdict cache, then save and persist a device label"
+  },
+  {
+    "id": "hosted-checkout",
+    "claim": "Locker Plus costs $12 once and uses the Sociobot hosted checkout",
+    "where": "Landing paid tier, Terms, README",
+    "test": "npm test -- --grep @claim:hosted-checkout",
+    "sandbox": "Assert the exact price and checkout URL, then require an HTTP redirect to a Dodo hosted checkout session"
   }
 ]

@@ -1,5 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
+import {execFileSync} from 'node:child_process';
 import {expect,test} from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -224,10 +225,70 @@ test('@claim:apk-never-uploaded processes a real APK without sending its bytes o
 test('@claim:release-assets exposes deterministic direct APK, AAB, and checksum links without an API request',async({page})=>{
   const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/');
-  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.3\.0\/app-release\.apk$/);
-  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.3\.0\/app-release\.aab$/);
-  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.3\.0\/SHA256SUMS$/);
+  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.4\.0\/app-release\.apk$/);
+  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.4\.0\/app-release\.aab$/);
+  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.4\.0\/SHA256SUMS$/);
   expect(requests.some(url=>url.includes('api.github.com'))).toBe(false);
+});
+
+test('publishes a build identity for the exact source commit',async({request})=>{
+  const response=await request.get('/build.json');
+  expect(response.ok()).toBe(true);
+  expect(await response.json()).toEqual({
+    product:'apk-provenance-locker',
+    version:'0.4.0',
+    commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
+  });
+});
+
+test('@claim:paid-unlock restores a valid one-time license and persists a private device label',async({page})=>{
+  const verificationRequests:string[]=[];
+  await page.route('https://api.sociobot.in/api/v1/products/apk-provenance-locker/verify?*',async route=>{
+    verificationRequests.push(route.request().url());
+    await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({valid:true,reason:'ok',expires_at:null})});
+  });
+  await page.goto('/');
+  await expect(page.getByText('Locker Plus costs $12 once.')).toBeVisible();
+  await expect(page.getByRole('link',{name:'Buy Locker Plus — $12'})).toHaveAttribute('href','https://api.sociobot.in/api/v1/products/apk-provenance-locker/checkout');
+  await page.getByRole('button',{name:'Have a license? Paste it'}).click();
+  await page.getByLabel('License token').fill('qa-valid-license-123');
+  await page.getByRole('button',{name:'Verify license'}).click();
+  await expect(page.locator('.license-state')).toHaveText('Locker Plus is active on this device.');
+  expect(await page.evaluate(()=>localStorage.getItem('sb_license:apk-provenance-locker'))).toBe('qa-valid-license-123');
+  expect(JSON.parse((await page.evaluate(()=>localStorage.getItem('sb_license:apk-provenance-locker:verdict')))!)).toMatchObject({valid:true});
+  expect(verificationRequests).toHaveLength(1);
+
+  await chooseApk(page);
+  await page.getByRole('button',{name:'View full evidence'}).click();
+  await page.getByRole('button',{name:'Edit device label'}).click();
+  await page.getByLabel('Device label').fill('Pixel 8 travel spare');
+  await page.getByRole('button',{name:'Save device label'}).click();
+  await expect(page.getByText('Device: Pixel 8 travel spare')).toBeVisible();
+  await page.reload();
+  await expect(page.getByText('Device: Pixel 8 travel spare')).toBeVisible();
+  expect(verificationRequests).toHaveLength(1);
+  const cachedUrls=await page.evaluate(async()=>Promise.all((await caches.keys()).map(async name=>(await (await caches.open(name)).keys()).map(request=>request.url))).then(groups=>groups.flat()));
+  expect(cachedUrls.join('\n')).not.toContain('qa-valid-license-123');
+});
+
+test('@claim:hosted-checkout shows the one-time price and reaches Sociobot hosted checkout',async({page,request})=>{
+  await page.goto('/');
+  await expect(page.getByText('Locker Plus costs $12 once.')).toBeVisible();
+  const buy=page.getByRole('link',{name:'Buy Locker Plus — $12'});
+  await expect(buy).toHaveAttribute('href','https://api.sociobot.in/api/v1/products/apk-provenance-locker/checkout');
+  const response=await request.get(await buy.getAttribute('href') as string,{maxRedirects:0});
+  expect(response.status()).toBe(303);
+  expect(response.headers().location).toMatch(/^https:\/\/checkout\.dodopayments\.com\/session\//);
+});
+
+test('revoked licenses lock paid labels without affecting core verification',async({page})=>{
+  await page.route('https://api.sociobot.in/api/v1/products/apk-provenance-locker/verify?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({valid:false,reason:'revoked',expires_at:null})}));
+  await page.goto('/?license=qa-revoked-token');
+  await expect(page).toHaveURL('/');
+  await expect(page.getByText('This license is not active. Check the token or buy Locker Plus.')).toBeVisible();
+  expect(await page.evaluate(()=>localStorage.getItem('sb_license:apk-provenance-locker'))).toBeNull();
+  await chooseApk(page);
+  await expect(page.getByText('Signature verified · v1 + v2 + v3')).toBeVisible();
 });
 
 test('starts keyboard navigation at the skip link and focuses headings only after client navigation',async({page})=>{
@@ -237,6 +298,19 @@ test('starts keyboard navigation at the skip link and focuses headings only afte
   await expect(page.getByRole('link',{name:'Skip to content'})).toBeFocused();
   await page.getByRole('link',{name:'Privacy'}).first().click();
   await expect(page.getByRole('heading',{level:1})).toBeFocused();
+});
+
+test('keeps the recurring wordmark, Terms, and focused skip-link targets at least 44 by 44 pixels',async({page})=>{
+  for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.keyboard.press('Tab');
+    for(const target of [page.getByRole('link',{name:'Skip to content'}),page.locator('.wordmark'),page.getByRole('contentinfo').getByRole('link',{name:'Terms'})]){
+      const box=await target.boundingBox();
+      expect(box?.width||0).toBeGreaterThanOrEqual(44);
+      expect(box?.height||0).toBeGreaterThanOrEqual(44);
+    }
+  }
 });
 
 test('manages dialog focus and closes it with Escape',async({page})=>{
@@ -264,6 +338,10 @@ test('passes axe, has one page structure, and fits mobile at 200% text',async({p
   }
   await page.goto('/');await page.evaluate(()=>document.documentElement.style.fontSize='200%');
   await page.getByRole('button',{name:'Verify an APK'}).first().click();
+  expect((await new AxeBuilder({page}).analyze()).violations).toEqual([]);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+  await page.keyboard.press('Escape');
+  await page.getByRole('button',{name:'Have a license? Paste it'}).click();
   expect((await new AxeBuilder({page}).analyze()).violations).toEqual([]);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
 });
@@ -306,4 +384,17 @@ test('@claim:offline-verification verifies an APK offline after the first visit'
   await chooseApk(page,v1Fixture);
   await expect(page.getByText('Signature verified · v1')).toBeVisible();
   await context.setOffline(false);
+});
+
+test('checks for service-worker updates and removes old cache versions',async({page})=>{
+  await page.goto('/');
+  await expect.poll(()=>page.evaluate(()=>Boolean(navigator.serviceWorker.controller))).toBe(true);
+  const state=await page.evaluate(async()=>{
+    const registration=await navigator.serviceWorker.ready;
+    await registration.update();
+    return {script:registration.active?.scriptURL,caches:await caches.keys()};
+  });
+  expect(state.script).toMatch(/\/sw\.js$/);
+  expect(state.caches).toContain('apk-locker-v7');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v7']);
 });

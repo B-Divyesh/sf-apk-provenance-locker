@@ -43,19 +43,28 @@ fixtures and their exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.3.0/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.3.0/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.3.0/SHA256SUMS)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/SHA256SUMS)
 
-The release workflow builds the APK and AAB. It checks their size, package ID,
-manifest, signature, and checksums. A store release needs the owner's upload key.
+These links use the current `v0.4.0` release. A store release needs the owner's
+upload key.
+
+## Optional Locker Plus
+
+Locker Plus costs $12 once. It adds private device labels for organizing a
+large locker. Verification, warnings, and restore-kit export remain free.
+Buy through Sociobot/Dodo, or use **Have a license? Paste it** to restore a
+purchase on another device. Refunds are handled by the merchant of record.
 
 ## Privacy and license
 
 Records and optional APK copies stay in browser or installed-app storage.
 Recording, checking, and exporting send no APK data or record content over the
-network. There are no analytics, advertising, account, or automatic third-party
-requests. Download links contact GitHub only when selected.
+network. There are no analytics, advertising, or accounts. The free locker
+makes no automatic third-party requests. Download links contact GitHub only
+when selected. A saved Plus license is sent only to Sociobot for verification,
+at most once each day.
 
 Restore kits encrypt records in this browser with your password (PBKDF2-SHA256
 and AES-GCM). The app does not store the export password. See `/privacy` and

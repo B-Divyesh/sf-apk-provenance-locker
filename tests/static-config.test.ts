@@ -2,6 +2,14 @@ import {readFileSync} from 'node:fs';
 import {describe,expect,it} from 'vitest';
 
 describe('deployment and Android release configuration',()=>{
+  it('keeps exactly one browser test tag for every declared claim',()=>{
+    const claims=JSON.parse(readFileSync('.factory/claims.json','utf8')) as Array<{id:string}>;
+    const browser=readFileSync('tests/browser/locker.spec.ts','utf8');
+    const tags=[...browser.matchAll(/@claim:([a-z0-9-]+)/g)].map(match=>match[1]);
+    expect(new Set(claims.map(claim=>claim.id)).size).toBe(claims.length);
+    expect(tags.sort()).toEqual(claims.map(claim=>claim.id).sort());
+  });
+
   it('serves only known SPA routes and lets unknown routes reach the real 404 override',()=>{
     const config=JSON.parse(readFileSync('public/staticwebapp.config.json','utf8'));
     expect(config.navigationFallback).toBeUndefined();
@@ -9,12 +17,13 @@ describe('deployment and Android release configuration',()=>{
     expect(config.responseOverrides['404']).toEqual({rewrite:'/404.html',statusCode:404});
   });
 
-  it('declares the web manifest MIME type and blocks undeclared connections',()=>{
+  it('declares the web manifest MIME type and limits connections to the paid-license API',()=>{
     const config=JSON.parse(readFileSync('public/staticwebapp.config.json','utf8'));
     const app=readFileSync('src/main.ts','utf8');
     expect(config.mimeTypes['.webmanifest']).toBe('application/manifest+json');
     expect(config.mimeTypes['.wasm']).toBe('application/wasm');
-    expect(config.globalHeaders['Content-Security-Policy']).toContain("connect-src 'self'");
+    expect(config.globalHeaders['Content-Security-Policy']).toContain("connect-src 'self' https://api.sociobot.in");
+    expect(config.globalHeaders['Content-Security-Policy']).toContain("form-action 'self' https://api.sociobot.in");
     expect(config.globalHeaders['Content-Security-Policy']).toContain("'wasm-unsafe-eval'");
     expect(config.globalHeaders['Content-Security-Policy']).not.toContain('api.github.com');
     expect(app).not.toContain('api.github.com');
@@ -22,17 +31,21 @@ describe('deployment and Android release configuration',()=>{
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v6'");
+    expect(worker).toContain("CACHE='apk-locker-v7'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
 
-  it('syncs Capacitor and validates release artifacts before publication',()=>{
+  it('builds v0.4.0 packages only from the matching tag and byte-checks the packaged web build',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
     expect(workflow).toContain('npx cap sync android');
     expect(workflow).toContain('apksigner');
-    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='3' versionName='0.3.0'");
+    expect(workflow).toContain('test "$GITHUB_REF_NAME" = "$EXPECTED_TAG"');
+    expect(workflow).toContain('test "$(git rev-parse HEAD)" = "$GITHUB_SHA"');
+    expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")');
+    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='4' versionName='0.4.0'");
     expect(workflow).toContain('SHA256SUMS');
+    expect(readFileSync('vite.config.ts','utf8')).toContain("fileName:'build.json'");
   });
 
   it('gives the static 404 route complete metadata and the shared navigation shell',()=>{
@@ -59,5 +72,7 @@ describe('deployment and Android release configuration',()=>{
     expect(app).not.toContain('Original generated paper-cut art.');
     expect(`${app}\n${readme}`).not.toContain('release-specific test key');
     expect(`${app}\n${readme}`).not.toContain('not on Google Play');
+    expect(readme).not.toContain('The release workflow builds the APK and AAB.');
+    expect(readme).not.toContain('It checks their size, package ID, manifest, signature, and checksums.');
   });
 });

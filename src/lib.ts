@@ -1,6 +1,6 @@
 import type {ApkSigner,LineageNode} from './apk';
 
-export type ApkRecord = { id:string; packageName:string; versionCode:number; versionName:string; source:string; filename:string; size:number; sha256:string; currentSigner:string; signers:ApkSigner[]; lineage:LineageNode[]; schemes:string[]; added:string; backup:boolean; verification:'verified'|'sample'|'legacy'; risk?:string };
+export type ApkRecord = { id:string; packageName:string; versionCode:number; versionName:string; source:string; filename:string; size:number; sha256:string; currentSigner:string; signers:ApkSigner[]; lineage:LineageNode[]; schemes:string[]; added:string; backup:boolean; verification:'verified'|'sample'|'legacy'; risk?:string; deviceLabel?:string };
 export type Kit = { format:'apk-provenance-locker/1'; created:string; records:ApkRecord[]; files:Record<string,string> };
 const te=new TextEncoder(), td=new TextDecoder();
 export const bytesToHex=(b:ArrayBuffer|Uint8Array)=>Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');

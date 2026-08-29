@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-29 after polish round 1. Counts treat hyphenated terms, URLs,
+Checked 2026-08-29 after repair 5. Counts treat hyphenated terms, URLs,
 and file names as one word. No audited sentence exceeds 22 words or uses a
 banned marketing term.
 
@@ -34,6 +34,15 @@ banned marketing term.
 | It extracts the package name and version code from the compiled Android manifest. | 13 | Declared claim: apk-identity |
 | Check signer and downgrade risks. | 5 | Pass |
 | Verified signer lineage and version codes reveal signer changes and incompatible downgrade risk. | 13 | Declared claims: signer-drift, downgrade-risk |
+| Optional one-time purchase | 3 | Pass |
+| Group APKs by device | 4 | Pass |
+| Locker Plus costs $12 once. | 5 | Declared claims: paid-unlock, hosted-checkout |
+| It adds private device labels for sorting a large locker. | 10 | Declared claim: paid-unlock |
+| Verification, warnings, and restore-kit export stay free. | 7 | Declared claim: paid-unlock |
+| Buy Locker Plus — $12 | 5 | Declared claim: hosted-checkout |
+| Have a license? Paste it | 5 | Declared claim: paid-unlock |
+| One-time purchase. | 2 | Declared claims: paid-unlock, hosted-checkout |
+| Sociobot/Dodo handles checkout and refunds. | 5 | Declared claims: paid-unlock, hosted-checkout |
 | Android download | 2 | Pass |
 | The verifier runs locally with a pinned browser build of the Android-compatible apksig verifier. | 15 | Declared claims: offline-verification, apk-never-uploaded |
 | Android still makes the final install decision. | 7 | Pass |
@@ -66,12 +75,18 @@ banned marketing term.
 | Demo metadata and files use separate demo: namespaces. | 7 | Declared claim: demo-sandbox |
 | Reset demo and Start for real erase the demo data. | 10 | Declared claim: demo-sandbox |
 | Removing a real record erases its optional saved copy. | 9 | Declared claim: saved-copy-erasure |
-| The release workflow builds the APK and AAB. | 9 | Pass |
-| It checks their size, package ID, manifest, signature, and checksums. | 10 | Pass |
+| These links use the current v0.4.0 release. | 8 | Declared claim: release-assets |
+| Locker Plus costs $12 once. | 5 | Declared claims: paid-unlock, hosted-checkout |
+| It adds private device labels for organizing a large locker. | 10 | Declared claim: paid-unlock |
+| Verification, warnings, and restore-kit export remain free. | 7 | Declared claim: paid-unlock |
+| Buy through Sociobot/Dodo, or use Have a license? Paste it to restore a purchase on another device. | 16 | Declared claims: paid-unlock, hosted-checkout |
+| Refunds are handled by the merchant of record. | 8 | Declared claim: paid-unlock |
 | Records and optional APK copies stay in browser or installed-app storage. | 10 | Declared claim: local-storage |
 | Recording, checking, and exporting send no APK data or record content over the network. | 13 | Declared claim: apk-never-uploaded |
-| There are no analytics, advertising, account, or automatic third-party requests. | 10 | Declared claim: no-account-network |
+| There are no analytics, advertising, or accounts. | 7 | Declared claim: no-account-network |
+| The free locker makes no automatic third-party requests. | 8 | Declared claim: no-account-network |
 | Download links contact GitHub only when selected. | 7 | Declared claim: release-assets |
+| A saved Plus license is sent only to Sociobot for verification, at most once each day. | 15 | Declared claim: paid-unlock |
 | Restore kits encrypt records in this browser with your password (PBKDF2-SHA256 and AES-GCM). | 12 | Declared claim: encrypted-export |
 | The app does not store the export password. | 8 | Declared claim: password-not-stored |
 

@@ -1,6 +1,5 @@
 name: Android release
 on:
-  workflow_dispatch:
   push:
     tags: ['v*']
 permissions:
@@ -19,6 +18,12 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm run test:unit
+      - name: Verify release source identity
+        run: |
+          EXPECTED_TAG="v$(node -p "require('./package.json').version")"
+          test "$GITHUB_REF_NAME" = "$EXPECTED_TAG"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(node -e "process.stdout.write(require('./dist/build.json').commit)")" = "$GITHUB_SHA"
       - run: npx cap sync android
       - name: Generate release signing key
         run: keytool -genkeypair -keystore $RUNNER_TEMP/release.jks -storepass android -keypass android -alias release -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=APK Provenance Locker,OU=Release,O=Param Factory,L=Internet,ST=Internet,C=IN"
@@ -42,8 +47,11 @@ jobs:
           unzip -l app-release.aab | grep -q 'manifest/AndroidManifest.xml'
           AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)"
           APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -1)"
-          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='3' versionName='0.3.0'"
+          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='4' versionName='0.4.0'"
           "$APKSIGNER" verify --verbose --print-certs app-release.apk
+          while IFS= read -r FILE; do
+            cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")
+          done < <(find dist -type f -print)
           sha256sum app-release.apk app-release.aab > SHA256SUMS
       - uses: softprops/action-gh-release@v2
         with:
@@ -53,6 +61,6 @@ jobs:
             SHA256SUMS
           make_latest: true
           body: |
-            APK Provenance Locker v0.3.0.
+            APK Provenance Locker v0.4.0.
 
-            Verify downloads with SHA256SUMS. A store release needs the owner's upload key.
+            Built from ${{ github.sha }}. Verify downloads with SHA256SUMS. A store release needs the owner's upload key.

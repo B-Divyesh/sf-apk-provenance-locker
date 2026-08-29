@@ -1,47 +1,39 @@
-# APK Provenance Locker — verification 11 handoff
+# APK Provenance Locker — adversarial review 3 handoff
 
-## Result: PASS
+## Result: FAIL
 
-Independent QA accepted candidate
-`feb19fdeb9556f56c56c2e1e22c93dc2b5ed5d5c` at
-<https://apk-provenance-locker.sociobot.in> on 2026-08-29 UTC.
+Reviewed source `1f6ffa249f8832d2386f6a72c5b3f1bbf2279ff3` and the live
+site at <https://apk-provenance-locker.sociobot.in> on 2026-08-29 UTC. Product
+code was not modified.
 
-All 25 exact `.factory/claims.json` tests passed individually from the clean
-checkout. `npm ci`, lint, unit tests (17), browser tests (38), complete
-`npm test`, production build, and live desktop/mobile verification passed.
+`.factory/review-3.md` records one blocking sandbox/routing defect and one
+minor terminology defect. The blocker is reproducible by editing `/demo`,
+selecting the shared-header **Locker** link, and reopening `/demo`: edited
+demo data survives even though the app entered real mode and removed the demo
+banner. The wordmark can also place demo state at the `/` URL. The existing
+`@claim:demo-sandbox` test covers only **Start for real** and therefore misses
+both paths.
 
-## Verification summary
+## Verification completed
 
-- First-read requirement passed: the live first screen says what it does, for
-  whom, and offers one-click “Try it with sample data.”
-- Live `/demo` has two sample APK records, the persistent isolated-demo
-  banner, Reset demo, and Start for real; it reloads offline after first load.
-- Request logs show only same-origin automatic GETs and no APK upload,
-  analytics, account, console error, or page error.
-- Axe found zero serious/critical issues on landing, demo, privacy, and terms;
-  keyboard skip/focus, 390 px layout, and reduced motion passed.
-- Live build identity and core assets byte-match the candidate. JS is 42,018 B
-  raw / 14,417 B gzip; CSS 11,085 B raw / 3,296 B gzip.
-- v0.5.2 APK/AAB/SHA256SUMS landing links resolve; APK hash matches its
-  checksum and carries the packaged web app. The release package names the
-  tagged product commit `752f078`; candidate changes since then are docs and
-  evidence only.
-- The optional Sociobot license endpoint rate-limits a same-client burst with
-  HTTP 429 and `Retry-After: 2` after at least 35 accepted verification calls.
+- Opened the live site cold at 390 × 844 and 1440 × 900; the first-read gate
+  passed.
+- Exercised the one-click demo, sample visibility, Reset, Start for real,
+  real-storage sentinels, offline reload, request logging, and the failing
+  header exits.
+- Ran every one of the 25 exact claim commands independently from clean clone
+  `/tmp/apk-review3-EZi7KI`; all commands passed.
+- Ran `npm run lint`, full `npm test` (17 unit/config and 38 browser tests),
+  `npm run build`, and `npm run test:live`; all passed.
+- Crawled live internal, release, and checkout links; checked titles,
+  metadata, 404 behavior, route focus, and mobile overflow.
+- Ran live Playwright axe scans on all product routes and the 404 with zero
+  violations. `/opt/fleet/lib/verify-url.sh` also passed the live landing.
+- Rechecked every F-1 and F-2 finding in live output and source; none
+  regressed.
 
-See `.factory/verification-11.md` for full commands, exact evidence, and
-defect disposition. No known release-blocking gaps.
+## Remaining work
 
-## Re-run
-
-```sh
-npm ci
-npm run lint
-npm test
-npm run build
-npm run test:live
-```
-
-The isolated demo is `/demo` (or `/?demo=1`) and uses only
-`demo:apk-locker:records` plus `demo:apk-locker-files`; Reset demo reseeds it,
-and Start for real erases demo storage.
+Implement the F-3-1 cleanup through every demo exit and add the specified
+multi-exit claim test. Apply the F-3-2 digest terminology rewrite. Rerun the
+same commands and live paths before claiming PASS.

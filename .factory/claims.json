@@ -106,17 +106,17 @@
   },
   {
     "id": "no-account-network",
-    "claim": "The demo needs no account and makes no automatic third-party requests",
+    "claim": "The demo needs no account; its only automatic third-party request reads public release metadata from GitHub",
     "where": "Landing facts, Privacy, README",
     "test": "npm test -- --grep @claim:no-account-network",
-    "sandbox": "Run and reset demo while recording requests; assert no account input and only the product origin"
+    "sandbox": "Run and reset demo while recording requests; assert no account input and only same-origin GETs plus one bodyless api.github.com metadata GET"
   },
   {
     "id": "apk-never-uploaded",
     "claim": "Selected APK files are never uploaded",
     "where": "Landing image caption, Privacy, README",
     "test": "npm test -- --grep @claim:apk-never-uploaded",
-    "sandbox": "From /demo, select and fully verify a genuine signed APK fixture while recording every request; assert only product-origin GET requests occur, no request body contains APK bytes, no api.github.com request occurs, and no console or page error is emitted"
+    "sandbox": "From /demo, select and fully verify a genuine signed APK fixture while recording every request; assert only product-origin GETs plus one bodyless api.github.com metadata GET occur, no request contains APK bytes, and no console or page error is emitted"
   },
   {
     "id": "offline-reload",
@@ -134,10 +134,10 @@
   },
   {
     "id": "release-assets",
-    "claim": "The landing page links directly to the v0.5.5 APK, AAB, and SHA256SUMS assets",
+    "claim": "The landing page binds v0.5.6 APK, AAB, checksums, and provenance links to this source commit",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
-    "sandbox": "Assert deterministic GitHub release-asset URLs and that page load makes no GitHub API request"
+    "sandbox": "Mock the GitHub latest-release API with this build commit; assert all four immutable asset URLs, commit status, and one metadata request"
   },
   {
     "id": "paid-unlock",

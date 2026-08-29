@@ -49,7 +49,7 @@ jobs:
           unzip -l app-release.aab | grep -q 'manifest/AndroidManifest.xml'
           AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)"
           APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -1)"
-          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='10' versionName='0.5.5'"
+          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='11' versionName='0.5.6'"
           "$AAPT" dump xmltree app-release.apk AndroidManifest.xml > packaged-manifest.txt
           grep -q 'android:allowBackup.*0x0' packaged-manifest.txt
           grep -q 'android:fullBackupContent' packaged-manifest.txt
@@ -63,16 +63,25 @@ jobs:
           grep -q 'Keep record' packaged-app.js
           grep -q 'Remove record' packaged-app.js
           sha256sum app-release.apk app-release.aab > SHA256SUMS
+          node scripts/create-release-provenance.mjs --apk app-release.apk --aab app-release.aab --output RELEASE_PROVENANCE.json
       - name: Run packaged demo-erasure and provenance regression
-        run: npm run test:release -- --apk app-release.apk --aab app-release.aab --checksums SHA256SUMS
+        run: npm run test:release -- --apk app-release.apk --aab app-release.aab --checksums SHA256SUMS --provenance RELEASE_PROVENANCE.json
       - uses: softprops/action-gh-release@v2
         with:
           files: |
             app-release.apk
             app-release.aab
             SHA256SUMS
+            RELEASE_PROVENANCE.json
           make_latest: true
+          name: APK Provenance Locker ${{ github.ref_name }}
           body: |
             APK Provenance Locker ${{ github.ref_name }}.
 
-            Built from ${{ github.sha }}. Verify downloads with SHA256SUMS. A store release needs the owner's upload key.
+            Built from immutable source commit ${{ github.sha }}.
+
+            Verify downloads with SHA256SUMS and RELEASE_PROVENANCE.json. A store release needs the owner's upload key.
+      - name: Redownload and verify published source identity
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: npm run test:release -- --expected-commit "$GITHUB_SHA"

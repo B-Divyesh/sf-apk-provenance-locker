@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-29 for polish round 4. Counts treat hyphenated terms, URLs,
+Checked 2026-08-29 for repair work order 10. Counts treat hyphenated terms, URLs,
 paths, and filenames as one word. No audited sentence exceeds 22 words or uses
 a banned marketing word. **File fingerprint** is the one product term for the
 SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
@@ -32,8 +32,14 @@ SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
 | Locker Plus costs $12 once. | 5 | Declared claims: paid-unlock, hosted-checkout |
 | Verification, signer and downgrade warnings, and restore-kit export stay free. | 10 | Declared claim: free-core-features |
 | APK checks run on this device using Android's signature rules. | 10 | Declared claim: signature-verification |
-| Use the versioned SHA256SUMS file to check the APK's SHA-256 file fingerprint. | 12 | Declared claim: release-assets |
+| Checking GitHub release metadata for v0.5.6 and source. | 8 | Declared claim: release-assets |
+| v0.5.6 matches source. | 3 | Declared claim: release-assets |
+| GitHub metadata is unavailable. | 4 | Graceful release fallback |
+| Versioned v0.5.6 links remain available. | 5 | Graceful release fallback |
+| Use SHA256SUMS and the provenance record to check the package and its immutable source commit. | 14 | Declared claim: release-assets |
+| Download the APK, SHA256SUMS, and provenance record. | 8 | Declared claim: release-assets |
 | Compare the APK's SHA-256 file fingerprint with the matching line in SHA256SUMS. | 12 | Declared claim: release-assets |
+| Confirm the provenance commit matches the source commit shown above. | 9 | Declared claim: release-assets |
 | Records and saved APK copies stay on this device. | 9 | Declared claim: local-storage |
 | Demo — sample data, nothing is saved | 7 | Declared claim: demo-sandbox |
 | Reset demo | 2 | Declared claim: demo-sandbox |
@@ -53,14 +59,18 @@ SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
 | Leaving, Reset demo, and Start for real erase demo data. | 10 | Declared claim: demo-sandbox |
 | Develop and verify APK Provenance Locker | 6 | Pass |
 | APK checks run in the browser. | 6 | Declared claim: signature-verification |
-| After the tag workflow publishes a release, npm run test:release downloads its APK, AAB, and checksums. | 15 | Release verification instruction |
-| It confirms that both packages name this repository commit. | 9 | Release verification instruction |
+| After the tag workflow publishes a release, npm run test:release uses the GitHub API to download its APK, AAB, checksums, and provenance record. | 22 | Release verification instruction |
+| It confirms that the tag, release notes, provenance, and both packages name this repository commit. | 14 | Release verification instruction |
 | It also checks that Start for real, Locker, and the wordmark erase demo data. | 14 | Declared claim: demo-sandbox |
 | Deploy APK Provenance Locker | 4 | Pass |
-| Compare its SHA-256 file fingerprint with the matching line in SHA256SUMS. | 11 | Declared claim: release-assets |
+| These links use the immutable v0.5.6 release. | 7 | Declared claim: release-assets |
+| Compare each file fingerprint with SHA256SUMS. | 6 | Declared claim: release-assets |
+| Then confirm RELEASE_PROVENANCE.json names the tag and source commit embedded in both Android packages. | 13 | Declared claim: release-assets |
 | Verification, signer and downgrade warnings, and restore-kit export stay free. | 10 | Declared claim: free-core-features |
 | Records and optional APK copies stay in browser or installed-app storage. | 11 | Declared claim: local-storage |
 | Recording, checking, and exporting send no APK data or record content over the network. | 14 | Declared claim: apk-never-uploaded |
+| The download section sends one bodyless GET to api.github.com for public release metadata. | 13 | Declared claim: no-account-network |
+| It falls back to versioned links when that request fails. | 9 | Release fallback regression |
 | Restore kits encrypt records in this browser with your password (PBKDF2-SHA256 and AES-GCM). | 13 | Declared claim: encrypted-export |
 
 The landing and README contain no “namespaces,” “source identity,” or

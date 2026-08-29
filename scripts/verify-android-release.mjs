@@ -15,19 +15,44 @@ const version=packageInfo.version;
 const tag=`v${version}`;
 const expectedCommit=(option('--expected-commit')||process.env.GITHUB_SHA||execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'})).trim();
 const repository='B-Divyesh/sf-apk-provenance-locker';
-const releaseBase=`https://github.com/${repository}/releases/download/${tag}`;
+const apiBase=`https://api.github.com/repos/${repository}`;
 const temporary=await mkdtemp(join(tmpdir(),'apk-locker-release-'));
 const local=Boolean(option('--apk'));
 const apk=option('--apk')||join(temporary,'app-release.apk');
 const aab=option('--aab')||join(temporary,'app-release.aab');
 const checksums=option('--checksums')||join(temporary,'SHA256SUMS');
+const provenance=option('--provenance')||join(temporary,'RELEASE_PROVENANCE.json');
 const expectedIdentity={product:'apk-provenance-locker',version,commit:expectedCommit};
 let server;
 let browser;
+let publishedRelease;
 
 function invariant(condition,message){if(!condition)throw new Error(message)}
+function apiHeaders(){return {'user-agent':'apk-provenance-locker-release-check',accept:'application/vnd.github+json',...(process.env.GITHUB_TOKEN?{authorization:`Bearer ${process.env.GITHUB_TOKEN}`}:{})}}
+async function githubJson(path){
+  const response=await fetch(`${apiBase}${path}`,{headers:apiHeaders()});
+  invariant(response.ok,`GitHub API ${path} returned HTTP ${response.status}`);
+  return response.json();
+}
+async function inspectPublishedRelease(){
+  const release=await githubJson(`/releases/tags/${tag}`);
+  invariant(release.tag_name===tag,`Release tag is ${release.tag_name}; expected ${tag}`);
+  invariant(release.draft===false,`${tag} is still a draft`);
+  invariant(typeof release.body==='string'&&release.body.includes(`Built from immutable source commit ${expectedCommit}.`),'Release notes do not bind the immutable source commit');
+  const ref=await githubJson(`/git/ref/tags/${tag}`);
+  let object=ref.object;
+  if(object?.type==='tag')object=(await githubJson(`/git/tags/${object.sha}`)).object;
+  invariant(object?.type==='commit'&&object.sha===expectedCommit,`${tag} points to ${object?.sha}; expected ${expectedCommit}`);
+  const assets=Object.fromEntries((release.assets||[]).map(asset=>[asset.name,asset]));
+  for(const name of ['app-release.apk','app-release.aab','SHA256SUMS','RELEASE_PROVENANCE.json']){
+    const asset=assets[name];
+    invariant(asset,`${tag}/${name} is not published`);
+    invariant(asset.browser_download_url===`https://github.com/${repository}/releases/download/${tag}/${name}`,`${name} has an unexpected download URL`);
+  }
+  return {release,assets};
+}
 async function download(name,destination){
-  const response=await fetch(`${releaseBase}/${name}`,{redirect:'follow',headers:{'user-agent':'apk-provenance-locker-release-check'}});
+  const response=await fetch(publishedRelease.assets[name].browser_download_url,{redirect:'follow',headers:{'user-agent':'apk-provenance-locker-release-check'}});
   invariant(response.ok,`${tag}/${name} returned HTTP ${response.status}`);
   await writeFile(destination,Buffer.from(await response.arrayBuffer()));
 }
@@ -130,14 +155,22 @@ async function verifyDemoErasure(baseUrl){
 }
 
 try{
-  if(!local)await Promise.all([download('app-release.apk',apk),download('app-release.aab',aab),download('SHA256SUMS',checksums)]);
-  for(const [label,path] of [['APK',apk],['AAB',aab],['SHA256SUMS',checksums]])invariant(existsSync(path),`${label} is missing: ${path}`);
+  if(!local){publishedRelease=await inspectPublishedRelease();await Promise.all([download('app-release.apk',apk),download('app-release.aab',aab),download('SHA256SUMS',checksums),download('RELEASE_PROVENANCE.json',provenance)])}
+  for(const [label,path] of [['APK',apk],['AAB',aab],['SHA256SUMS',checksums],['release provenance',provenance]])invariant(existsSync(path),`${label} is missing: ${path}`);
   invariant(statSync(apk).size>1_000_000,`APK is too small: ${statSync(apk).size} bytes`);
   invariant(statSync(aab).size>1_000_000,`AAB is too small: ${statSync(aab).size} bytes`);
   const expectedHashes=Object.fromEntries((await readFile(checksums,'utf8')).trim().split('\n').map(line=>{const [hash,name]=line.trim().split(/\s+/);return [name.replace(/^\*/,''),hash]}));
   const apkHash=await sha256(apk),aabHash=await sha256(aab);
   invariant(expectedHashes['app-release.apk']===apkHash,'APK does not match SHA256SUMS');
   invariant(expectedHashes['app-release.aab']===aabHash,'AAB does not match SHA256SUMS');
+  const releaseProvenance=JSON.parse(await readFile(provenance,'utf8'));
+  sameIdentity(releaseProvenance,'Release provenance');
+  invariant(releaseProvenance.schema==='https://sociobot.in/schemas/android-release-provenance/v1','Release provenance schema is invalid');
+  invariant(releaseProvenance.repository===repository,'Release provenance names the wrong repository');
+  invariant(releaseProvenance.tag===tag,`Release provenance tag is ${releaseProvenance.tag}; expected ${tag}`);
+  const provenanceArtifacts=Object.fromEntries((releaseProvenance.artifacts||[]).map(artifact=>[artifact.name,artifact]));
+  invariant(provenanceArtifacts['app-release.apk']?.sha256===apkHash&&provenanceArtifacts['app-release.apk']?.bytes===statSync(apk).size,'Release provenance does not match the APK');
+  invariant(provenanceArtifacts['app-release.aab']?.sha256===aabHash&&provenanceArtifacts['app-release.aab']?.bytes===statSync(aab).size,'Release provenance does not match the AAB');
   const apkIdentity=JSON.parse(zipText(apk,'assets/public/build.json'));
   const aabIdentity=JSON.parse(zipText(aab,'base/assets/public/build.json'));
   if(!has('--skip-identity')){sameIdentity(apkIdentity,'APK');sameIdentity(aabIdentity,'AAB')}
@@ -146,7 +179,7 @@ try{
   const served=await servePackagedWeb(join(extracted,'assets/public'));
   server=served.http;
   const exits=await verifyDemoErasure(served.url);
-  console.log(JSON.stringify({tag,expectedCommit,apk:{bytes:statSync(apk).size,sha256:apkHash,identity:apkIdentity},aab:{bytes:statSync(aab).size,sha256:aabHash,identity:aabIdentity},demoErasure:exits},null,2));
+  console.log(JSON.stringify({tag,expectedCommit,tagCommit:publishedRelease?expectedCommit:'local package check',provenance:releaseProvenance,apk:{bytes:statSync(apk).size,sha256:apkHash,identity:apkIdentity},aab:{bytes:statSync(aab).size,sha256:aabHash,identity:aabIdentity},demoErasure:exits},null,2));
 }finally{
   if(browser)await browser.close();
   if(server)await new Promise(resolve=>server.close(resolve));

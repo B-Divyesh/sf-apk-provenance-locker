@@ -45,7 +45,7 @@ describe('deployment and Android release configuration',()=>{
     expect(config.responseOverrides['404']).toEqual({rewrite:'/404.html',statusCode:404});
   });
 
-  it('declares the web manifest MIME type and limits connections to the paid-license API',()=>{
+  it('declares MIME types and limits connections to release metadata and paid-license APIs',()=>{
     const config=JSON.parse(readFileSync('public/staticwebapp.config.json','utf8'));
     const app=readFileSync('src/main.ts','utf8');
     expect(config.mimeTypes['.webmanifest']).toBe('application/manifest+json');
@@ -53,18 +53,18 @@ describe('deployment and Android release configuration',()=>{
     expect(config.globalHeaders['Content-Security-Policy']).toContain("connect-src 'self' https://api.sociobot.in");
     expect(config.globalHeaders['Content-Security-Policy']).toContain("form-action 'self' https://api.sociobot.in");
     expect(config.globalHeaders['Content-Security-Policy']).toContain("'wasm-unsafe-eval'");
-    expect(config.globalHeaders['Content-Security-Policy']).not.toContain('api.github.com');
-    expect(app).not.toContain('api.github.com');
+    expect(config.globalHeaders['Content-Security-Policy']).toContain('https://api.github.com');
+    expect(readFileSync('src/release.ts','utf8')).toContain('https://api.github.com');
   });
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v15'");
+    expect(worker).toContain("CACHE='apk-locker-v16'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
 
-  it('builds v0.5.5 packages only from the matching tag and audits packaged identity, privacy, and demo erasure',()=>{
+  it('builds v0.5.6 packages only from the matching tag and audits downloaded immutable provenance',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
     const manifest=readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
     const backupRules=readFileSync('android/app/src/main/res/xml/backup_rules.xml','utf8');
@@ -75,13 +75,17 @@ describe('deployment and Android release configuration',()=>{
     expect(workflow).toContain('test "$(git rev-parse HEAD)" = "$GITHUB_SHA"');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.aab "base/assets/public/${FILE#dist/}")');
-    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='10' versionName='0.5.5'");
+    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='11' versionName='0.5.6'");
     expect(workflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:fullBackupContent' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:dataExtractionRules' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'Keep record' packaged-app.js");
     expect(workflow).toContain("grep -q 'Remove record' packaged-app.js");
-    expect(workflow).toContain('npm run test:release -- --apk app-release.apk --aab app-release.aab --checksums SHA256SUMS');
+    expect(workflow).toContain('node scripts/create-release-provenance.mjs');
+    expect(workflow).toContain('npm run test:release -- --apk app-release.apk --aab app-release.aab --checksums SHA256SUMS --provenance RELEASE_PROVENANCE.json');
+    expect(workflow).toContain('npm run test:release -- --expected-commit "$GITHUB_SHA"');
+    expect(workflow).toContain('Built from immutable source commit ${{ github.sha }}.');
+    expect(workflow.match(/RELEASE_PROVENANCE\.json/g)?.length).toBeGreaterThanOrEqual(3);
     expect(manifest).toMatch(/android:allowBackup="false"/);
     expect(manifest).toMatch(/android:fullBackupContent="@xml\/backup_rules"/);
     expect(manifest).toMatch(/android:dataExtractionRules="@xml\/data_extraction_rules"/);
@@ -92,6 +96,11 @@ describe('deployment and Android release configuration',()=>{
     }
     expect(workflow).toContain('SHA256SUMS');
     expect(readFileSync('vite.config.ts','utf8')).toContain("fileName:'build.json'");
+    const verifier=readFileSync('scripts/verify-android-release.mjs','utf8');
+    expect(verifier).toContain("zipText(apk,'assets/public/build.json')");
+    expect(verifier).toContain("zipText(aab,'base/assets/public/build.json')");
+    expect(verifier).toContain('Release notes do not bind the immutable source commit');
+    expect(verifier).toContain('Release provenance does not match the APK');
   });
 
   it('gives the static 404 route complete metadata and the shared navigation shell',()=>{
@@ -117,7 +126,7 @@ describe('deployment and Android release configuration',()=>{
     expect(app).toContain('Records and saved APK copies stay on this device.');
     expect(app).not.toContain('Original generated paper-cut art.');
     expect(`${app}\n${readme}`).not.toContain('release-specific test key');
-    expect(app).toContain("Use the versioned SHA256SUMS file to check the APK's SHA-256 file fingerprint.");
+    expect(app).toContain('Use SHA256SUMS and the provenance record to check the package and its immutable source commit.');
     expect(app).toContain('SHA-256 file fingerprint before a reinstall.');
     expect(app).toContain('creates a SHA-256 file fingerprint on this device.');
     expect(`${app}\n${readme}`).not.toContain('05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0');
@@ -129,7 +138,7 @@ describe('deployment and Android release configuration',()=>{
     expect(readme).toContain('## Develop and verify APK Provenance Locker');
     expect(readme).toContain('## Deploy APK Provenance Locker');
     expect(readme).toContain('The demo keeps its records\nand files separate from your real locker.');
-    expect(readme).toContain('It confirms that both packages name this\nrepository commit.');
+    expect(readme).toContain('confirms that the tag, release notes, provenance, and both packages name this\nrepository commit.');
     expect(readme).not.toContain('demo-exit erasure path');
     expect(readme).not.toContain('source identity');
   });

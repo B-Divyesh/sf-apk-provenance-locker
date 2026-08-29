@@ -38,8 +38,9 @@ npx cap sync android
 
 `npm test -- --grep @claim:<id>` runs each observable claim listed in
 `.factory/claims.json`. The production static site is written to `dist/`.
-After the tag workflow publishes a release, `npm run test:release` downloads
-its APK, AAB, and checksums. It confirms that both packages name this
+After the tag workflow publishes a release, `npm run test:release` uses the
+GitHub API to download its APK, AAB, checksums, and provenance record. It
+confirms that the tag, release notes, provenance, and both packages name this
 repository commit. It also checks that **Start for real**, **Locker**, and the
 wordmark erase demo data.
 
@@ -55,12 +56,14 @@ exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.5/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.5/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.5/SHA256SUMS)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.6/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.6/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.6/SHA256SUMS)
+- [Download release provenance](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.6/RELEASE_PROVENANCE.json)
 
-These links use the current `v0.5.5` release. Compare its SHA-256 file
-fingerprint with the matching line in `SHA256SUMS`.
+These links use the immutable `v0.5.6` release. Compare each file fingerprint
+with `SHA256SUMS`. Then confirm `RELEASE_PROVENANCE.json` names the tag and
+source commit embedded in both Android packages.
 
 ## Optional Locker Plus
 
@@ -75,10 +78,10 @@ revoked license stops private device labels. Verification remains free.
 Records and optional APK copies stay in browser or installed-app storage.
 Android system backup and device transfer are disabled for installed-app data.
 Recording, checking, and exporting send no APK data or record content over the
-network. There are no analytics, advertising, or accounts. The free locker
-makes no automatic third-party requests. Download links contact GitHub only
-when selected. A saved Plus license is sent only to Sociobot for verification,
-at most once each day.
+network. There are no analytics, advertising, or accounts. The download
+section sends one bodyless GET to `api.github.com` for public release metadata.
+It falls back to versioned links when that request fails. A saved Plus license
+is sent only to Sociobot for verification, at most once each day.
 
 Restore kits encrypt records in this browser with your password (PBKDF2-SHA256
 and AES-GCM). The app does not store the export password. See `/privacy` and

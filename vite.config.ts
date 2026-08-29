@@ -7,6 +7,10 @@ const commit=(process.env.GITHUB_SHA||execFileSync('git',['rev-parse','HEAD'],{e
 
 export default defineConfig({
   build:{target:'es2022',cssCodeSplit:false},
+  define:{
+    __APP_VERSION__:JSON.stringify(packageVersion),
+    __BUILD_COMMIT__:JSON.stringify(commit),
+  },
   plugins:[{
     name:'release-identity',
     generateBundle(){

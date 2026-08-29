@@ -64,6 +64,14 @@ android.yml` creates the signed-with-ephemeral-debug-key APK, AAB, and
 `SHA256SUMS` GitHub release. The landing page will resolve that release through
 the GitHub API once it is published.
 
+Repair commit `5af10cafa4f26408eb7a9344f52276795ec64241` and tag `v0.1.1`
+were pushed to `origin`; the Android workflow was observed in progress. At the
+last live check, the static endpoint still returned the pre-repair HTML hash
+`8d0df902957a27c466988515fd8baea6b4f75b6e240ee6dc9b1e91c4bd522a6d`, and
+the direct APK asset URL returned 404. This worker has no separate static-host
+credential or deployment command beyond the configured git push, so confirm
+the factory deployment and workflow artifacts before announcing the release.
+
 ## Known limitation
 
 This local-first web app validates the APK container and records a local hash

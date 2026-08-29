@@ -1,90 +1,79 @@
-# Polish round 1 handoff — APK Provenance Locker
+# Independent QA handoff — APK Provenance Locker
 
 ## Result
 
-All 13 findings in `.factory/review-1.md` are resolved. There were no earlier
-`.factory/review-*.md` or `.factory/polish-*.md` files. Earlier verification
-reports were rechecked through the full functional, claim, privacy, offline,
-accessibility, Android-sync, and live deployment suite.
+**FAIL** for candidate `aa342a3dce20ea5df5fc3f1b58290ec4b47b607b`
+at `https://apk-provenance-locker.sociobot.in` on 2026-08-29 UTC.
 
-Repair commit: `584112896d436a144f957321be625da4e0c7deda`.
-Visual-evidence commit: `489d863760470b8ac70a077ba3059660ca41e4d0`.
+The web app's first-read/demo gate and all functional quality gates pass, but
+release acceptance is blocked by:
 
-## What changed
+- **High:** the linked v0.3.0 APK/AAB come from tag commit `2989199`, not the
+  candidate. Their packaged web entry is `index-CTSmEZV-.js`; the candidate is
+  `index-Djz-0ur2.js`.
+- **Medium:** recurring wordmark, Terms, and skip-link hit boxes are below the
+  contract's 44 by 44 px minimum.
+- **Medium:** the researched brief calls for a one-time purchase, but no
+  Sociobot checkout/license/restore flow or price exists.
+- **Medium:** README's assertion that the release workflow builds and checks
+  APK/AAB artifacts is not registered as a uniquely tagged claim.
 
-- Completed the standalone 404 metadata and shared navigation/footer.
-- Rewrote every flagged landing and README sentence in plain language.
-- Removed the artwork, release-key, and Google Play statements that were not
-  product claims with observable sandbox tests.
-- Added route metadata updates for Twitter titles/descriptions and 404 browser
-  and source regression coverage.
-- Updated the copy audit and the verb-first catalog description.
+Full findings and evidence are in `.factory/verification-6.md` and
+`.factory/evidence/verification-6/`.
 
-The existing local-first demo, separate `demo:` storage, full claim matrix,
-real APK verification, routes, legal pages, PWA, and Android wrapper remain in
-place and were exercised again.
+## What was verified
 
-## Verification
+- All 19 exact commands in `.factory/claims.json`: pass independently.
+- `npm ci`: pass, 0 audit vulnerabilities.
+- `npm test`: pass, 14 unit/config plus 25 browser tests.
+- `npm run lint`: pass.
+- `npm run build`: pass, `dist/` produced.
+- Detached clean-worktree `npx cap sync android`: pass.
+- Cold first read and one-click populated demo: pass.
+- Live desktop and 390 px APK verification: pass; only seven same-origin GETs
+  and no browser errors.
+- Invalid URL/file, password boundaries, mismatches, wrong-password recovery,
+  encrypted export/import: pass.
+- Twenty-record restore-kit export and validation: 20/20 match.
+- Demo isolation, persistence/deletion, tamper/lineage/downgrade/signer checks:
+  pass through the claim/full suites.
+- Live axe: zero violations on all four application routes at desktop/mobile.
+- Keyboard/dialog focus, reduced motion, and 200% mobile reflow: pass, apart
+  from the target-size finding.
+- Offline reload, cached demo, verifier availability, and SW update: pass.
+- Live web candidate identity: nine key files match local `dist/` byte for
+  byte; `origin/main` equals the candidate.
+- Security headers, 304 revalidation, immutable asset caching, internal links,
+  404, and direct release links: pass.
+- Fresh Lighthouse mobile `/demo`: 99 performance, 100 accessibility, 100 best
+  practices, 100 SEO; LCP 1.454 s, TBT 143 ms, CLS 0.
+- Published APK/AAB download, checksum, archive, app ID/version, and APK
+  signature checks: individually pass, but package provenance fails F-6-1.
 
-From fresh clone `/tmp/apk-provenance-locker-clean.95mxuW` after `npm ci`:
-
-- Every exact command in `.factory/claims.json` passed independently: all 19
-  `npm test -- --grep @claim:<id>` commands.
-- `npm test` passed: 14 unit/config tests and 25 Chromium browser tests.
-- `npm run lint` passed.
-- `npm run build` passed and produced `dist/`.
-- `npx cap sync android` passed.
-
-Browser coverage includes the real demo isolation/reset path, signed APK
-fixtures, privacy request logging, offline reload and verification, keyboard
-focus, mobile 200% text, reduced motion, and axe scans. The new static-404 test
-checks its metadata, favicon, canonical URL, normal navigation, and legal links.
-
-Production build sizes: JavaScript 32,807 B raw / 12,160 B gzip; CSS 9,645 B
-raw / 2,980 B gzip; hero WebP 75,842 B.
-
-## Deployment and live recheck
-
-Deployed `dist/` with `/opt/fleet/lib/deploy-static.sh` to
-https://apk-provenance-locker.sociobot.in. Azure deployment ID:
-`7611c7cb-d444-4ab7-bf15-79e8fd0703e9`.
-
-- `/opt/fleet/lib/verify-url.sh` passed for the cold landing URL: 651 ms load,
-  no page/application console errors, `lang=en`, one h1, main landmark, and no
-  missing image alt text or unlabeled buttons.
-- `npm run test:live` passed: desktop and mobile `/demo` both verified a real
-  v1/v2/v3 APK using seven same-origin GET requests and zero errors.
-- Live axe scans passed with zero violations for `/`, `/demo`, `/privacy`,
-  `/terms`, and `/not-a-real-route`. The unknown route returns HTTP 404 with
-  complete metadata and normal navigation. Browser developer tools naturally
-  report the document's expected 404 response; there were no application
-  console or page errors.
-- Live mobile Lighthouse on `/demo`: Performance 98, Accessibility 100, Best
-  Practices 100, and SEO 100; FCP 1.9 s, LCP 1.9 s, CLS 0. Chromium reported a
-  screenshot-teardown crash after it wrote the otherwise complete JSON report.
-- The live first screen contains all revised concrete wording and none of the
-  removed phrases. All F-1-1 through F-1-13 were checked directly.
-
-Evidence:
-
-- `.factory/evidence/live/screenshot-desktop.png`
-- `.factory/evidence/live/screenshot-mobile.png`
-- `.factory/evidence/live/verify.json`
-- `.factory/evidence/live/lighthouse.json`
-- `.factory/evidence/demo-mobile.png`
-- `.factory/evidence/404-mobile.png`
-
-## Run locally
+## Reproduce
 
 ```sh
 npm ci
 npm test
 npm run lint
 npm run build
-npx cap sync android
+npm run test:live
 ```
 
-## Known gaps
+Run each `.factory/claims.json` command independently before the combined
+suite. Use `/demo` as the clean sandbox. The factory URL check was run as:
 
-None. Google Play publishing and an owner upload key remain separate product
-distribution work, not a defect in this direct-download APK release.
+```sh
+mkdir -p .factory/evidence/verification-6
+VERIFY_NODE_MODULES="$PWD/node_modules" \
+  /opt/fleet/lib/verify-url.sh \
+  https://apk-provenance-locker.sociobot.in \
+  .factory/evidence/verification-6
+```
+
+## Next steps
+
+Publish candidate-built Android artifacts under a new version, enlarge the
+undersized targets, complete or explicitly remove the one-time paid scope, and
+fix the unlisted README claim. Then rerun independent verification. No product
+source was changed in this QA handoff.

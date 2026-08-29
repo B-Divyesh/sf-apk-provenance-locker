@@ -268,6 +268,20 @@ test('passes axe, has one page structure, and fits mobile at 200% text',async({p
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
 });
 
+test('static 404 has complete route metadata and shared recovery navigation',async({page})=>{
+  const response=await page.goto('/404.html');
+  expect(response?.ok()).toBe(true);
+  await expect(page).toHaveTitle('Page not found — APK Provenance Locker');
+  await expect(page.locator('meta[name=description]')).toHaveAttribute('content',/Return to APK Provenance Locker/);
+  await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href','https://apk-provenance-locker.sociobot.in/404');
+  await expect(page.locator('link[rel=icon]')).toHaveAttribute('href','/icons/favicon.svg');
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://apk-provenance-locker.sociobot.in/social.webp');
+  await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content','Page not found — APK Provenance Locker');
+  await expect(page.getByRole('navigation',{name:'Main navigation'})).toContainText('Demo');
+  await expect(page.getByRole('contentinfo')).toContainText('Records and saved APK copies stay on this device.');
+  await expect(page.getByRole('link',{name:'Terms'})).toHaveAttribute('href','/terms');
+});
+
 test('loads every route without console errors and removes motion when requested',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   const errors:string[]=[];page.on('console',message=>{if(message.type()==='error')errors.push(message.text())});page.on('pageerror',error=>errors.push(error.message));

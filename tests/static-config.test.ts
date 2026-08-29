@@ -34,4 +34,30 @@ describe('deployment and Android release configuration',()=>{
     expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='3' versionName='0.3.0'");
     expect(workflow).toContain('SHA256SUMS');
   });
+
+  it('gives the static 404 route complete metadata and the shared navigation shell',()=>{
+    const page=readFileSync('public/404.html','utf8');
+    expect(page).toContain('<meta name="description"');
+    expect(page).toContain('<link rel="canonical" href="https://apk-provenance-locker.sociobot.in/404">');
+    expect(page).toContain('<link rel="icon" href="/icons/favicon.svg"');
+    expect(page).toContain('property="og:title"');
+    expect(page).toContain('name="twitter:title"');
+    expect(page).toContain('<nav aria-label="Main navigation">');
+    expect(page).toContain('href="/demo">Demo</a>');
+    expect(page).toContain('href="/privacy">Privacy</a>');
+    expect(page).toContain('href="/terms">Terms</a>');
+  });
+
+  it('keeps reviewed visitor copy concrete and removes unlisted release claims',()=>{
+    const app=readFileSync('src/main.ts','utf8');
+    const readme=readFileSync('README.md','utf8');
+    expect(app).toContain('Local APK verification');
+    expect(app).toContain('Your verified APK records');
+    expect(app).toContain('Read the package and version.');
+    expect(app).toContain('Check signer and downgrade risks.');
+    expect(app).toContain('Records and saved APK copies stay on this device.');
+    expect(app).not.toContain('Original generated paper-cut art.');
+    expect(`${app}\n${readme}`).not.toContain('release-specific test key');
+    expect(`${app}\n${readme}`).not.toContain('not on Google Play');
+  });
 });

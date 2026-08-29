@@ -4,8 +4,9 @@ APK Provenance Locker verifies APK signatures, identity, hashes, and signer
 history before an Android reinstall. It is for people who keep lawful APK
 files and want an encrypted restoration record.
 
-The app verifies v1/JAR, v2, and v3 signatures locally. It validates v3
-certificate-rotation lineage and rejects changed signed content. It reads the
+The app verifies v1/JAR, v2, and v3 signatures locally. It checks certificate
+history after an Android signing-key change and rejects files whose signed
+contents changed. It reads the
 package name, version name, and version code from compiled `AndroidManifest.xml`.
 Prior verified records reveal signer drift and lower-version downgrade risk.
 Android still makes the final install decision.
@@ -46,10 +47,8 @@ fixtures and their exact checksums are in `tests/fixtures`.
 - [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.3.0/app-release.aab)
 - [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.3.0/SHA256SUMS)
 
-The release workflow syncs the Capacitor 6 project, builds both packages, checks
-their size, package id, manifest, and APK signature, then publishes checksums.
-The release-specific test key supports direct sideloading. A store release needs
-the owner's upload key. The app is not on Google Play.
+The release workflow builds the APK and AAB. It checks their size, package ID,
+manifest, signature, and checksums. A store release needs the owner's upload key.
 
 ## Privacy and license
 
@@ -58,5 +57,6 @@ Recording, checking, and exporting send no APK data or record content over the
 network. There are no analytics, advertising, account, or automatic third-party
 requests. Download links contact GitHub only when selected.
 
-Restore kits use PBKDF2-SHA256 and AES-GCM in the browser. The app does not store
-the export password. See `/privacy` and `/terms`. The source is MIT licensed.
+Restore kits encrypt records in this browser with your password (PBKDF2-SHA256
+and AES-GCM). The app does not store the export password. See `/privacy` and
+`/terms`. The source is MIT licensed.

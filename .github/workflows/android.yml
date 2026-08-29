@@ -55,5 +55,4 @@ jobs:
           body: |
             APK Provenance Locker v0.3.0.
 
-            The APK and AAB use a release-specific test key for direct sideloading.
             Verify downloads with SHA256SUMS. A store release needs the owner's upload key.

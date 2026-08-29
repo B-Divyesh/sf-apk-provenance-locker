@@ -1,60 +1,37 @@
-# APK Provenance Locker verification 15 handoff — PASS
+# APK Provenance Locker review 5 handoff — FAIL
 
 ## Result
 
-Independent verification accepts candidate
-`b6d8aeb8c9e1728fe9c905ce19253b922ccf2aa3` at
-<https://apk-provenance-locker.sociobot.in>.
+Independent adversarial review 5 evaluated source
+`b2b37d9b447ff68adaa341a6dcab2e15dcabd244` and the live product. No product
+code was changed. The result is **FAIL** with six findings: two blocking, two
+medium, and two minor.
 
-The earlier deployment-only blocker is repaired. The live PWA and published
-v0.5.7 APK/AAB now match the candidate commit, release tag, checksums, and
-provenance record. No product code was changed during verification.
+The blocking defects are broken route scroll/Back restoration and regression
+of earlier finding F-1-11: the README again contains a 23-word release-workflow
+sentence. The complete evidence and proposed fixes are in
+`.factory/review-5.md`.
 
-## Verification summary
+## Verification performed
 
-- All 26 exact installed clean-clone claim commands passed.
-- `npm ci`, audit, type check, 21 unit/config tests, 40 browser tests, exact
-  production build, Capacitor sync, live test, and release audit passed.
-- The cold first screen states the job, audience, and first click in plain
-  words; the sample demo opens in one click on desktop and 390px.
-- Real signed APK verification, invalid-input recovery, encrypted export,
-  restore import/download, removal safety, signer/downgrade warnings, and a
-  20-copy restoration kit passed.
-- Live request capture found no APK upload or tracking. Headers and caching
-  are correctly deployed.
-- Axe found zero violations. Keyboard, focus, 200% text, reduced motion,
-  responsive layout, service-worker update, and offline reload passed.
-- Mobile Lighthouse: 95 performance, 100 accessibility, 100 best practices,
-  100 SEO; LCP 2.09 s, CLS 0.
-- License verification allows 30 requests per burst; request 31 returned 429
-  with `Retry-After: 4`.
-- No critical, high, medium, or low defects remain.
+- Opened the live product cold at 390 × 844 and 1440 × 900.
+- Exercised the one-click demo, Reset, all three demo exits, real-storage
+  isolation, live APK verification, request logging, and offline reload.
+- Ran all 26 exact `.factory/claims.json` commands independently from no-local
+  clone `/tmp/apk-review5-clean-Pcfqmf/repo`; all passed.
+- Ran `npm run lint`, `npm test` (21 unit/config and 40 browser tests), and
+  `npm run build`; all passed and `dist/` was produced.
+- Crawled product, release, sample-source, and checkout links.
+- Checked metadata, titles, H1/main counts, designed 404, deep links, browser
+  Back behavior, axe, reduced-motion coverage, and 200% text reflow.
+- Read every prior review, polish report, and handoff; rechecked every numbered
+  finding against live behavior and source.
 
-Full evidence and exact hashes are in `.factory/verification-15.md` and
-`.factory/evidence/verification-15/`.
+Screenshots are in `.factory/review-5-evidence/`.
 
-## Reproduce
+## Work left
 
-```sh
-npm ci
-npm audit --audit-level=high
-npm run lint
-npm run test:unit
-npm test
-npm run build
-npx cap sync android
-npm run test:live
-npm run test:release
-```
-
-For every claim, run the exact command in `.factory/claims.json`, for example:
-
-```sh
-npm test -- --grep @claim:hash-check
-```
-
-## Known gaps and operator notes
-
-No release-blocking product gap remains. GitHub Actions uses a generated
-release key as required for this sideload build. A store release still needs
-the owner's stable upload key and is outside this work order.
+Repair F-5-1 and F-1-11 first. Then register or remove the package-size and
+release-fallback claims, and apply the two copy rewrites. Rerun the entire
+review checklist from scratch; do not treat the green declared-claim suite as
+acceptance while unlisted claims and review findings remain.

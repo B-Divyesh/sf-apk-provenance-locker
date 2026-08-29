@@ -521,11 +521,16 @@ figcaption {
   display: grid;
   gap: 14px;
 }
+.form > * {
+  min-width: 0;
+}
 .form h2 {
   font-family: Georgia, serif;
   font-size: 2rem;
   line-height: 1;
   margin: 0 0 8px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 .form label {
   display: grid;
@@ -590,13 +595,23 @@ figcaption {
 .checksum code {
   overflow-wrap: anywhere;
 }
+.evidence,
+.evidence dt,
+.evidence dd {
+  min-width: 0;
+  max-width: 100%;
+}
+.evidence dd {
+  margin-inline-start: min(40px, 8vw);
+}
 .checksum {
   max-width: 62ch;
 }
 .evidence a {
   min-height: 44px;
-  display: inline-flex;
-  align-items: center;
+  display: block;
+  padding-block: 10px;
+  word-break: break-word;
 }
 .ok b {
   color: var(--teal);

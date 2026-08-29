@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-29 after repair 7. Counts treat hyphenated terms, URLs,
+Checked 2026-08-29 after repair 8. Counts treat hyphenated terms, URLs,
 and file names as one word. No audited sentence exceeds 22 words or uses a
 banned marketing term.
 
@@ -79,7 +79,7 @@ banned marketing term.
 | Reset demo and Start for real erase the demo data. | 10 | Declared claim: demo-sandbox |
 | Removing a record first asks for confirmation. | 7 | Declared claim: saved-copy-erasure |
 | Confirming it erases its optional saved copy. | 7 | Declared claim: saved-copy-erasure |
-| These links use the current v0.5.0 release. | 8 | Declared claim: release-assets |
+| These links use the current v0.5.1 release. | 8 | Declared claim: release-assets |
 | Check the APK against its line in the versioned SHA256SUMS file. | 11 | Declared claim: release-assets |
 | Android system backup and device transfer are disabled for installed-app data. | 11 | Declared claim: android-backup-disabled |
 | Locker Plus costs $12 once. | 5 | Declared claims: paid-unlock, hosted-checkout |

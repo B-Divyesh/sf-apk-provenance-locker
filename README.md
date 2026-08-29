@@ -44,11 +44,11 @@ fixtures and their exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.0/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.0/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.0/SHA256SUMS)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.1/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.1/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.1/SHA256SUMS)
 
-These links use the current `v0.5.0` release. Check the APK against its line in
+These links use the current `v0.5.1` release. Check the APK against its line in
 the versioned `SHA256SUMS` file. A store release needs the owner's upload key.
 It is not on Google Play yet.
 

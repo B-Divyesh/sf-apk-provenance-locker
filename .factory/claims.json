@@ -105,6 +105,13 @@
     "sandbox": "Run and reset demo while recording requests; assert no account input and only the product origin"
   },
   {
+    "id": "apk-never-uploaded",
+    "claim": "Selected APK files are never uploaded",
+    "where": "Landing image caption, Privacy, README",
+    "test": "npm test -- --grep @claim:apk-never-uploaded",
+    "sandbox": "From /demo, select and fully verify a genuine signed APK fixture while recording every request; assert only product-origin GET requests occur, no request body contains APK bytes, no api.github.com request occurs, and no console or page error is emitted"
+  },
+  {
     "id": "offline-reload",
     "claim": "Demo reloads offline after the first visit",
     "where": ".factory/demo.md",

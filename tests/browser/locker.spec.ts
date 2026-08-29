@@ -200,6 +200,27 @@ test('@claim:no-account-network runs the demo without an account or automatic th
   expect([...new Set(requests.map(url=>new URL(url).origin))]).toEqual(['http://127.0.0.1:4173']);
 });
 
+test('@claim:apk-never-uploaded processes a real APK without sending its bytes or emitting errors',async({page})=>{
+  const apk=await readFile(lineageFixture);
+  const requests:Array<{url:string;method:string;body:Buffer|null}>=[];
+  const errors:string[]=[];
+  page.on('request',request=>requests.push({url:request.url(),method:request.method(),body:request.postDataBuffer()}));
+  page.on('console',message=>{if(message.type()==='error')errors.push(message.text())});
+  page.on('pageerror',error=>errors.push(error.message));
+
+  await page.goto('/demo');
+  await chooseApk(page,lineageFixture);
+  await expect(page.getByText('Signature verified · v1 + v2 + v3')).toBeVisible();
+  await page.waitForTimeout(100);
+
+  expect(requests.length).toBeGreaterThan(0);
+  expect([...new Set(requests.map(request=>new URL(request.url).origin))]).toEqual(['http://127.0.0.1:4173']);
+  expect(requests.some(request=>request.url.includes('api.github.com'))).toBe(false);
+  expect(requests.every(request=>request.method==='GET'&&request.body===null)).toBe(true);
+  expect(requests.some(request=>request.body?.includes(apk))).toBe(false);
+  expect(errors).toEqual([]);
+});
+
 test('@claim:release-assets exposes deterministic direct APK, AAB, and checksum links without an API request',async({page})=>{
   const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/');

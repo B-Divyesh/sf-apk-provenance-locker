@@ -11,6 +11,8 @@ Checked 2026-08-29. Counts treat hyphenated terms and file names as one word.
 | Verified on this device | 4 | — |
 | Password-encrypted exports | 2 | — |
 | No sign-in or account | 4 | — |
+| Original generated paper-cut art. | 4 | — |
+| Your APK files are never uploaded. | 6 | — |
 | Keep verified APK evidence | 4 | — |
 | Verified APKs will appear here. | 5 | — |
 | Choose a file to check its signature and identity. | 9 | — |

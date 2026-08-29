@@ -11,15 +11,18 @@ describe('deployment and Android release configuration',()=>{
 
   it('declares the web manifest MIME type and blocks undeclared connections',()=>{
     const config=JSON.parse(readFileSync('public/staticwebapp.config.json','utf8'));
+    const app=readFileSync('src/main.ts','utf8');
     expect(config.mimeTypes['.webmanifest']).toBe('application/manifest+json');
     expect(config.mimeTypes['.wasm']).toBe('application/wasm');
     expect(config.globalHeaders['Content-Security-Policy']).toContain("connect-src 'self'");
     expect(config.globalHeaders['Content-Security-Policy']).toContain("'wasm-unsafe-eval'");
     expect(config.globalHeaders['Content-Security-Policy']).not.toContain('api.github.com');
+    expect(app).not.toContain('api.github.com');
   });
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
+    expect(worker).toContain("CACHE='apk-locker-v6'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });

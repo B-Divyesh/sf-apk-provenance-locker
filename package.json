@@ -12,6 +12,7 @@
     "test": "node scripts/test.mjs",
     "test:unit": "vitest run",
     "test:browser": "playwright test",
+    "test:live": "node scripts/verify-live.mjs",
     "test:watch": "vitest"
   },
   "dependencies": {

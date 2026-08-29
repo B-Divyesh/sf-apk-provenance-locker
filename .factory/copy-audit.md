@@ -32,10 +32,10 @@ SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
 | Locker Plus costs $12 once. | 5 | Declared claims: paid-unlock, hosted-checkout |
 | Verification, signer and downgrade warnings, and restore-kit export stay free. | 10 | Declared claim: free-core-features |
 | APK checks run on this device using Android's signature rules. | 10 | Declared claim: signature-verification |
-| Checking GitHub release metadata for v0.5.6 and source. | 8 | Declared claim: release-assets |
-| v0.5.6 matches source. | 3 | Declared claim: release-assets |
+| Checking GitHub release metadata for v0.5.7 and source. | 8 | Declared claim: release-assets |
+| v0.5.7 matches source. | 3 | Declared claim: release-assets |
 | GitHub metadata is unavailable. | 4 | Graceful release fallback |
-| Versioned v0.5.6 links remain available. | 5 | Graceful release fallback |
+| Versioned v0.5.7 links remain available. | 5 | Graceful release fallback |
 | Use SHA256SUMS and the provenance record to check the package and its immutable source commit. | 14 | Declared claim: release-assets |
 | Download the APK, SHA256SUMS, and provenance record. | 8 | Declared claim: release-assets |
 | Compare the APK's SHA-256 file fingerprint with the matching line in SHA256SUMS. | 12 | Declared claim: release-assets |
@@ -63,7 +63,7 @@ SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
 | It confirms that the tag, release notes, provenance, and both packages name this repository commit. | 14 | Release verification instruction |
 | It also checks that Start for real, Locker, and the wordmark erase demo data. | 14 | Declared claim: demo-sandbox |
 | Deploy APK Provenance Locker | 4 | Pass |
-| These links use the immutable v0.5.6 release. | 7 | Declared claim: release-assets |
+| These links use the immutable v0.5.7 release. | 7 | Declared claim: release-assets |
 | Compare each file fingerprint with SHA256SUMS. | 6 | Declared claim: release-assets |
 | Then confirm RELEASE_PROVENANCE.json names the tag and source commit embedded in both Android packages. | 13 | Declared claim: release-assets |
 | Verification, signer and downgrade warnings, and restore-kit export stay free. | 10 | Declared claim: free-core-features |

@@ -56,12 +56,12 @@ exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.6/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.6/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.6/SHA256SUMS)
-- [Download release provenance](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.6/RELEASE_PROVENANCE.json)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.7/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.7/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.7/SHA256SUMS)
+- [Download release provenance](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.7/RELEASE_PROVENANCE.json)
 
-These links use the immutable `v0.5.6` release. Compare each file fingerprint
+These links use the immutable `v0.5.7` release. Compare each file fingerprint
 with `SHA256SUMS`. Then confirm `RELEASE_PROVENANCE.json` names the tag and
 source commit embedded in both Android packages.
 

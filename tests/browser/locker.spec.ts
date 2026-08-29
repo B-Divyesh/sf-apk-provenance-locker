@@ -21,7 +21,7 @@ const lineageFixture=resolve('tests/fixtures/v1v2v3-lineage.apk');
 const v1Fixture=resolve('tests/fixtures/v1-only-rsa-2048.apk');
 const invalidLineageFixture=resolve('tests/fixtures/v1v2v3-invalid-lineage.apk');
 const fixturePackage='android.appsecurity.cts.tinyapp';
-const releaseVersion='0.5.6';
+const releaseVersion='0.5.7';
 const releaseTag=`v${releaseVersion}`;
 const releaseCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 const latestReleaseApi='https://api.github.com/repos/B-Divyesh/sf-apk-provenance-locker/releases/latest';
@@ -600,7 +600,7 @@ test('recorded evidence reflows long release identity and source at 390px and 20
     const key='demo:apk-locker:records';
     const records=JSON.parse(localStorage.getItem(key)!);
     records[0].packageName='in.sociobot.apk_provenance_locker';
-    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.6/in.sociobot.apk_provenance_locker/app-release.apk';
+    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.7/in.sociobot.apk_provenance_locker/app-release.apk';
     localStorage.setItem(key,JSON.stringify(records));
   });
   await page.reload();
@@ -642,12 +642,17 @@ test('loads every route without console errors and removes motion when requested
 });
 
 test('@claim:offline-reload reloads the demo shell without the browser HTTP cache',async({page,context})=>{
+  const errors:string[]=[];page.on('console',message=>{if(message.type()==='error')errors.push(message.text())});page.on('pageerror',error=>errors.push(error.message));
   await page.goto('/demo');
+  await expect(page.locator('[data-release-status]')).toContainText(`${releaseTag} matches source`);
   await expect.poll(()=>page.evaluate(()=>Boolean(navigator.serviceWorker.controller))).toBe(true);
   const session=await context.newCDPSession(page);await session.send('Network.enable');await session.send('Network.setCacheDisabled',{cacheDisabled:true});await session.send('Network.clearBrowserCache');
+  await page.unroute(latestReleaseApi);
   await context.setOffline(true);await page.reload();
   await expect(page.getByRole('heading',{level:1})).toHaveText('Check sample APK records');
   await expect(page.getByRole('heading',{name:/^org\.fdroid\.fdroid /})).toBeVisible();
+  await expect(page.locator('[data-release-status]')).toHaveText(`GitHub metadata is unavailable. Versioned ${releaseTag} links remain available.`);
+  expect(errors).toEqual([]);
   await context.setOffline(false);
 });
 
@@ -669,6 +674,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v16');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v16']);
+  expect(state.caches).toContain('apk-locker-v17');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v17']);
 });

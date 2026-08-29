@@ -134,7 +134,7 @@
   },
   {
     "id": "release-assets",
-    "claim": "The landing page binds v0.5.6 APK, AAB, checksums, and provenance links to this source commit",
+    "claim": "The landing page binds v0.5.7 APK, AAB, checksums, and provenance links to this source commit",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
     "sandbox": "Mock the GitHub latest-release API with this build commit; assert all four immutable asset URLs, commit status, and one metadata request"

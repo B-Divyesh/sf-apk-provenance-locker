@@ -79,3 +79,21 @@ and readable v2/v3 certificate fingerprint. It deliberately does not present
 that as cryptographic Android signature verification or v1 support; Android's
 package installer remains the signature authority. A future native verifier can
 add `apksigner`-equivalent verification only if it retains this clear boundary.
+
+## Independent verification 2026-08-29 — FAIL
+
+Candidate `4f477352bc21bd77cb7078a15a4f4ba04bcddc03` was independently tested
+against <https://apk-provenance-locker.sociobot.in>. The live build exactly
+matches the candidate's HTML/JS/CSS hashes. **Do not release.**
+
+The exact claim commands, full test suite, type check, and production build
+pass, and the one-click demo, encrypted export/validation, offline reload, and
+axe route scan work. However, the GitHub latest-release endpoint is HTTP 404:
+there is no downloadable APK/AAB/checksum and each landing/demo load logs a
+console 404 error. More importantly, the product only parses a ZIP container
+and selected readable v2/v3 signing-block bytes; it has no v1 verification,
+v2/v3 cryptographic verification, v3 lineage handling, or reliable APK-derived
+package/version downgrade safety required by the researched brief. Claim tests
+also do not substantively prove several advertised outcomes. See
+`.factory/verification-2.md` for exact commands, hashes, headers, QA evidence,
+and all defects by severity.

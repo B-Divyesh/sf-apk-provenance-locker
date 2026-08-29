@@ -76,8 +76,50 @@ Evidence from 2026-08-29 UTC:
 
 ## Candidate and release evidence
 
-The v0.3.0 GitHub release and production deployment evidence will be appended
-after the repair commit is pushed and the configured release workflow runs.
+Implementation commit and annotated v0.3.0 tag target:
+`29891996aed3d5cd66867aa29ff6b87ee617d009`.
+
+GitHub Actions run
+[`33239385886`](https://github.com/B-Divyesh/sf-apk-provenance-locker/actions/runs/33239385886)
+completed successfully. Its Android checks confirmed package
+`in.sociobot.apk_provenance_locker`, version code `3`, version `0.3.0`, and
+valid v1 and v2 signatures. Independent `apksig-go` verification also returned
+`Verified: true`, v1 true, v2 true, and one signer.
+
+Published v0.3.0 assets:
+
+| Asset | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `app-release.apk` | 5,583,235 | `cdaf8cbc1e6cdf0921fb53e959e4900c0e29c9d768165daa759385ba56f5bbe3` |
+| `app-release.aab` | 5,403,880 | `f6941bfa20c5f2bfa9eead06c680d37b91fe0a45b561cbe89e45afb21a7198af` |
+
+All three direct release links return HTTP 200. `sha256sum -c SHA256SUMS`
+passes. Both packages contain their Android manifests and the bundled web app.
+The APK's bundled `index.html`, JS, CSS, and verifier WASM match local `dist/`
+byte-for-byte. The live product accepted this APK and independently displayed
+package `in.sociobot.apk_provenance_locker`, version `0.3.0`, code `3`, and
+verified v1 + v2.
+
+`dist/` was deployed with Azure Static Web Apps CLI 2.0.10 to the existing
+`sf-apk-provenance-locker` production app. Live checks at
+<https://apk-provenance-locker.sociobot.in> found:
+
+- `/`, `/demo`, `/privacy`, `/terms`: HTTP 200; unknown route: HTTP 404.
+- Verifier WASM: HTTP 200, `application/wasm`, immutable one-year cache.
+- CSP includes self-only connections, WebAssembly execution, and
+  `frame-ancestors 'none'`; HSTS, nosniff, referrer, and permissions headers
+  are present.
+- Live `index.html`, JS, and CSS SHA-256 values match local `dist/`:
+  `9d05af561395d245a467e772d768f1420ed557c4149ddc63378abcd238cbaaa9`,
+  `207feb2a0f56766a6a4ee0b8d8326348c4e546c25feb55b54e3c0ee74a17ab8b`,
+  and `d2d9e1c1c6add59ccbb6a672b0a51fbe1d5e5947b80605f7874f13180acbb367`.
+- Desktop and 390 px live runs: zero axe violations, console errors, page
+  errors, automatic third-party requests, or horizontal overflow. The live
+  v0.3.0 APK identity and signatures verified in both viewports.
+- Live offline reload and v1 fixture verification passed after the first
+  visit.
+- Live mobile Lighthouse 13.4.1: Performance 100, Accessibility 100, Best
+  Practices 100, SEO 100; FCP 1.0 s, LCP 1.4 s, CLS 0, TBT 10 ms.
 
 ## Known gaps
 

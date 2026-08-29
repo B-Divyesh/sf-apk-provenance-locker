@@ -47,7 +47,9 @@ jobs:
           unzip -l app-release.aab | grep -q 'manifest/AndroidManifest.xml'
           AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)"
           APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -1)"
-          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='4' versionName='0.4.0'"
+          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='5' versionName='0.5.0'"
+          "$AAPT" dump xmltree app-release.apk AndroidManifest.xml > app-manifest.txt
+          grep -q 'android:allowBackup.*0x0' app-manifest.txt
           "$APKSIGNER" verify --verbose --print-certs app-release.apk
           while IFS= read -r FILE; do
             cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")
@@ -61,6 +63,6 @@ jobs:
             SHA256SUMS
           make_latest: true
           body: |
-            APK Provenance Locker v0.4.0.
+            APK Provenance Locker v0.5.0.
 
             Built from ${{ github.sha }}. Verify downloads with SHA256SUMS. A store release needs the owner's upload key.

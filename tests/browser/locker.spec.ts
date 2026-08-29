@@ -121,6 +121,20 @@ test('@claim:local-storage persists a demo record across reloads without writing
   expect(namespaces).not.toContain('apk-locker:records');
 });
 
+test('@claim:android-backup-disabled excludes installed-app data from Android backup and device transfer',async({page})=>{
+  await page.goto('/demo');
+  const manifest=await readFile(resolve('android/app/src/main/AndroidManifest.xml'),'utf8');
+  const legacyRules=await readFile(resolve('android/app/src/main/res/xml/backup_rules.xml'),'utf8');
+  const extractionRules=await readFile(resolve('android/app/src/main/res/xml/data_extraction_rules.xml'),'utf8');
+  expect(manifest).toContain('android:allowBackup="false"');
+  expect(manifest).toContain('android:fullBackupContent="@xml/backup_rules"');
+  expect(manifest).toContain('android:dataExtractionRules="@xml/data_extraction_rules"');
+  for(const domain of ['root','file','database','sharedpref','external']){
+    expect(legacyRules).toContain(`<exclude domain="${domain}" path="." />`);
+    expect(extractionRules.match(new RegExp(`<exclude domain="${domain}" path="\\." />`,'g'))).toHaveLength(2);
+  }
+});
+
 test('@claim:saved-copy-erasure confirms removal before erasing demo metadata and saved APK bytes',async({page})=>{
   await page.goto('/demo');
   await chooseApk(page);
@@ -232,10 +246,10 @@ test('@claim:apk-never-uploaded processes a real APK without sending its bytes o
 test('@claim:release-assets exposes deterministic direct APK, AAB, and checksum links without an API request',async({page})=>{
   const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/demo');
-  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.4\.0\/app-release\.apk$/);
-  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.4\.0\/app-release\.aab$/);
-  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.4\.0\/SHA256SUMS$/);
-  await expect(page.getByText('05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0')).toBeVisible();
+  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.0\/app-release\.apk$/);
+  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.0\/app-release\.aab$/);
+  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.0\/SHA256SUMS$/);
+  await expect(page.getByText('Use the signed SHA256SUMS file above to check the APK hash.')).toBeVisible();
   await expect(page.getByText('This app is not on Google Play yet.')).toBeVisible();
   expect(requests.some(url=>url.includes('api.github.com'))).toBe(false);
 });
@@ -245,7 +259,7 @@ test('publishes a build identity for the exact source commit',async({request})=>
   expect(response.ok()).toBe(true);
   expect(await response.json()).toEqual({
     product:'apk-provenance-locker',
-    version:'0.4.0',
+    version:'0.5.0',
     commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
   });
 });
@@ -320,6 +334,30 @@ test('keeps the recurring wordmark, Terms, and focused skip-link targets at leas
       expect(box?.height||0).toBeGreaterThanOrEqual(44);
     }
   }
+});
+
+test('keeps focus indicators above 3:1 contrast and the saved-copy checkbox target at least 44 pixels',async({page})=>{
+  const channel=(value:number)=>{value/=255;return value<=0.04045?value/12.92:((value+0.055)/1.055)**2.4};
+  const luminance=(color:string)=>{const values=color.match(/\d+(?:\.\d+)?/g)!.slice(0,3).map(Number);return 0.2126*channel(values[0])+0.7152*channel(values[1])+0.0722*channel(values[2])};
+  const contrast=(first:string,second:string)=>{const [light,dark]=[luminance(first),luminance(second)].sort((a,b)=>b-a);return (light+0.05)/(dark+0.05)};
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('/');
+  const demoLink=page.getByRole('link',{name:'Demo'});
+  await demoLink.focus();
+  const darkFocus=await demoLink.evaluate(element=>({outline:getComputedStyle(element).outlineColor,surface:getComputedStyle(element.closest('header')!).backgroundColor}));
+  expect(contrast(darkFocus.outline,darkFocus.surface)).toBeGreaterThanOrEqual(3);
+  await page.getByRole('button',{name:'Verify an APK'}).first().click();
+  const fileInput=page.getByLabel('APK file');
+  await fileInput.focus();
+  const lightFocus=await fileInput.evaluate(element=>({outline:getComputedStyle(element).outlineColor,surface:getComputedStyle(element.closest('form')!).backgroundColor}));
+  expect(contrast(lightFocus.outline,lightFocus.surface)).toBeGreaterThanOrEqual(3);
+  const checkbox=page.getByLabel('Save this APK copy in this browser');
+  const target=checkbox.locator('..');
+  const box=await target.boundingBox();
+  expect(box?.height||0).toBeGreaterThanOrEqual(44);
+  expect(await checkbox.isChecked()).toBe(true);
+  await target.click();
+  expect(await checkbox.isChecked()).toBe(false);
 });
 
 test('manages dialog focus and closes it with Escape',async({page})=>{
@@ -417,6 +455,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v8');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v8']);
+  expect(state.caches).toContain('apk-locker-v9');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v9']);
 });

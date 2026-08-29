@@ -16,6 +16,8 @@ owned and traceable rather than like an app-store listing.
 - **Seal teal:** `#0f6256` (verified state)
 - **Red pencil:** `#a43c32` (mismatch warning)
 - **Ink:** `#14221e`; **muted ink:** `#4d5c53`
+- **Focus ink:** `#123f37` on paper; **focus paper:** `#f7f0df` on night ink.
+  Each focus ring keeps at least 3:1 contrast with its adjacent surface.
 
 All body text uses the system `ui-sans-serif` stack for fast, reliable Android
 rendering. Display headings use Georgia, which adds the tactile, printed label

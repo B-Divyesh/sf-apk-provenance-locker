@@ -44,14 +44,13 @@ fixtures and their exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/SHA256SUMS)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.0/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.0/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.0/SHA256SUMS)
 
-These links use the current `v0.4.0` release. A store release needs the owner's
-upload key. The APK SHA-256 is
-`05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0`.
-It is not on Google Play yet.
+These links use the current `v0.5.0` release. Check the APK hash against the
+linked `SHA256SUMS` file. A store release needs the owner's upload key. It is
+not on Google Play yet.
 
 ## Optional Locker Plus
 
@@ -64,6 +63,7 @@ labels. Verification remains free.
 ## Privacy and license
 
 Records and optional APK copies stay in browser or installed-app storage.
+Android system backup and device transfer are disabled for installed-app data.
 Recording, checking, and exporting send no APK data or record content over the
 network. There are no analytics, advertising, or accounts. The free locker
 makes no automatic third-party requests. Download links contact GitHub only

@@ -45,7 +45,7 @@ Verified in this worker on 2026-08-29:
 
 - `npm ci`: completed; `npm audit`: 0 vulnerabilities.
 - `npm run lint`: passed.
-- `npm test`: 6 Vitest tests and 7 Playwright tests passed. Browser coverage
+- `npm test`: 6 Vitest tests and 8 Playwright tests passed. Browser coverage
   includes every claim command, 12 MiB export/download, malformed APK rejection,
   demo/real storage isolation and deletion, 390×844 layout, 44px control height,
   keyboard focus route change, and offline `/demo` reload after first visit.

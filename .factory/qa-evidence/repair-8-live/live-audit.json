@@ -1,0 +1,56 @@
+{
+  "verifiedAt": "2026-08-29T15:18:00Z",
+  "url": "https://apk-provenance-locker.sociobot.in",
+  "deploymentId": "cbce3523-bc0a-4849-8a01-026f6c1380fd",
+  "build": {
+    "product": "apk-provenance-locker",
+    "version": "0.5.1",
+    "commit": "8fbbb02623dd765d341f4cdfdf6ae524b8934a3e"
+  },
+  "publicDistFilesCompared": 20,
+  "routes": {
+    "/": 200,
+    "/demo": 200,
+    "/privacy": 200,
+    "/terms": 200,
+    "/missing-release-qa": 404
+  },
+  "axe": {
+    "desktop": {"/": 0, "/demo": 0, "/privacy": 0, "/terms": 0},
+    "mobile390": {"/": 0, "/demo": 0, "/privacy": 0, "/terms": 0},
+    "evidenceDialogAt200Percent": 0
+  },
+  "evidenceDialogAt390And200Percent": {
+    "clientWidth": 367,
+    "scrollWidth": 367,
+    "pageWidth": 390,
+    "viewportWidth": 390,
+    "headingRight": 357.296875,
+    "sourceRight": 357.296875,
+    "consoleAndPageErrors": []
+  },
+  "offline": {
+    "cacheNames": ["apk-locker-v10"],
+    "demoReloaded": true,
+    "sampleVisible": true,
+    "v1ApkVerified": true
+  },
+  "privacyFlow": {
+    "desktopRequests": 7,
+    "mobileRequests": 7,
+    "onlySameOriginBodylessGets": true,
+    "consoleAndPageErrors": []
+  },
+  "responsePolicy": {
+    "cspFrameAncestors": "none",
+    "strictTransportSecurity": true,
+    "nosniff": true,
+    "referrerPolicy": "strict-origin-when-cross-origin",
+    "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()",
+    "licenseCorsOrigin": "https://apk-provenance-locker.sociobot.in",
+    "htmlMaxAgeSeconds": 30,
+    "hashedAssetMaxAgeSeconds": 31536000,
+    "hashedAssetsImmutable": true,
+    "manifestContentType": "application/manifest+json"
+  }
+}

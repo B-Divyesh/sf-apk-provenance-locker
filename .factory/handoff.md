@@ -96,6 +96,41 @@ comparisons, and checksum generation. Static deployment uses:
 /opt/fleet/lib/deploy-static.sh apk-provenance-locker dist
 ```
 
+Release and live verification completed successfully:
+
+- Candidate/tag commit:
+  `8fbbb02623dd765d341f4cdfdf6ae524b8934a3e` / `v0.5.1`.
+- GitHub Actions run `33259644806`: success, including all package checks and
+  publication of APK, AAB, and SHA256SUMS.
+- Published APK: 5,587,400 B, SHA-256
+  `158df45f8a7526ac957d816cacb67db95a3a9ed46ba15743eceb8285ea7f88ae`.
+- Published AAB: 5,407,902 B, SHA-256
+  `f6bb3d90152b2ed56fdcf65a3cacd75ca1e4d9d82f2f10145ac05d196de03b91`.
+- The downloaded checksums pass. Both packages contain version `0.5.1`, code
+  6, and the exact candidate identity; every embedded web file matches local
+  `dist/` byte for byte.
+- Azure Static Web Apps deployment
+  `cbce3523-bc0a-4849-8a01-026f6c1380fd` succeeded in `centralus`.
+- Live `/build.json` names version `0.5.1` and the exact candidate commit. All
+  20 publicly served `dist/` files byte-match the local tagged build.
+- Live `/`, `/demo`, `/privacy`, and `/terms` return 200; the designed unknown
+  route returns 404. APK, AAB, and checksum links return 200. Checkout returns
+  303 to the Dodo-hosted session.
+- Live `npm run test:live` passes at desktop and 390 px. Each real signed-APK
+  flow made seven same-origin bodyless GETs and emitted no console errors.
+- Live Axe scans have zero violations on all routes at desktop and 390 px and
+  in the 200% evidence dialog. The live dialog remains 367/367 px. Offline
+  demo reload and offline v1 verification pass with only `apk-locker-v10`.
+- Live responses carry CSP with header-only `frame-ancestors 'none'`, HSTS,
+  `nosniff`, strict-origin referrer policy, and the restrictive permissions
+  policy. HTML and `sw.js` revalidate after 30 seconds; hashed assets are
+  immutable for one year; the manifest has its correct MIME type.
+
+Compact live and release results are in
+`.factory/qa-evidence/repair-8-live/live-audit.json` and
+`.factory/qa-evidence/repair-8-live/release-audit.json`. Route screenshots and
+the 200% dialog screenshot are in the same directory.
+
 ## Known gaps and operator notes
 
 - The release APK uses the workflow-generated signing key required for this

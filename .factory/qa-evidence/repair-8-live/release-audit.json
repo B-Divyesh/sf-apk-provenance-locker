@@ -1,0 +1,33 @@
+{
+  "verifiedAt": "2026-08-29T15:17:00Z",
+  "workflowRun": "https://github.com/B-Divyesh/sf-apk-provenance-locker/actions/runs/33259644806",
+  "workflowConclusion": "success",
+  "tag": "v0.5.1",
+  "tagCommit": "8fbbb02623dd765d341f4cdfdf6ae524b8934a3e",
+  "release": "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/tag/v0.5.1",
+  "assets": [
+    {
+      "name": "app-release.apk",
+      "size": 5587400,
+      "sha256": "158df45f8a7526ac957d816cacb67db95a3a9ed46ba15743eceb8285ea7f88ae",
+      "downloadStatus": 200
+    },
+    {
+      "name": "app-release.aab",
+      "size": 5407902,
+      "sha256": "f6bb3d90152b2ed56fdcf65a3cacd75ca1e4d9d82f2f10145ac05d196de03b91",
+      "downloadStatus": 200
+    },
+    {
+      "name": "SHA256SUMS",
+      "size": 164,
+      "downloadStatus": 200
+    }
+  ],
+  "checksumsMatch": true,
+  "embeddedBuildIdentityMatches": true,
+  "apkAndAabWebFilesMatchDist": true,
+  "androidPackage": "in.sociobot.apk_provenance_locker",
+  "versionName": "0.5.1",
+  "versionCode": 6
+}

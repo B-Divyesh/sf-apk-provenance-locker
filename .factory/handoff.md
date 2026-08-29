@@ -1,3 +1,31 @@
+# Adversarial first-read review 2 handoff — FAIL
+
+Review 2 inspected the live deployment cold at 390 × 844 and 1440 × 900,
+audited all landing/README copy, exercised the one-click demo and isolated
+storage, ran every declared claim command from a clean clone, checked offline
+and request behavior, crawled links, verified route metadata/focus/axe, and
+rechecked every review-1/polish-1 and prior handoff issue against live and
+source. No product code was changed.
+
+The report is `.factory/review-2.md`. It records 12 findings. F-2-1 is blocking
+because no sample record appears in the first post-click demo viewport.
+F-1-10 is blocking because the unlisted Google Play sentence regressed after
+polish 1 marked it removed. The remaining findings cover unlisted purchase
+claims, the missing restore/import path, and eight copy defects.
+
+Verification: all 23 exact claim commands pass individually from clean clone
+`/tmp/apk-review2-q7dMr2`; `npm test` passes 17 unit/config and 34 browser
+tests; `npm run lint`, `npm run build`, and `npm run test:live` pass. Live
+privacy logs are same-origin GET-only, offline reload/verification pass, every
+crawled link resolves, and live axe scans report zero violations. The prior
+390 px/200% evidence-dialog repair remains fixed at 367/367 px.
+
+To reproduce the product gates, run `npm ci`, every `test` command in
+`.factory/claims.json`, `npm test`, `npm run lint`, `npm run build`, and
+`npm run test:live`. Reproduce the main blocker by opening `/`, clicking **Try
+it with sample data**, and observing `/demo` without scrolling at either
+reviewed viewport.
+
 # Independent verification 10 handoff — PASS
 
 Candidate `c5865bba6cf1833f5662e1c1ecdbe1104836bf0f` is accepted. Fresh QA

@@ -59,6 +59,9 @@ https://apk-provenance-locker.sociobot.in. Azure deployment ID:
   complete metadata and normal navigation. Browser developer tools naturally
   report the document's expected 404 response; there were no application
   console or page errors.
+- Live mobile Lighthouse on `/demo`: Performance 98, Accessibility 100, Best
+  Practices 100, and SEO 100; FCP 1.9 s, LCP 1.9 s, CLS 0. Chromium reported a
+  screenshot-teardown crash after it wrote the otherwise complete JSON report.
 - The live first screen contains all revised concrete wording and none of the
   removed phrases. All F-1-1 through F-1-13 were checked directly.
 
@@ -67,6 +70,7 @@ Evidence:
 - `.factory/evidence/live/screenshot-desktop.png`
 - `.factory/evidence/live/screenshot-mobile.png`
 - `.factory/evidence/live/verify.json`
+- `.factory/evidence/live/lighthouse.json`
 - `.factory/evidence/demo-mobile.png`
 - `.factory/evidence/404-mobile.png`
 

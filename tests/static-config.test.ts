@@ -48,7 +48,7 @@ describe('deployment and Android release configuration',()=>{
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v11'");
+    expect(worker).toContain("CACHE='apk-locker-v12'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
@@ -105,7 +105,9 @@ describe('deployment and Android release configuration',()=>{
     expect(app).toContain('Records and saved APK copies stay on this device.');
     expect(app).not.toContain('Original generated paper-cut art.');
     expect(`${app}\n${readme}`).not.toContain('release-specific test key');
-    expect(app).toContain("Use the versioned SHA256SUMS file to check the APK's SHA-256.");
+    expect(app).toContain("Use the versioned SHA256SUMS file to check the APK's SHA-256 file fingerprint.");
+    expect(app).toContain('SHA-256 file fingerprint before a reinstall.');
+    expect(app).toContain('creates a SHA-256 file fingerprint on this device.');
     expect(`${app}\n${readme}`).not.toContain('05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0');
     expect(`${app}\n${readme}`).not.toContain('Google Play');
     expect(app).toContain('Open two sample APK records.');

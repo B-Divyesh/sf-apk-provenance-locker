@@ -1,8 +1,8 @@
 [
   {
     "id": "hash-check",
-    "claim": "Hashes every selected APK byte on this device",
-    "where": "Landing workflow, record dialog, README",
+    "claim": "Creates a SHA-256 file fingerprint for every selected APK on this device",
+    "where": "Landing workflow, evidence dialog, README",
     "test": "npm test -- --grep @claim:hash-check",
     "sandbox": "Select a deterministic signed APK fixture and assert its complete known SHA-256 in the evidence dialog"
   },
@@ -102,7 +102,7 @@
     "claim": "Demo data is separate and erased when leaving demo mode",
     "where": "Demo banner, Privacy, README, .factory/demo.md",
     "test": "npm test -- --grep @claim:demo-sandbox",
-    "sandbox": "Add demo metadata and bytes, choose Start for real, then assert the demo localStorage key and IndexedDB database are absent"
+    "sandbox": "Add demo metadata, bytes, and a demo license; separately leave through Start for real, Locker, and the wordmark; assert demo storage is gone, real sentinels remain, and /demo reseeds both samples"
   },
   {
     "id": "no-account-network",

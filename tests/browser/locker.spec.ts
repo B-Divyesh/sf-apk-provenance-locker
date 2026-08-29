@@ -98,17 +98,47 @@ test('@claim:signer-drift warns when a signer is outside the verified lineage',a
   await expect(page.locator('.record .risk')).toContainText('Signer change: this certificate is outside the verified lineage');
 });
 
-test('@claim:demo-sandbox erases the separate demo record and file namespaces',async({page})=>{
-  await page.goto('/demo');
-  await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
-  await chooseApk(page);
-  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('demo:apk-locker:records')||'[]').some((record:any)=>record.verification==='verified'))).toBe(true);
-  expect(await page.evaluate(async()=>{const db=await new Promise<IDBDatabase>((resolve,reject)=>{const request=indexedDB.open('demo:apk-locker-files');request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)});return new Promise<number>((resolve,reject)=>{const request=db.transaction('files').objectStore('files').count();request.onsuccess=()=>{db.close();resolve(request.result)};request.onerror=()=>reject(request.error)})})).toBe(1);
-  await page.getByRole('link',{name:'Start for real'}).click();
-  await page.waitForURL('/');
-  await expect(page.getByText('No APK evidence yet')).toBeVisible();
-  expect(await page.evaluate(()=>localStorage.getItem('demo:apk-locker:records'))).toBeNull();
-  expect(await page.evaluate(async()=>!(await indexedDB.databases()).some(database=>database.name==='demo:apk-locker-files'))).toBe(true);
+test('@claim:demo-sandbox keeps demo storage isolated and erases it through every exit',async({browser})=>{
+  const exits=[
+    {name:'Start for real',url:/\/$/,click:(page:any)=>page.getByRole('link',{name:'Start for real'}).click()},
+    {name:'Locker',url:/\/#locker$/,click:(page:any)=>page.getByRole('link',{name:'Locker',exact:true}).click()},
+    {name:'wordmark',url:/\/$/,click:(page:any)=>page.locator('.wordmark').click()},
+  ];
+  for(const exit of exits){
+    const context=await browser.newContext();
+    const page=await context.newPage();
+    await page.goto('/');
+    await page.evaluate(async()=>{
+      localStorage.setItem('apk-locker:records','[{"sentinel":"real"}]');
+      const db=await new Promise<IDBDatabase>((resolve,reject)=>{const request=indexedDB.open('apk-locker-files',1);request.onupgradeneeded=()=>request.result.createObjectStore('files');request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)});
+      await new Promise<void>((resolve,reject)=>{const request=db.transaction('files','readwrite').objectStore('files').put(new Uint8Array([7,8,9]).buffer,'real-sentinel');request.onsuccess=()=>resolve();request.onerror=()=>reject(request.error)});
+      db.close();
+    });
+    await page.goto('/demo');
+    await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
+    await chooseApk(page);
+    await page.evaluate(()=>{
+      localStorage.setItem('demo:sb_license:apk-provenance-locker','demo-license');
+      localStorage.setItem('demo:sb_license:apk-provenance-locker:verdict','{"valid":true}');
+    });
+    await Promise.all([page.waitForURL(exit.url),exit.click(page)]);
+    await expect(page.getByText('Demo — sample data, nothing is saved')).toHaveCount(0);
+    const storage=await page.evaluate(async()=>{
+      const databaseNames=(await indexedDB.databases()).map(database=>database.name);
+      const realBytes=await new Promise<number[]|null>((resolve,reject)=>{const request=indexedDB.open('apk-locker-files');request.onsuccess=()=>{const db=request.result;const read=db.transaction('files').objectStore('files').get('real-sentinel');read.onsuccess=()=>{db.close();resolve(read.result?Array.from(new Uint8Array(read.result)):null)};read.onerror=()=>{db.close();reject(read.error)}};request.onerror=()=>reject(request.error)});
+      return {demoRecords:localStorage.getItem('demo:apk-locker:records'),demoLicense:localStorage.getItem('demo:sb_license:apk-provenance-locker'),demoVerdict:localStorage.getItem('demo:sb_license:apk-provenance-locker:verdict'),realRecords:localStorage.getItem('apk-locker:records'),databaseNames,realBytes};
+    });
+    expect(storage.demoRecords).toBeNull();
+    expect(storage.demoLicense).toBeNull();
+    expect(storage.demoVerdict).toBeNull();
+    expect(storage.databaseNames).not.toContain('demo:apk-locker-files');
+    expect(storage.realRecords).toBe('[{"sentinel":"real"}]');
+    expect(storage.realBytes).toEqual([7,8,9]);
+    await page.goto('/demo');
+    await expect(page.locator('.record')).toHaveCount(2);
+    await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
+    await context.close();
+  }
 });
 
 test('@claim:local-storage persists a demo record across reloads without writing the real namespace',async({page})=>{
@@ -314,7 +344,7 @@ test('@claim:release-assets exposes deterministic direct APK, AAB, and checksum 
   await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.2\/app-release\.apk$/);
   await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.2\/app-release\.aab$/);
   await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.2\/SHA256SUMS$/);
-  await expect(page.getByText("Use the versioned SHA256SUMS file to check the APK's SHA-256.")).toBeVisible();
+  await expect(page.getByText("Use the versioned SHA256SUMS file to check the APK's SHA-256 file fingerprint.")).toBeVisible();
   await expect(page.getByText(/Google Play/)).toHaveCount(0);
   expect(requests.some(url=>url.includes('api.github.com'))).toBe(false);
 });
@@ -480,7 +510,7 @@ test('opens sample records above the fold from the first-screen demo action',asy
   await page.setViewportSize({width:390,height:844});
   await page.goto('/');
   await page.getByRole('link',{name:'Try it with sample data'}).click();
-  await expect(page).toHaveURL('/demo');
+  await expect(page).toHaveURL(/\/\?demo=1$/);
   const record=page.locator('.record').first();
   await expect(record).toBeVisible();
   expect((await record.boundingBox())?.y||Infinity).toBeLessThan(844);
@@ -562,6 +592,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v11');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v11']);
+  expect(state.caches).toContain('apk-locker-v12');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v12']);
 });

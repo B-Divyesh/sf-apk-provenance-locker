@@ -1,1 +1,1 @@
-Verify APK signatures, hashes, and signing history before restoring.
+Record APK signing history and SHA-256 file fingerprints before a reinstall.

@@ -1,8 +1,8 @@
 # APK Provenance Locker
 
-APK Provenance Locker verifies APK signatures, identity, hashes, and signing
-history before an Android reinstall. It is for people who keep lawful APK
-files and want an encrypted restore kit.
+APK Provenance Locker verifies APK signatures, identity, SHA-256 file
+fingerprints, and signing history before an Android reinstall. It is for
+people who keep lawful APK files and want an encrypted restore kit.
 
 The app verifies Android's v1, v2, and v3 signing formats on this device. It
 checks signing history after an Android signing-key change and rejects files
@@ -21,10 +21,10 @@ Android still makes the final install decision.
 5. Later, choose **Validate a restore kit** to check saved copies.
 6. Import verified records or download a verified saved APK from the report.
 
-Try the isolated sample at `/demo`. Demo metadata and files use separate
-`demo:` namespaces. **Reset demo** and **Start for real** erase the demo data.
-Removing a record first asks for confirmation. Confirming it erases its
-optional saved copy.
+Try the isolated sample at `/?demo=1` or `/demo`. Demo metadata and files use
+separate `demo:` namespaces. Leaving, **Reset demo**, and **Start for real**
+erase demo data. Removing a record first asks for confirmation. Confirming it
+erases its optional saved copy.
 
 ## Develop and verify
 
@@ -55,8 +55,8 @@ exact checksums are in `tests/fixtures`.
 - [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.2/app-release.aab)
 - [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.2/SHA256SUMS)
 
-These links use the current `v0.5.2` release. Check the APK against its line in
-the versioned `SHA256SUMS` file.
+These links use the current `v0.5.2` release. Compare its SHA-256 file
+fingerprint with the matching line in `SHA256SUMS`.
 
 ## Optional Locker Plus
 

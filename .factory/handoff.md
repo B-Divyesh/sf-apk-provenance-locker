@@ -1,27 +1,88 @@
-# Verification 14 handoff — FAIL
+# APK Provenance Locker repair 10 handoff — PASS
 
-Candidate `bdacf0785389a2ab16d94f8f4f26a78fa413417d` is **not releasable**.
+## Result
 
-The live static site at <https://apk-provenance-locker.sociobot.in> exactly matches the candidate and passed the claims, functional, privacy, offline, accessibility, and performance checks. However, the APK and AAB linked from the live landing page are stale v0.5.5 artifacts embedding commit `0809df82645dfecf73c1d9f592cc79728b2495e3`, not this candidate. The exact failure is recorded in [verification-14.md](verification-14.md).
+The verifier 14 release blocker is repaired in v0.5.6. The GitHub release tag,
+release notes, checksums, provenance record, APK, and AAB now bind to one
+immutable source commit. The landing page reads the latest metadata from
+`api.github.com` and keeps versioned v0.5.6 links usable when that request
+fails.
 
-## Verified
+The release candidate is the commit resolved by `git rev-list -n 1 v0.5.6`.
+The deployed web build publishes the same value in `/build.json`. Both Android
+packages publish it in their bundled `assets/public/build.json`.
 
-- `npm ci`, `npm run test:unit` (18 passed), `npm run lint`, `npm test` (18 unit/config + 39 browser tests), and `npm run build` passed.
-- All 26 commands declared by `.factory/claims.json` passed from the demo entry point.
-- `npm run test:live` passed desktop and 390px mobile signed-APK flows with only same-origin bodyless GETs and zero console/page errors.
-- Live `/demo` works offline after first visit; live axe has zero violations; Lighthouse measured 99 performance and 100 accessibility.
-- The optional license verification endpoint rate-limits after 30 requests with 429 and `Retry-After: 4`.
+## Reproduction and repair
 
-## Blocking next step
+Before the repair, this verifier command failed exactly as reported:
 
-Build and publish Android artifacts whose embedded `assets/public/build.json` identifies commit `bdacf0785389a2ab16d94f8f4f26a78fa413417d`; update landing links to those assets. Then run:
+```text
+npm run test:release -- --expected-commit bdacf0785389a2ab16d94f8f4f26a78fa413417d
+Error: APK commit is 0809df82645dfecf73c1d9f592cc79728b2495e3;
+expected bdacf0785389a2ab16d94f8f4f26a78fa413417d
+```
+
+The root cause was a v0.5.5 release built before the candidate while static
+landing links continued to identify it as current. The repair:
+
+- bumps the web and Android package to v0.5.6 / version code 11;
+- rejects GitHub metadata unless its tag, four assets, and release notes match
+  the current build commit;
+- retains deterministic versioned links as the no-network fallback;
+- generates `RELEASE_PROVENANCE.json` from the built APK and AAB;
+- verifies checksums, provenance fields, tag target, release notes, and both
+  embedded `build.json` files;
+- redownloads the public assets after publication and reruns that identity
+  test inside the release workflow.
+
+The exact stale-commit condition, missing provenance, undersized packages,
+successful API metadata, and API failure fallback all have regression tests.
+
+## Verification evidence
+
+- Clean `npm ci`: 189 packages; `npm audit --audit-level=high`: zero
+  vulnerabilities.
+- `npm run lint`: passed.
+- `npm run test:unit`: 21/21 passed.
+- `npm test`: 21 unit/config and 40 browser tests passed.
+- All 26 exact `.factory/claims.json` commands passed independently.
+- `npm run build`: JS 45,584 bytes / 15.70 KiB gzip; CSS 11,085 bytes /
+  3.29 KiB gzip. `dist/` was produced.
+- `npx cap sync android`: passed.
+- `/opt/fleet/lib/verify-url.sh` passed local `/` and `/demo`: one h1, one
+  main, `lang=en`, no missing alt text, no unlabeled buttons, and no console
+  errors. Desktop and 390px screenshots are in `.factory/evidence/repair-10/`.
+- Local mobile Lighthouse: performance 99, accessibility 100, best practices
+  100, SEO 100; FCP 1.1 s, LCP 2.0 s, CLS 0, TBT 50 ms.
+- Browser coverage passed at 1440px and 390px, 200% text, keyboard-only dialog
+  use, reduced motion, axe, service-worker update cleanup, and offline reload
+  and signature verification.
+- Privacy coverage allows only same-origin bodyless GETs plus one bodyless
+  GitHub public-metadata GET. APK bytes and locker data are never requested.
+- The release workflow builds on GitHub Actions with JDK 17, validates the
+  package id, Android backup exclusions, signature, packaged web bytes, and
+  demo isolation before publishing. It then redownloads all four public assets
+  for the immutable identity check.
+
+## Run and verify
 
 ```sh
 npm ci
+npm audit --audit-level=high
+npm run lint
 npm test
 npm run build
+npx cap sync android
 npm run test:live
 npm run test:release
 ```
 
-`npm run test:release` must pass without `--skip-identity` before this candidate can be accepted.
+Release: <https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/tag/v0.5.6>
+
+Live site: <https://apk-provenance-locker.sociobot.in>
+
+## Known gaps and next steps
+
+No release-blocking product gap remains. GitHub Actions signs this sideload
+release with a workflow-generated key, as required by the work order. A store
+release still needs the owner's stable upload key and is separate work.

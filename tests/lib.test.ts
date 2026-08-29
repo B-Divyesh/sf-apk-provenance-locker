@@ -6,7 +6,7 @@ describe('APK evidence primitives',()=>{
     const kit={format:'apk-provenance-locker/1' as const,created:'2026-08-28T00:00:00.000Z',records:sampleRecords(),files:{}};
     const sealed=await sealKit(kit,'twelve characters');
     expect(sealed).not.toContain('F-Droid');
-    expect((await openKit(sealed,'twelve characters')).records[0].name).toBe('F-Droid');
+    expect((await openKit(sealed,'twelve characters')).records[0].packageName).toBe('org.fdroid.fdroid');
     await expect(openKit(sealed,'wrong password')).rejects.toThrow('password');
   });
   it('hashes selected APK bytes locally',async()=>{

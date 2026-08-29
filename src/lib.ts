@@ -1,4 +1,6 @@
-export type ApkRecord = { id:string; name:string; version:string; source:string; filename:string; size:number; sha256:string; signer:string; schemes:string[]; added:string; backup:boolean };
+import type {ApkSigner,LineageNode} from './apk';
+
+export type ApkRecord = { id:string; packageName:string; versionCode:number; versionName:string; source:string; filename:string; size:number; sha256:string; currentSigner:string; signers:ApkSigner[]; lineage:LineageNode[]; schemes:string[]; added:string; backup:boolean; verification:'verified'|'sample'|'legacy'; risk?:string };
 export type Kit = { format:'apk-provenance-locker/1'; created:string; records:ApkRecord[]; files:Record<string,string> };
 const te=new TextEncoder(), td=new TextDecoder();
 export const bytesToHex=(b:ArrayBuffer|Uint8Array)=>Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
@@ -35,8 +37,6 @@ export async function openKit(text:string,password:string):Promise<Kit>{
  try { const out=JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(env.iv)},key,unb64(env.ciphertext)))); if(out.format!=='apk-provenance-locker/1') throw 0; return out } catch { throw new Error('That password did not open this restore kit.'); }
 }
 function u32(v:DataView,p:number){return v.getUint32(p,true)}
-function u64(v:DataView,p:number){return Number(v.getBigUint64(p,true))}
-function readLen(bytes:Uint8Array,p:number){if(p+4>bytes.length)throw new Error('Unexpected end of signing block.');const n=new DataView(bytes.buffer,bytes.byteOffset+p,4).getUint32(0,true);if(p+4+n>bytes.length)throw new Error('Invalid signing block.');return [bytes.subarray(p+4,p+4+n),p+4+n] as const}
 /** Validate the ZIP directory/local-header relationship and require AndroidManifest.xml. */
 export function assertApkArchive(data:ArrayBuffer){
  const bytes=new Uint8Array(data), view=new DataView(data), n=bytes.length;
@@ -61,27 +61,7 @@ export function assertApkArchive(data:ArrayBuffer){
  if(p!==eocd)throw new Error('This APK has an inconsistent ZIP directory.');
  if(!hasManifest)throw new Error('This ZIP does not contain AndroidManifest.xml, so it is not an APK.');
 }
-/** Reads one embedded v2/v3 certificate fingerprint. It does not verify a signature. */
-export async function readSigner(data:ArrayBuffer):Promise<{schemes:string[]; signer:string}>{
- const v=new DataView(data), n=data.byteLength; if(n<22) return {schemes:[],signer:'Not found'};
- let eocd=-1; for(let p=n-22;p>=Math.max(0,n-65557);p--){if(u32(v,p)===0x06054b50){eocd=p;break}} if(eocd<0)return {schemes:[],signer:'Not found'};
- const cd=u32(v,eocd+16); if(cd<24||cd>n)return {schemes:[],signer:'Not found'};
- const magic='APK Sig Block 42', m=te.encode(magic); for(let i=0;i<m.length;i++)if(new Uint8Array(data)[cd-16+i]!==m[i])return {schemes:[],signer:'No supported evidence'};
- const size=u64(v,cd-24); const block=cd-(size+8); if(!Number.isSafeInteger(size)||block<0||u64(v,block)!==size)return {schemes:[],signer:'Unreadable signing block'};
- let p=block+8; const schemes:string[]=[]; let cert:Uint8Array|undefined;
- while(p<cd-24){
-   if(p+12>cd-24)break;
-   const len=u64(v,p); if(!Number.isSafeInteger(len)||len<4||p+8+len>cd-24)break;
-   const id=u32(v,p+8), value=new Uint8Array(data,p+12,len-4);
-   if(id===0x7109871a||id===0xf05368c0){
-     schemes.push(id===0x7109871a?'v2':'v3');
-     try{const [signers]=readLen(value,0);const [signer]=readLen(signers,0);const [signed]=readLen(signer,0);const [,afterDigests]=readLen(signed,0);const [certs]=readLen(signed,afterDigests);const [first]=readLen(certs,0);cert??=first}catch{/* the UI reports unreadable certificate evidence */}
-   }
-   p+=8+len;
- }
- return {schemes:[...new Set(schemes)],signer:cert?await sha256(cert):schemes.length?'Certificate bytes unreadable':'No supported evidence'};
-}
 export function sampleRecords():ApkRecord[]{return [
- {id:'demo-fdroid',name:'F-Droid',version:'1.21.0',source:'https://f-droid.org',filename:'F-Droid_1.21.0.apk',size:12349122,sha256:'a9dc9e00fdb4c337ae4d5810aac881321ac771850b3d286d1be4f32d4c2a2b67',signer:'9a75c3ec0580dd84b9e32e94d96a74bdfd0e0f6a68321a7c1ef1946ee8275a0b',schemes:['v2','v3'],added:'2026-08-28T09:00:00.000Z',backup:false},
- {id:'demo-keepass',name:'KeePassDX',version:'4.1.7',source:'https://www.keepassdx.com',filename:'KeePassDX-4.1.7.apk',size:21906451,sha256:'87b7d3328f88b23e7d2e688f19c704753e4015ce0e45d0f437bcd35bb37a98e4',signer:'2c488611d1cbb90e7591bbd7a2fa354e5bf4ed805c1367df8619a454706b04bb',schemes:['v2'],added:'2026-08-28T09:00:00.000Z',backup:false}
+ {id:'demo-fdroid',packageName:'org.fdroid.fdroid',versionCode:1021050,versionName:'1.21.0',source:'https://f-droid.org',filename:'F-Droid_1.21.0.apk',size:12349122,sha256:'a9dc9e00fdb4c337ae4d5810aac881321ac771850b3d286d1be4f32d4c2a2b67',currentSigner:'9a75c3ec0580dd84b9e32e94d96a74bdfd0e0f6a68321a7c1ef1946ee8275a0b',signers:[],lineage:[],schemes:['v2','v3'],added:'2026-08-28T09:00:00.000Z',backup:false,verification:'sample'},
+ {id:'demo-keepass',packageName:'com.kunzisoft.keepass.free',versionCode:148,versionName:'4.1.7',source:'https://www.keepassdx.com',filename:'KeePassDX-4.1.7.apk',size:21906451,sha256:'87b7d3328f88b23e7d2e688f19c704753e4015ce0e45d0f437bcd35bb37a98e4',currentSigner:'2c488611d1cbb90e7591bbd7a2fa354e5bf4ed805c1367df8619a454706b04bb',signers:[],lineage:[],schemes:['v2'],added:'2026-08-28T09:00:00.000Z',backup:false,verification:'sample'}
 ]}

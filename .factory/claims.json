@@ -4,18 +4,60 @@
     "claim": "Hashes every selected APK byte on this device",
     "where": "Landing workflow, record dialog, README",
     "test": "npm test -- --grep @claim:hash-check",
-    "sandbox": "Select a deterministic APK-shaped fixture and assert its complete known SHA-256 in the evidence dialog"
+    "sandbox": "Select a deterministic signed APK fixture and assert its complete known SHA-256 in the evidence dialog"
   },
   {
-    "id": "signer-evidence",
-    "claim": "Reads one unverified embedded certificate fingerprint from v2/v3 signing blocks",
+    "id": "signature-verification",
+    "claim": "Cryptographically verifies APK v1, v2, and v3 signatures and v3 signer lineage on this device",
     "where": "Landing workflow, record card, evidence dialog, README",
-    "test": "npm test -- --grep @claim:signer-evidence",
-    "sandbox": "Select a deterministic v2/v3-block fixture; assert both scheme labels, the certificate-byte digest, and the unverified warning"
+    "test": "npm test -- --grep @claim:signature-verification",
+    "sandbox": "Select Android apksig's v1/v2/v3 fixture with a three-certificate lineage; assert every scheme and lineage node is verified"
+  },
+  {
+    "id": "v1-verification",
+    "claim": "Verifies APK v1/JAR signers",
+    "where": "Landing workflow, README",
+    "test": "npm test -- --grep @claim:v1-verification",
+    "sandbox": "Select Android apksig's v1-only RSA fixture and assert a verified v1 signer"
+  },
+  {
+    "id": "tamper-rejection",
+    "claim": "Rejects an APK when signed content has changed",
+    "where": "Record workflow, README",
+    "test": "npm test -- --grep @claim:tamper-rejection",
+    "sandbox": "Flip one byte in a stored entry of a valid v1/v2/v3 APK and assert cryptographic verification rejects it"
+  },
+  {
+    "id": "lineage-integrity",
+    "claim": "Rejects a malformed v3 signing-certificate lineage",
+    "where": "Record workflow, README",
+    "test": "npm test -- --grep @claim:lineage-integrity",
+    "sandbox": "Select Android apksig's invalid-lineage fixture and assert that the verified block is still rejected"
+  },
+  {
+    "id": "apk-identity",
+    "claim": "Extracts package name, version name, and version code from AndroidManifest.xml",
+    "where": "Landing workflow, record card, evidence dialog, README",
+    "test": "npm test -- --grep @claim:apk-identity",
+    "sandbox": "Select the signed lineage fixture and assert package android.appsecurity.cts.tinyapp, version 1.0, and version code 10"
+  },
+  {
+    "id": "downgrade-risk",
+    "claim": "Warns when a verified APK version code is below the newest recorded version for that package",
+    "where": "Record workflow, README",
+    "test": "npm test -- --grep @claim:downgrade-risk",
+    "sandbox": "Record a verified package at version code 11, select its verified version-code-10 APK, and assert the incompatible downgrade warning"
+  },
+  {
+    "id": "signer-drift",
+    "claim": "Warns when a package signer is outside the previously verified signer lineage",
+    "where": "Record workflow, README",
+    "test": "npm test -- --grep @claim:signer-drift",
+    "sandbox": "Record a verified package with an unrelated prior signer, select its signed APK, and assert the signer-change warning"
   },
   {
     "id": "apk-structure",
-    "claim": "Requires an APK-shaped ZIP directory containing AndroidManifest.xml",
+    "claim": "Requires a signed APK archive containing compiled AndroidManifest.xml",
     "where": "Landing workflow, record dialog, Terms, README",
     "test": "npm test -- --grep @claim:apk-structure",
     "sandbox": "Select non-ZIP bytes and an inconsistent local/central ZIP entry; assert both are rejected"
@@ -25,7 +67,7 @@
     "claim": "Exports password-encrypted records and optional saved APK copies",
     "where": "Landing facts and workflow, export dialog, README",
     "test": "npm test -- --grep @claim:encrypted-export",
-    "sandbox": "Export a saved 12 MiB fixture; assert plaintext names are absent and the supplied password opens it with a matching hash"
+    "sandbox": "Export a saved signed APK; assert plaintext package data is absent and the supplied password opens it with matching hash, signature, identity, and signer"
   },
   {
     "id": "password-not-stored",
@@ -70,8 +112,15 @@
     "sandbox": "Load /demo, disable the browser HTTP cache, go offline, reload, and assert the shell and sample records render"
   },
   {
+    "id": "offline-verification",
+    "claim": "APK signature checks work offline after the first visit",
+    "where": ".factory/demo.md, README",
+    "test": "npm test -- --grep @claim:offline-verification",
+    "sandbox": "Load the app once, go offline, select the v1-only signed fixture, and assert its signer verifies"
+  },
+  {
     "id": "release-assets",
-    "claim": "The landing page links directly to the v0.2.0 APK, AAB, and SHA256SUMS assets",
+    "claim": "The landing page links directly to the v0.3.0 APK, AAB, and SHA256SUMS assets",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
     "sandbox": "Assert deterministic GitHub release-asset URLs and that page load makes no GitHub API request"

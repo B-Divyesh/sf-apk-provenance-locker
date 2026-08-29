@@ -1,7 +1,7 @@
 {
   "name": "apk-provenance-locker",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "postinstall": "node scripts/fix-capacitor-cli.mjs",
@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "@capacitor/android": "6.2.1",
-    "@capacitor/core": "6.2.1"
+    "@capacitor/core": "6.2.1",
+    "fflate": "0.8.2"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
@@ -29,5 +30,7 @@
     "vite": "8.2.2",
     "vitest": "4.1.11"
   },
-  "overrides": {"tar": "7.5.22"}
+  "overrides": {
+    "tar": "7.5.22"
+  }
 }

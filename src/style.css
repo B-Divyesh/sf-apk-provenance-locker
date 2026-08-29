@@ -305,6 +305,7 @@ figcaption {
 .record h3 {
   margin: 0;
   font-size: 1.1rem;
+  overflow-wrap: anywhere;
 }
 .record h3 span {
   font-weight: 500;
@@ -317,6 +318,11 @@ figcaption {
   font-size: 0.85rem;
   overflow-wrap: anywhere;
 }
+.record .risk,
+.form .risk {
+  color: var(--red);
+  font-weight: 800;
+}
 .mono {
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 0.76rem !important;
@@ -324,6 +330,8 @@ figcaption {
 .proof {
   display: grid;
   gap: 3px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .verified {
   color: var(--teal);
@@ -542,6 +550,12 @@ figcaption {
 }
 .results li span {
   font-size: 0.83rem;
+  overflow-wrap: anywhere;
+}
+.evidence dd,
+.release-links a,
+.wordmark {
+  overflow-wrap: anywhere;
 }
 .ok b {
   color: var(--teal);

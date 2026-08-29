@@ -1,0 +1,38 @@
+{
+  "recordsInLocker": 22,
+  "savedCopiesValidated": 20,
+  "reportHeading": "20 APKs match",
+  "errors": [],
+  "outgoingRequests": [
+    {
+      "url": "https://apk-provenance-locker.sociobot.in/demo",
+      "method": "GET",
+      "bodyBytes": 0
+    },
+    {
+      "url": "https://apk-provenance-locker.sociobot.in/assets/index-oWeLGtDW.js",
+      "method": "GET",
+      "bodyBytes": 0
+    },
+    {
+      "url": "https://apk-provenance-locker.sociobot.in/assets/style-Dxosa8K4.css",
+      "method": "GET",
+      "bodyBytes": 0
+    },
+    {
+      "url": "https://api.github.com/repos/B-Divyesh/sf-apk-provenance-locker/releases/latest",
+      "method": "GET",
+      "bodyBytes": 0
+    },
+    {
+      "url": "https://apk-provenance-locker.sociobot.in/vendor/apksig/wasm_exec.js",
+      "method": "GET",
+      "bodyBytes": 0
+    },
+    {
+      "url": "https://apk-provenance-locker.sociobot.in/vendor/apksig/apksig.wasm",
+      "method": "GET",
+      "bodyBytes": 0
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "url": "https://apk-provenance-locker.sociobot.in/",
+  "status": 200,
+  "title": "APK Provenance Locker — Verify APK restore evidence",
+  "visible": "Skip to content\n◆\nAPK Provenance Locker\nDemo\nLocker\nPrivacy\n\nLOCAL APK VERIFICATION\n\nVerify APKs before restoring\n\nFor Android users keeping APK files, this checks each app, version, signing history, and SHA-256 file fingerprint before a reinstall.\n\nTry it with sample data\nOpen two sample APK records.\nVerify an APK\nVerified on this device\nPassword-encrypted exports\nNo sign-in or account\nYour APK files are never uploaded.\n\nYOUR VERIFIED APK RECORDS\n\nKeep verified APK evidence\nVerify an APK\nExport restore kit\n⌁\nNo APK evidence yet\n\nVerified APKs will appear here. Choose a file to check its signature and identity.\n\nVerify your first APK\nHow the locker verifies evidence\nChoose an APK.\nThe locker checks Android's v1, v2, and v3 signatures and creates a SHA-256 file fingerprint on this device.\nRead the package and version.\nIt extracts the package name and version code from the compiled Android manifest.\nCheck signer and downgrade risks.\nVerified signing history and version codes reveal new certificates and incompatible downgrade risk.\n\nOPTIONAL ONE-TIME PURCHASE\n\nGroup APKs by device\n\nLocker Plus costs $12 once. It adds private device labels for sorting a large locker. Verification, signer and downgrade warnings, and restore-kit export stay free.\n\nThe free locker is active.\n\nBuy Locker Plus — $12\nRestore Locker Plus license\nSociobot hosted checkout.\nAndroid download\n\nAPK checks run on this device using Android's signature rules. Android still makes the final install decision.\n\nv0.5.7 matches source b6d8aeb8c9e1. APK 5.3 MB · AAB 5.2 MB.\n\nDownload APK from GitHub\nDownload AAB from GitHub\nDownload SHA256SUMS from GitHub\nDownload release provenance from GitHub\n\nUse SHA256SUMS and the provenance record to check the package and its immutable source commit.\n\nDownload the APK, SHA256SUMS, and provenance record.\nCompare the APK's SHA-256 file fingerprint with the matching line in SHA256SUMS.\nConfirm the provenance commit matches the source commit shown above.\nAllow installs from your browser or file manager when Android asks.\nOpen the APK. Android shows the final install decision.\nRecords and saved APK copies stay on this device.\nPrivacy\nTerms\nBuilt by Param Factory · v0.5.7",
+  "buttons": [
+    "Verify an APK",
+    "Verify an APK",
+    "Export restore kit",
+    "Verify your first APK",
+    "Restore Locker Plus license"
+  ],
+  "links": [
+    "Skip to content",
+    "◆ APK Provenance Locker",
+    "Demo",
+    "Locker",
+    "Privacy",
+    "Try it with sample data",
+    "Buy Locker Plus — $12",
+    "Download APK from GitHub",
+    "Download AAB from GitHub",
+    "Download SHA256SUMS from GitHub",
+    "Download release provenance from GitHub",
+    "Privacy",
+    "Terms"
+  ],
+  "hero": "LOCAL APK VERIFICATION\n\nVerify APKs before restoring\n\nFor Android users keeping APK files, this checks each app, version, signing history, and SHA-256 file fingerprint before a reinstall.\n\nTry it with sample data\nOpen two sample APK records.\nVerify an APK\nVerified on this device\nPassword-encrypted exports\nNo sign-in or account\nYour APK files are never uploaded.\n\nYOUR VERIFIED APK RECORDS\n\nKeep verified APK evidence\nVerify an APK\nExport restore kit\n⌁\nNo APK evidence yet\n\nVerified APKs will appear here. Choose a file to check its signature and identity.\n\nVerify your first APK\nHow the locker verifies evidence\nChoose an APK.\nThe locker checks Android's v1, v2, and v3 signatures and creates a SHA-256 file fingerprint on this device.\nRead the package and version.\nIt extracts the package name and version code from the compiled Android manifest.\nCheck signer and downgrade risks.\nVerified signing history and version codes reveal new certificates and incompatible downgrade risk.\n\nOPTIONAL ONE-TIME PURCHASE\n\nGroup APKs by device\n\nLocker Plus costs $12 once. It adds private device labels for sorting a large locker. Verification, signer and downgrade warnings, and restore-kit export stay free.\n\nThe free locker is active.\n\nBuy Locker Plus — $12\nRestore Locker Plus license\nSociobot hosted checkout.\nAndroid download\n\nAPK checks run on this device using Android's signature rules. Android still makes the final install decision.\n\nv0.5.7 matches source b6d8aeb8c9e1. APK 5.3 MB · AAB 5.2 MB.\n\nDownload APK from GitHub\nDownload AAB from GitHub\nDownload SHA256SUMS from GitHub\nDownload release provenance from GitHub\n\nUse SHA256SUMS and the provenance record to check the package and its immutable source commit.\n\nDownload the APK, SHA256SUMS, and provenance record.\nCompare the APK's SHA-256 file fingerprint with the matching line in SHA256SUMS.\nConfirm the provenance commit matches the source commit shown above.\nAllow installs from your browser or file manager when Android asks.\nOpen the APK. Android shows the final install decision.",
+  "errors": []
+}

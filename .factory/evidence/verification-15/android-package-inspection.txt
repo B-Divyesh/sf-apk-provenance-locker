@@ -1,0 +1,24 @@
+{
+  "apk": {
+    "bytes": 5589279,
+    "sha256": "e478785cbf3826b6886a4b63dfa382bb0ad4d68839d5bea59ccf45642ecbce72",
+    "manifest": {
+      "versionCode": 12,
+      "versionName": "0.5.7",
+      "compileSdkVersion": 34,
+      "compileSdkVersionCodename": "14",
+      "package": "in.sociobot.apk_provenance_locker",
+      "platformBuildVersionCode": 34,
+      "platformBuildVersionName": 14
+    }
+  },
+  "aab": {
+    "bytes": 5409820,
+    "sha256": "cf109f63c0594b771646ddd81ccaf2e104dcf5aeb9d7ebde91292964d154bce1"
+  }
+}
+    testing: META-INF/MANIFEST.MF     OK
+No errors detected in compressed data of /tmp/apk-locker-pkg-0bECXh/app-release.apk.
+    testing: META-INF/MANIFEST.MF     OK
+No errors detected in compressed data of /tmp/apk-locker-pkg-0bECXh/app-release.aab.
+/bin/bash: line 26: jarsigner: command not found

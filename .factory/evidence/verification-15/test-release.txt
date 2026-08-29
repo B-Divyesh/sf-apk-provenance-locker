@@ -1,0 +1,70 @@
+
+> apk-provenance-locker@0.5.7 test:release
+> node scripts/verify-android-release.mjs
+
+{
+  "tag": "v0.5.7",
+  "expectedCommit": "b6d8aeb8c9e1728fe9c905ce19253b922ccf2aa3",
+  "tagCommit": "b6d8aeb8c9e1728fe9c905ce19253b922ccf2aa3",
+  "provenance": {
+    "schema": "https://sociobot.in/schemas/android-release-provenance/v1",
+    "product": "apk-provenance-locker",
+    "repository": "B-Divyesh/sf-apk-provenance-locker",
+    "version": "0.5.7",
+    "tag": "v0.5.7",
+    "commit": "b6d8aeb8c9e1728fe9c905ce19253b922ccf2aa3",
+    "artifacts": [
+      {
+        "name": "app-release.apk",
+        "bytes": 5589279,
+        "sha256": "e478785cbf3826b6886a4b63dfa382bb0ad4d68839d5bea59ccf45642ecbce72"
+      },
+      {
+        "name": "app-release.aab",
+        "bytes": 5409820,
+        "sha256": "cf109f63c0594b771646ddd81ccaf2e104dcf5aeb9d7ebde91292964d154bce1"
+      }
+    ]
+  },
+  "apk": {
+    "bytes": 5589279,
+    "sha256": "e478785cbf3826b6886a4b63dfa382bb0ad4d68839d5bea59ccf45642ecbce72",
+    "identity": {
+      "product": "apk-provenance-locker",
+      "version": "0.5.7",
+      "commit": "b6d8aeb8c9e1728fe9c905ce19253b922ccf2aa3"
+    }
+  },
+  "aab": {
+    "bytes": 5409820,
+    "sha256": "cf109f63c0594b771646ddd81ccaf2e104dcf5aeb9d7ebde91292964d154bce1",
+    "identity": {
+      "product": "apk-provenance-locker",
+      "version": "0.5.7",
+      "commit": "b6d8aeb8c9e1728fe9c905ce19253b922ccf2aa3"
+    }
+  },
+  "demoErasure": [
+    {
+      "exit": "Start for real",
+      "demoErased": true,
+      "realStoragePreserved": true,
+      "reseededRecords": 2,
+      "errors": []
+    },
+    {
+      "exit": "Locker",
+      "demoErased": true,
+      "realStoragePreserved": true,
+      "reseededRecords": 2,
+      "errors": []
+    },
+    {
+      "exit": "wordmark",
+      "demoErased": true,
+      "realStoragePreserved": true,
+      "reseededRecords": 2,
+      "errors": []
+    }
+  ]
+}

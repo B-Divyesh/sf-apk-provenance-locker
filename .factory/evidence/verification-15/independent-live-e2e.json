@@ -1,0 +1,64 @@
+{
+  "desktop": {
+    "axeViolations": 0,
+    "errors": [],
+    "requestCount": 11,
+    "outside": [
+      {
+        "url": "https://api.github.com/repos/B-Divyesh/sf-apk-provenance-locker/releases/latest",
+        "method": "GET",
+        "bodyBytes": 0,
+        "resourceType": "fetch"
+      },
+      {
+        "url": "https://api.github.com/repos/B-Divyesh/sf-apk-provenance-locker/releases/latest",
+        "method": "GET",
+        "bodyBytes": 0,
+        "resourceType": "fetch"
+      }
+    ],
+    "overflow": {
+      "scroll": 1440,
+      "width": 1440
+    },
+    "records": 3
+  },
+  "mobile": {
+    "axeViolations": 0,
+    "errors": [],
+    "requestCount": 9,
+    "outside": [
+      {
+        "url": "https://api.github.com/repos/B-Divyesh/sf-apk-provenance-locker/releases/latest",
+        "method": "GET",
+        "bodyBytes": 0,
+        "resourceType": "fetch"
+      },
+      {
+        "url": "https://api.github.com/repos/B-Divyesh/sf-apk-provenance-locker/releases/latest",
+        "method": "GET",
+        "bodyBytes": 0,
+        "resourceType": "fetch"
+      }
+    ],
+    "overflow": {
+      "scroll": 390,
+      "width": 390
+    },
+    "records": 2
+  },
+  "reducedMotion": {
+    "movingElements": 0,
+    "errors": []
+  },
+  "pwa": {
+    "script": "https://apk-provenance-locker.sociobot.in/sw.js",
+    "caches": [
+      "apk-locker-v17"
+    ],
+    "waiting": false,
+    "offlineStatus": 200,
+    "records": 2,
+    "errors": []
+  }
+}

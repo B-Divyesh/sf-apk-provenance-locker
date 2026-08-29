@@ -1,39 +1,59 @@
-# APK Provenance Locker — adversarial review 3 handoff
+# APK Provenance Locker — polish round 3 handoff
 
-## Result: FAIL
+## Result: PASS
 
-Reviewed source `1f6ffa249f8832d2386f6a72c5b3f1bbf2279ff3` and the live
-site at <https://apk-provenance-locker.sociobot.in> on 2026-08-29 UTC. Product
-code was not modified.
+Repair commit: `e4d1f4eafb9e09b80a9a9a64af42b454505da88f`.
+Deployment: `cd211bd3-ab63-4098-88ff-3901de5206f5`.
+Live site: <https://apk-provenance-locker.sociobot.in>.
 
-`.factory/review-3.md` records one blocking sandbox/routing defect and one
-minor terminology defect. The blocker is reproducible by editing `/demo`,
-selecting the shared-header **Locker** link, and reopening `/demo`: edited
-demo data survives even though the app entered real mode and removed the demo
-banner. The wordmark can also place demo state at the `/` URL. The existing
-`@claim:demo-sandbox` test covers only **Start for real** and therefore misses
-both paths.
+This repair closes every finding in review rounds 1–3. The important behavior
+change is a route-aware, isolated demo lifecycle: the first-screen action
+opens `/?demo=1`, shows sample records and the persistent banner immediately,
+and Start for real, Locker, wordmark, Reset demo, and non-demo boot clean demo
+records, files, and demo license storage without changing real storage.
 
-## Verification completed
+It also standardizes the digest wording as “SHA-256 file fingerprint” and
+uses “file fingerprint” thereafter. Metadata, legal links, 404 shell, focus,
+mobile layout, offline cache version, claims, README, demo documentation, and
+the catalog description remain complete and have been rechecked.
 
-- Opened the live site cold at 390 × 844 and 1440 × 900; the first-read gate
-  passed.
-- Exercised the one-click demo, sample visibility, Reset, Start for real,
-  real-storage sentinels, offline reload, request logging, and the failing
-  header exits.
-- Ran every one of the 25 exact claim commands independently from clean clone
-  `/tmp/apk-review3-EZi7KI`; all commands passed.
-- Ran `npm run lint`, full `npm test` (17 unit/config and 38 browser tests),
-  `npm run build`, and `npm run test:live`; all passed.
-- Crawled live internal, release, and checkout links; checked titles,
-  metadata, 404 behavior, route focus, and mobile overflow.
-- Ran live Playwright axe scans on all product routes and the 404 with zero
-  violations. `/opt/fleet/lib/verify-url.sh` also passed the live landing.
-- Rechecked every F-1 and F-2 finding in live output and source; none
-  regressed.
+## How to run and verify
 
-## Remaining work
+```sh
+npm ci
+npm run lint
+npm test
+npm run build
+npx cap sync android
+```
 
-Implement the F-3-1 cleanup through every demo exit and add the specified
-multi-exit claim test. Apply the F-3-2 digest terminology rewrite. Rerun the
-same commands and live paths before claiming PASS.
+Open `/?demo=1` for the isolated one-click sample, or `/demo` for its canonical
+route. The full claim contract is in `.factory/claims.json`; run any one with
+`npm test -- --grep @claim:<id>`.
+
+## Exact evidence
+
+- Clean clone: `/tmp/apk-provenance-polish3-DKnwWi`.
+  `npm ci`, `npm run lint`, all 25 separately invoked exact claim commands,
+  `npm test` (17 unit/config + 38 browser), `npm run build`, and
+  `npx cap sync android` passed.
+- `@claim:demo-sandbox` now proves cleanup through Start for real, Locker, and
+  the wordmark after writing demo records, IndexedDB bytes, and a demo license.
+  It also proves real localStorage and IndexedDB sentinels survive and `/demo`
+  reseeds both samples.
+- Local quality evidence: `.factory/evidence/polish-3/local/verify.json`,
+  `lighthouse.json` (performance 100, accessibility 100, SEO 100),
+  `demo-query-mobile.png`, and `404-mobile.png`. The production JavaScript is
+  42,820 bytes raw / 14,770 bytes gzip.
+- Live quality evidence: `.factory/evidence/polish-3/live/verify.json`,
+  `route-recheck.json`, `demo-query-mobile.png`, `404-mobile.png`, and
+  desktop/mobile screenshots. `verify-url.sh`, `npm run test:live`, live axe,
+  route metadata, no-overflow, direct `?demo=1`, and all three live demo exits
+  passed. Live `/build.json` identifies `e4d1f4e`.
+- Full review mapping is in `.factory/polish-3.md`.
+
+## Known gaps and next steps
+
+None. The existing GitHub Actions workflow remains the Android APK/AAB release
+path; static deployment is current. A future version/tag can produce the next
+Android release asset when product changes require it.

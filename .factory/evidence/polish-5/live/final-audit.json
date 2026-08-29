@@ -1,0 +1,31 @@
+{
+  "base": "https://apk-provenance-locker.sociobot.in",
+  "build": {
+    "product": "apk-provenance-locker",
+    "version": "0.5.10",
+    "commit": "ab3eb699bcd49051f663dc3d5a077299313e83a3"
+  },
+  "routes": {
+    "/": {"status": 200, "title": "APK Provenance Locker — Verify APK restore evidence", "h1": 1, "main": 1, "canonical": "https://apk-provenance-locker.sociobot.in/", "overflow": false, "seriousAxe": []},
+    "/demo": {"status": 200, "title": "Demo — APK Provenance Locker", "h1": 1, "main": 1, "canonical": "https://apk-provenance-locker.sociobot.in/demo", "overflow": false, "seriousAxe": []},
+    "/privacy": {"status": 200, "title": "Privacy — APK Provenance Locker", "h1": 1, "main": 1, "canonical": "https://apk-provenance-locker.sociobot.in/privacy", "overflow": false, "seriousAxe": []},
+    "/terms": {"status": 200, "title": "Terms — APK Provenance Locker", "h1": 1, "main": 1, "canonical": "https://apk-provenance-locker.sociobot.in/terms", "overflow": false, "seriousAxe": []},
+    "/not-a-real-route": {"status": 404, "title": "Page not found — APK Provenance Locker", "h1": 1, "main": 1, "canonical": "https://apk-provenance-locker.sociobot.in/404", "overflow": false, "seriousAxe": []}
+  },
+  "demo": {
+    "banner": true,
+    "reset": true,
+    "startReal": true,
+    "directTitle": "Demo — APK Provenance Locker",
+    "firstRecordY": 638.390625,
+    "origins": ["https://apk-provenance-locker.sociobot.in"],
+    "allBodylessGets": true
+  },
+  "scroll": {
+    "before": 3221,
+    "privacy": {"scrollY": 0, "focused": "H1"},
+    "returned": {"scrollY": 3221, "focused": "H1"}
+  },
+  "errors": [],
+  "expected404ConsoleMessages": 1
+}

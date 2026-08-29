@@ -1,6 +1,6 @@
 {
   "url": "https://apk-provenance-locker.sociobot.in/?demo=1",
-  "loadMs": 830,
+  "loadMs": 690,
   "errors": [],
   "a11y": {
     "title": "Demo — APK Provenance Locker",
@@ -9,6 +9,6 @@
     "main": true,
     "imgsMissingAlt": 0,
     "buttonsUnlabeled": 0,
-    "textLength": 2277
+    "textLength": 2279
   }
 }

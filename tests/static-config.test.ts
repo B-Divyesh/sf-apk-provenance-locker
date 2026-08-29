@@ -48,19 +48,28 @@ describe('deployment and Android release configuration',()=>{
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v8'");
+    expect(worker).toContain("CACHE='apk-locker-v9'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
 
-  it('builds v0.4.0 packages only from the matching tag and byte-checks the packaged web build',()=>{
+  it('builds v0.5.0 packages only from the matching tag and audits packaged identity, privacy, and removal safety',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
+    const manifest=readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
     expect(workflow).toContain('npx cap sync android');
     expect(workflow).toContain('apksigner');
     expect(workflow).toContain('test "$GITHUB_REF_NAME" = "$EXPECTED_TAG"');
     expect(workflow).toContain('test "$(git rev-parse HEAD)" = "$GITHUB_SHA"');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")');
-    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='4' versionName='0.4.0'");
+    expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.aab "base/assets/public/${FILE#dist/}")');
+    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='5' versionName='0.5.0'");
+    expect(workflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
+    expect(workflow).toContain("grep -q 'android:fullBackupContent.*0x0' packaged-manifest.txt");
+    expect(workflow).toContain("grep -q 'Keep record' packaged-app.js");
+    expect(workflow).toContain("grep -q 'Remove record' packaged-app.js");
+    expect(manifest).toMatch(/android:allowBackup="false"/);
+    expect(manifest).toMatch(/android:fullBackupContent="false"/);
+    expect(manifest).not.toMatch(/android:allowBackup="true"/);
     expect(workflow).toContain('SHA256SUMS');
     expect(readFileSync('vite.config.ts','utf8')).toContain("fileName:'build.json'");
   });
@@ -88,7 +97,8 @@ describe('deployment and Android release configuration',()=>{
     expect(app).toContain('Records and saved APK copies stay on this device.');
     expect(app).not.toContain('Original generated paper-cut art.');
     expect(`${app}\n${readme}`).not.toContain('release-specific test key');
-    expect(app).toContain('05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0');
+    expect(app).toContain("Use the versioned SHA256SUMS file to check the APK's SHA-256.");
+    expect(`${app}\n${readme}`).not.toContain('05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0');
     expect(app).toContain('This app is not on Google Play yet.');
     expect(readme).not.toContain('The release workflow builds the APK and AAB.');
     expect(readme).not.toContain('It checks their size, package ID, manifest, signature, and checksums.');

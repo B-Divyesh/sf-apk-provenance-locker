@@ -121,6 +121,17 @@ test('@claim:local-storage persists a demo record across reloads without writing
   expect(namespaces).not.toContain('apk-locker:records');
 });
 
+test('@claim:android-backup-disabled keeps private installed-app storage out of Android backup and transfer',async({page})=>{
+  await page.goto('/demo');
+  const manifest=(await readFile(resolve('android/app/src/main/AndroidManifest.xml'))).toString();
+  const releaseWorkflow=(await readFile(resolve('.github/workflows/android.yml'))).toString();
+  expect(manifest).toContain('android:allowBackup="false"');
+  expect(manifest).toContain('android:fullBackupContent="false"');
+  expect(manifest).not.toContain('android:allowBackup="true"');
+  expect(releaseWorkflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
+  expect(releaseWorkflow).toContain("grep -q 'android:fullBackupContent.*0x0' packaged-manifest.txt");
+});
+
 test('@claim:saved-copy-erasure confirms removal before erasing demo metadata and saved APK bytes',async({page})=>{
   await page.goto('/demo');
   await chooseApk(page);
@@ -232,10 +243,10 @@ test('@claim:apk-never-uploaded processes a real APK without sending its bytes o
 test('@claim:release-assets exposes deterministic direct APK, AAB, and checksum links without an API request',async({page})=>{
   const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/demo');
-  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.4\.0\/app-release\.apk$/);
-  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.4\.0\/app-release\.aab$/);
-  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.4\.0\/SHA256SUMS$/);
-  await expect(page.getByText('05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0')).toBeVisible();
+  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.0\/app-release\.apk$/);
+  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.0\/app-release\.aab$/);
+  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.0\/SHA256SUMS$/);
+  await expect(page.getByText("Use the versioned SHA256SUMS file to check the APK's SHA-256.")).toBeVisible();
   await expect(page.getByText('This app is not on Google Play yet.')).toBeVisible();
   expect(requests.some(url=>url.includes('api.github.com'))).toBe(false);
 });
@@ -245,7 +256,7 @@ test('publishes a build identity for the exact source commit',async({request})=>
   expect(response.ok()).toBe(true);
   expect(await response.json()).toEqual({
     product:'apk-provenance-locker',
-    version:'0.4.0',
+    version:'0.5.0',
     commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
   });
 });
@@ -309,7 +320,7 @@ test('starts keyboard navigation at the skip link and focuses headings only afte
   await expect(page.getByRole('heading',{level:1})).toBeFocused();
 });
 
-test('keeps the recurring wordmark, Terms, and focused skip-link targets at least 44 by 44 pixels',async({page})=>{
+test('keeps recurring controls and the saved-copy checkbox target at least 44 by 44 pixels',async({page})=>{
   for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
     await page.setViewportSize(viewport);
     await page.goto('/');
@@ -319,7 +330,36 @@ test('keeps the recurring wordmark, Terms, and focused skip-link targets at leas
       expect(box?.width||0).toBeGreaterThanOrEqual(44);
       expect(box?.height||0).toBeGreaterThanOrEqual(44);
     }
+    await page.getByRole('button',{name:'Verify an APK'}).first().click();
+    const savedCopyTarget=page.getByText('Save this APK copy in this browser',{exact:true});
+    const savedCopyBox=await savedCopyTarget.boundingBox();
+    expect(savedCopyBox?.height||0).toBeGreaterThanOrEqual(44);
+    await page.keyboard.press('Escape');
   }
+});
+
+test('uses a dual focus indicator with at least 3:1 contrast on dark and light surfaces',async({page})=>{
+  const luminance=(rgb:number[])=>{
+    const values=rgb.map(value=>{const channel=value/255;return channel<=0.04045?channel/12.92:((channel+0.055)/1.055)**2.4});
+    return 0.2126*values[0]+0.7152*values[1]+0.0722*values[2];
+  };
+  const contrast=(a:number[],b:number[])=>{const [light,dark]=[luminance(a),luminance(b)].sort((x,y)=>y-x);return (light+0.05)/(dark+0.05)};
+  await page.goto('/');
+  const wordmark=page.locator('.wordmark');
+  await wordmark.focus();
+  const darkStyle=await wordmark.evaluate(node=>{const style=getComputedStyle(node);return {outline:style.outlineColor,width:style.outlineWidth,shadow:style.boxShadow}});
+  expect(darkStyle).toMatchObject({outline:'rgb(255, 253, 246)',width:'3px'});
+  expect(darkStyle.shadow).toContain('rgb(20, 34, 30) 0px 0px 0px 7px');
+  expect(contrast([255,253,246],[22,35,31])).toBeGreaterThanOrEqual(3);
+
+  await page.getByRole('button',{name:'Verify an APK'}).first().click();
+  await page.keyboard.press('Tab');
+  const input=page.getByLabel('Source URL');
+  await expect(input).toBeFocused();
+  const lightStyle=await input.evaluate(node=>{const style=getComputedStyle(node);return {outline:style.outlineColor,width:style.outlineWidth,shadow:style.boxShadow}});
+  expect(lightStyle).toMatchObject({outline:'rgb(255, 253, 246)',width:'3px'});
+  expect(lightStyle.shadow).toContain('rgb(20, 34, 30) 0px 0px 0px 7px');
+  expect(contrast([20,34,30],[247,240,223])).toBeGreaterThanOrEqual(3);
 });
 
 test('manages dialog focus and closes it with Escape',async({page})=>{
@@ -417,6 +457,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v8');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v8']);
+  expect(state.caches).toContain('apk-locker-v9');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v9']);
 });

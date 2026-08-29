@@ -8,6 +8,8 @@
   --teal: #0f6256;
   --red: #a43c32;
   --line: #9dab91;
+  --focus-light: #fffdf6;
+  --focus-dark: #14221e;
   font-family:
     ui-sans-serif,
     system-ui,
@@ -541,7 +543,15 @@ figcaption {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-height: 44px;
+  padding-block: 8px;
   font-size: 0.9rem;
+  cursor: pointer;
+}
+.form .check input {
+  inline-size: 20px;
+  block-size: 20px;
+  flex: 0 0 20px;
 }
 .form .close {
   position: absolute;
@@ -631,8 +641,9 @@ footer a {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible {
-  outline: 3px solid #ff9a6f;
-  outline-offset: 3px;
+  outline: 3px solid var(--focus-light);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 7px var(--focus-dark);
 }
 @keyframes toast {
   0%,

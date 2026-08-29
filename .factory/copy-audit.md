@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-29 after repair 6. Counts treat hyphenated terms, URLs,
+Checked 2026-08-29 after repair 7. Counts treat hyphenated terms, URLs,
 and file names as one word. No audited sentence exceeds 22 words or uses a
 banned marketing term.
 
@@ -46,9 +46,10 @@ banned marketing term.
 | Android download | 2 | Pass |
 | The verifier runs locally with a pinned browser build of the Android-compatible apksig verifier. | 15 | Declared claims: offline-verification, apk-never-uploaded |
 | Android still makes the final install decision. | 7 | Pass |
-| APK SHA-256: `05977905…9470ba0` | 2 | Declared claim: release-assets |
+| Use the versioned SHA256SUMS file to check the APK's SHA-256. | 10 | Declared claim: release-assets |
 | This app is not on Google Play yet. | 8 | Pass |
-| Download the APK and compare its SHA-256 with the value above or SHA256SUMS. | 14 | Pass |
+| Download the APK and its SHA256SUMS file. | 7 | Declared claim: release-assets |
+| Compare the APK's SHA-256 with the matching line in SHA256SUMS. | 10 | Declared claim: release-assets |
 | Allow installs from your browser or file manager when Android asks. | 11 | Pass |
 | Open the APK. | 3 | Pass |
 | Android shows the final install decision. | 6 | Pass |
@@ -78,7 +79,9 @@ banned marketing term.
 | Reset demo and Start for real erase the demo data. | 10 | Declared claim: demo-sandbox |
 | Removing a record first asks for confirmation. | 7 | Declared claim: saved-copy-erasure |
 | Confirming it erases its optional saved copy. | 7 | Declared claim: saved-copy-erasure |
-| These links use the current v0.4.0 release. | 8 | Declared claim: release-assets |
+| These links use the current v0.5.0 release. | 8 | Declared claim: release-assets |
+| Check the APK against its line in the versioned SHA256SUMS file. | 11 | Declared claim: release-assets |
+| Android system backup is disabled for the app's private locker and license storage. | 13 | Declared claim: android-backup-disabled |
 | Locker Plus costs $12 once. | 5 | Declared claims: paid-unlock, hosted-checkout |
 | It adds private device labels for organizing a large locker. | 10 | Declared claim: paid-unlock |
 | Verification, warnings, and restore-kit export remain free. | 7 | Declared claim: paid-unlock |
@@ -98,6 +101,7 @@ banned marketing term.
 
 | Sentence or label | Words | Result |
 | --- | ---: | --- |
+| Android system backup is disabled for the app's private locker and license storage. | 13 | Declared claim: android-backup-disabled |
 | After you confirm Remove, it erases the record and its saved copy. | 12 | Declared claim: saved-copy-erasure |
 | A refunded or revoked license stops private device labels. | 9 | Declared claim: revoked-license |
 | Remove `android.appsecurity.cts.tinyapp`? | 2 | Declared claim: saved-copy-erasure |

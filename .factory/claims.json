@@ -84,6 +84,13 @@
     "sandbox": "Record a fixture in /demo, reload, and assert it persists only in the isolated demo local namespace"
   },
   {
+    "id": "android-backup-disabled",
+    "claim": "Android system backup is disabled for private locker and license storage",
+    "where": "Privacy, README",
+    "test": "npm test -- --grep @claim:android-backup-disabled",
+    "sandbox": "Open /demo, inspect the Android source manifest, and assert backup and full-backup content are disabled; the release workflow repeats the assertion against the packaged manifest"
+  },
+  {
     "id": "saved-copy-erasure",
     "claim": "Remove erases a record and its saved APK copy",
     "where": "Remove notice, Privacy, README",
@@ -127,7 +134,7 @@
   },
   {
     "id": "release-assets",
-    "claim": "The landing page links directly to the v0.4.0 APK, AAB, and SHA256SUMS assets",
+    "claim": "The landing page links directly to the v0.5.0 APK, AAB, and SHA256SUMS assets",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
     "sandbox": "Assert deterministic GitHub release-asset URLs and that page load makes no GitHub API request"

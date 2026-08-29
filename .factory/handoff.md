@@ -1,99 +1,140 @@
 # APK Provenance Locker repair handoff
 
-## Repair scope
+## Result
 
-Repaired the release blockers independently recorded for candidate
-`cd2b886d5de512311eb87b9174e217a62935d3f0`:
+All release-blocking findings in `.factory/verification.md` and
+`.factory/verification-2.md` were repaired for work order
+`apk-provenance-locker-repair-2`. The repaired web app is live at
+<https://apk-provenance-locker.sociobot.in>. Android v0.2.0 is published at
+<https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/tag/v0.2.0>.
 
-- Claim commands now run exactly as written in `claims.json`. Each is a
-  Playwright sandbox test of the shipped UI, not a helper-only test.
-- Replaced the spread-based base64 conversion with bounded chunks. The browser
-  regression test exports a saved 12 MiB APK into an encrypted `.locker` file.
-- Recording now rejects non-ZIP files, malformed ZIP directories, and archives
-  missing `AndroidManifest.xml`. The UI and README accurately distinguish
-  structural checks/certificate evidence from Android's cryptographic install
-  signature verification; no v1/v2/v3 cryptographic-verification claim remains.
-- Demo and real saved bytes use separate IndexedDB databases. Reset/leave-demo
-  deletes the demo database; Remove deletes the corresponding real saved copy.
-- Demo sample records no longer falsely claim that an APK copy is included.
-  Record cards expose source URL, full hash, and full certificate fingerprint.
-  A lower user-entered version produces a downgrade warning.
-- Removed the unavailable $12 checkout and license path, including the unsafe
-  cross-origin service-worker cache behavior. The service worker is same-origin
-  only, precaches its shell, deletes old caches, and surfaces an update reload.
-- The Android download area uses the GitHub release API and degrades to an
-  honest publishing state. Tag `v0.1.1` triggers the Android workflow, which
-  uses `npx cap copy android` before release APK/AAB assets and `SHA256SUMS`.
-- Added a designed `404.html`, response/security/cache headers, mobile touch
-  target fixes, keyboard route-heading focus, and a dependency override that
-  eliminates the prior audit findings while retaining Capacitor 6.
+The implementation commit is `b9cec221d496f28644d35d03eb3d07724fb8d311`.
 
-## Verification evidence
+## Reproduction and root causes
 
-Run from a clean checkout:
+Before editing, the candidate reproduced the verification-2 evidence:
+
+- GitHub `releases/latest` returned 404. The live page logged that failed
+  request on every load.
+- Initial focus was the `h1`; the first Tab skipped the skip link and header.
+- `/this-route-does-not-exist` returned 200.
+- `/manifest.webmanifest` returned `application/octet-stream`.
+- The v0.1.1 Android Action had failed. Its log showed Capacitor's generated
+  `cordova.variables.gradle` was missing. `cap copy` did not generate it.
+- Claim commands exited green, but the browser tests did not inspect the exact
+  hash, downloaded ciphertext, decryption result, passwords, or saved bytes.
+- The web code read certificate bytes without cryptographic verification and
+  compared user-entered version strings while public copy implied more.
+
+## Repairs
+
+- Removed the automatic `api.github.com` call. The landing page now has fixed
+  v0.2.0 APK, AAB, and SHA256SUMS release links. GitHub is contacted only when
+  a visitor selects a download.
+- Published real APK/AAB/checksum assets through the corrected Android Action.
+  The Action now uses `cap sync`, validates package id/version and archive
+  structure, runs `apksigner`, checks both packages exceed 1 MB, then publishes.
+- Kept Capacitor 6 and audited tar 7. A narrow postinstall compatibility shim
+  repairs Capacitor 6's removed tar default-export assumption so clean syncs
+  work without restoring the vulnerable tar release.
+- Narrowed every signer and version promise to the browser's actual behavior.
+  The UI now says certificate bytes are unverified, v1 and v3 lineage are not
+  read, names/versions are user notes, and Android decides install/downgrade
+  compatibility. The ZIP/local-header checks were strengthened.
+- Replaced weak claim checks with exact browser outcomes. Coverage now includes
+  a known complete SHA-256, a deterministic v2/v3 evidence fixture, 12 MiB
+  encrypted export plus decryption, plaintext exclusion, password non-storage,
+  real IndexedDB deletion, demo database deletion, and request capture.
+- Closed IndexedDB handles after transactions and prevented navigation until
+  demo storage deletion completes.
+- Removed the catch-all navigation fallback. Only `/`, `/demo`, `/privacy`, and
+  `/terms` rewrite to the SPA; the deployed response override now returns the
+  designed 404 with HTTP 404.
+- Added the `.webmanifest` MIME mapping and tightened CSP `connect-src` to
+  `'self'`. The 404 page no longer needs inline styles.
+- Removed initial heading focus. The skip link is the first Tab stop; client
+  route changes still focus the new `h1`.
+- The service worker now discovers and precaches hashed Vite assets and ignores
+  response `Vary` differences during offline cache matching.
+
+## Clean local verification
+
+Run:
 
 ```sh
 npm ci
 npm run lint
 npm test
 npm run build
-npx cap copy android
-npm audit
+npx cap sync android
+npm audit --omit=dev
 ```
 
-Verified in this worker on 2026-08-29:
+Evidence from 2026-08-29 UTC:
 
-- `npm ci`: completed; `npm audit`: 0 vulnerabilities.
-- `npm run lint`: passed.
-- `npm test`: 6 Vitest tests and 8 Playwright tests passed. Browser coverage
-  includes every claim command, 12 MiB export/download, malformed APK rejection,
-  demo/real storage isolation and deletion, 390×844 layout, 44px control height,
-  keyboard focus route change, and offline `/demo` reload after first visit.
-- `npm run build`: passed; `dist/` created. Initial JS is 21.46 KB raw / 7.95
-  KB gzip; CSS is 9.14 KB raw / 2.87 KB gzip.
-- Axe (`@axe-core/playwright`) scanned `/`, `/demo`, `/privacy`, and `/terms`
-  at 390px with zero violations. The same test asserts no horizontal overflow.
-- `npx cap copy android`: passed. A JDK is not installed in this worker, so the
-  APK is built in the committed GitHub Actions Android release workflow.
+- `npm ci`: 188 packages; full install audit reported 0 vulnerabilities.
+- `npm run lint`: TypeScript passed.
+- `npm test`: 9 unit/config tests and 14 Playwright tests passed.
+- Every one of the 11 exact commands in `.factory/claims.json` passed alone.
+- `npm run build`: `dist/` produced. Initial JS is 23.58 KB raw / 8.62 KB
+  gzip. CSS is 9.44 KB raw / 2.93 KB gzip.
+- `npx cap sync android`: copy and native update passed.
+- Browser checks at 1440×900 and 390×844: `/`, `/demo`, `/privacy`, and
+  `/terms` each had one `h1`, one `main`, zero overflow, zero console errors,
+  zero automatic third-party requests, and zero axe violations.
+- At 200% root text size, the 390px routes had no horizontal overflow. All
+  tested nav, footer, and demo-banner targets remain at least 44px high.
+- Keyboard: initial active element is `BODY`; first Tab reaches “Skip to
+  content”; client navigation focuses the destination `h1`.
+- Reduced-motion checks found no non-zero animation or transition durations.
+- Offline: `/demo` reloaded with sample records after the browser HTTP cache was
+  disabled and the context was taken offline.
+- Live Lighthouse 12.8.2: Performance 100, Accessibility 100, Best Practices
+  100, SEO 100; FCP 0.8 s, LCP 1.2 s, CLS 0, TBT 30 ms.
 
-## Deployment and release
+## Android release evidence
 
-The static deploy root remains `dist/`. Push the repair commit to `main` for
-the configured static deployment, then push tag `v0.1.1`; `.github/workflows/
-android.yml` creates the signed-with-ephemeral-debug-key APK, AAB, and
-`SHA256SUMS` GitHub release. The landing page will resolve that release through
-the GitHub API once it is published.
+GitHub Action run `33236279287` completed successfully. Its package check found
+`in.sociobot.apk_provenance_locker`, version code `2`, version `0.2.0`.
+`apksigner` reported one signer and valid v1 and v2 signatures.
 
-Repair commit `5af10cafa4f26408eb7a9344f52276795ec64241` and tag `v0.1.1`
-were pushed to `origin`; the Android workflow was observed in progress. At the
-last live check, the static endpoint still returned the pre-repair HTML hash
-`8d0df902957a27c466988515fd8baea6b4f75b6e240ee6dc9b1e91c4bd522a6d`, and
-the direct APK asset URL returned 404. This worker has no separate static-host
-credential or deployment command beyond the configured git push, so confirm
-the factory deployment and workflow artifacts before announcing the release.
+Public downloads were fetched again through the landing-page URLs:
 
-## Known limitation
+| Asset | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `app-release.apk` | 3,929,072 | `6608a8371086c3fa17ac87036a9748e5801542ad9d2302ce89539c0aea44a7ec` |
+| `app-release.aab` | 3,749,635 | `78134ef4b24f4730c109e8782b5a7573002adf15b72ad824c9e4ae6f4f2207fb` |
+| `SHA256SUMS` | 164 | Contains both values above; `sha256sum -c` passed |
 
-This local-first web app validates the APK container and records a local hash
-and readable v2/v3 certificate fingerprint. It deliberately does not present
-that as cryptographic Android signature verification or v1 support; Android's
-package installer remains the signature authority. A future native verifier can
-add `apksigner`-equivalent verification only if it retains this clear boundary.
+The APK contains `AndroidManifest.xml` and bundled `assets/public/index.html`.
+The AAB contains `base/manifest/AndroidManifest.xml` and the bundled web app.
 
-## Independent verification 2026-08-29 — FAIL
+## Production deployment and identity
 
-Candidate `4f477352bc21bd77cb7078a15a4f4ba04bcddc03` was independently tested
-against <https://apk-provenance-locker.sociobot.in>. The live build exactly
-matches the candidate's HTML/JS/CSS hashes. **Do not release.**
+Built `dist/` was deployed to the `sf-apk-provenance-locker` Azure Static Web
+Apps production environment. Live checks returned:
 
-The exact claim commands, full test suite, type check, and production build
-pass, and the one-click demo, encrypted export/validation, offline reload, and
-axe route scan work. However, the GitHub latest-release endpoint is HTTP 404:
-there is no downloadable APK/AAB/checksum and each landing/demo load logs a
-console 404 error. More importantly, the product only parses a ZIP container
-and selected readable v2/v3 signing-block bytes; it has no v1 verification,
-v2/v3 cryptographic verification, v3 lineage handling, or reliable APK-derived
-package/version downgrade safety required by the researched brief. Claim tests
-also do not substantively prove several advertised outcomes. See
-`.factory/verification-2.md` for exact commands, hashes, headers, QA evidence,
-and all defects by severity.
+- `/`, `/demo`, `/privacy`, `/terms`: HTTP 200.
+- unknown path: HTTP 404 with the designed page and zero axe violations.
+- `/manifest.webmanifest`: HTTP 200, `application/manifest+json`.
+- CSP has `connect-src 'self'` and `frame-ancestors 'none'`; HSTS, nosniff,
+  strict-origin referrer policy, and permissions policy are present.
+- APK, AAB, and SHA256SUMS direct URLs: HTTP 200.
+
+Deployed build identity matches local `dist/` exactly:
+
+| File | SHA-256 |
+| --- | --- |
+| `index.html` | `01966cae33b557ce6997b953267622431eda945defbb7bcfc7d807b6e645ab8a` |
+| `assets/index-CqPAtxi8.js` | `1df303431278d5ad4fa7ca643c8b22ff29cfc94989fff3ad02eded64d6bb3fbb` |
+| `assets/style-vLxLalKb.css` | `ce518c7b1b2d7c840d35f9ac0ac4b0cd0e56d56f7e89ab5d5952ee234b7bce4e` |
+
+## Known boundary
+
+The browser records hashes and limited, unverified v2/v3 certificate evidence;
+it is not an APK signature verifier. This boundary is now explicit everywhere.
+The public Android package itself is verified by `apksigner` during release.
+
+The workflow creates a release-specific test key as required by the Android
+work order. A future store build needs the owner's stable upload key, and direct
+sideload upgrades across differently keyed releases may require reinstalling.

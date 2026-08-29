@@ -38,6 +38,15 @@ describe('deployment and Android release configuration',()=>{
     expect(app.match(/Verification, signer and downgrade warnings, and restore-kit export stay free\./g)).toHaveLength(3);
   });
 
+  it('registers the versioned download fallback as an observable claim',()=>{
+    const claims=JSON.parse(readFileSync('.factory/claims.json','utf8')) as Array<{id:string;claim:string;where:string}>;
+    expect(claims).toContainEqual(expect.objectContaining({
+      id:'release-fallback',
+      claim:'Keeps versioned download links available when GitHub release metadata is unavailable',
+      where:'Landing download status, README',
+    }));
+  });
+
   it('serves only known SPA routes and lets unknown routes reach the real 404 override',()=>{
     const config=JSON.parse(readFileSync('public/staticwebapp.config.json','utf8'));
     expect(config.navigationFallback).toBeUndefined();
@@ -59,12 +68,12 @@ describe('deployment and Android release configuration',()=>{
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v17'");
+    expect(worker).toContain("CACHE='apk-locker-v18'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
 
-  it('builds v0.5.7 packages only from the matching tag and audits downloaded immutable provenance',()=>{
+  it('builds v0.5.8 packages only from the matching tag and audits downloaded immutable provenance',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
     const manifest=readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
     const backupRules=readFileSync('android/app/src/main/res/xml/backup_rules.xml','utf8');
@@ -75,7 +84,7 @@ describe('deployment and Android release configuration',()=>{
     expect(workflow).toContain('test "$(git rev-parse HEAD)" = "$GITHUB_SHA"');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.aab "base/assets/public/${FILE#dist/}")');
-    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='12' versionName='0.5.7'");
+    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='13' versionName='0.5.8'");
     expect(workflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:fullBackupContent' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:dataExtractionRules' packaged-manifest.txt");
@@ -116,7 +125,7 @@ describe('deployment and Android release configuration',()=>{
     expect(page).toContain('href="/terms">Terms</a>');
   });
 
-  it('keeps reviewed visitor copy concrete and discloses the published Android package',()=>{
+  it('keeps reviewed visitor copy concrete, plain, and within the sentence limit',()=>{
     const app=readFileSync('src/main.ts','utf8');
     const readme=readFileSync('README.md','utf8');
     expect(app).toContain('Local APK verification');
@@ -126,7 +135,13 @@ describe('deployment and Android release configuration',()=>{
     expect(app).toContain('Records and saved APK copies stay on this device.');
     expect(app).not.toContain('Original generated paper-cut art.');
     expect(`${app}\n${readme}`).not.toContain('release-specific test key');
-    expect(app).toContain('Use SHA256SUMS and the provenance record to check the package and its immutable source commit.');
+    expect(app).toContain('Use SHA256SUMS to check the files. Use the source record to confirm which repository commit built them.');
+    expect(app).toContain('Download source record from GitHub');
+    expect(app).toContain('Choose a file to check its signature, package name, and version.');
+    expect(app).toContain('It reads the package name and version from the APK.');
+    expect(`${app}\n${readme}`).not.toContain('signature and identity');
+    expect(`${app}\n${readme}`).not.toContain('compiled Android manifest');
+    expect(`${app}\n${readme}`).not.toContain('compiled `AndroidManifest.xml`');
     expect(app).toContain('SHA-256 file fingerprint before a reinstall.');
     expect(app).toContain('creates a SHA-256 file fingerprint on this device.');
     expect(`${app}\n${readme}`).not.toContain('05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0');
@@ -138,8 +153,22 @@ describe('deployment and Android release configuration',()=>{
     expect(readme).toContain('## Develop and verify APK Provenance Locker');
     expect(readme).toContain('## Deploy APK Provenance Locker');
     expect(readme).toContain('The demo keeps its records\nand files separate from your real locker.');
-    expect(readme).toContain('confirms that the tag, release notes, provenance, and both packages name this\nrepository commit.');
+    expect(readme).toContain('APK, AAB, checksums, and source record from GitHub.');
+    expect(readme).toContain('When GitHub metadata is unavailable, versioned download links remain available.');
     expect(readme).not.toContain('demo-exit erasure path');
     expect(readme).not.toContain('source identity');
+    for(const sentence of [
+      'After a release is published, run `npm run test:release`.',
+      'It downloads the APK, AAB, checksums, and source record from GitHub.',
+      'It checks that the tag, release notes, source record, and both packages name this repository commit.',
+    ])expect(sentence.split(/\s+/).length).toBeLessThanOrEqual(22);
+  });
+
+  it('stores outgoing scroll, moves client routes to the top, and restores Back positions',()=>{
+    const app=readFileSync('src/main.ts','utf8');
+    expect(app).toContain("history.scrollRestoration='manual'");
+    expect(app).toContain('history.replaceState({...((history.state||{}) as RouteState),scrollY:window.scrollY}');
+    expect(app).toContain("history.pushState({scrollY:0} satisfies RouteState,'',href)");
+    expect(app).toContain('window.addEventListener(\'popstate\',()=>render(true,storedScroll()))');
   });
 });

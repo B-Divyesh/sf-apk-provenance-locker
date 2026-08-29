@@ -21,7 +21,7 @@ const lineageFixture=resolve('tests/fixtures/v1v2v3-lineage.apk');
 const v1Fixture=resolve('tests/fixtures/v1-only-rsa-2048.apk');
 const invalidLineageFixture=resolve('tests/fixtures/v1v2v3-invalid-lineage.apk');
 const fixturePackage='android.appsecurity.cts.tinyapp';
-const releaseVersion='0.5.7';
+const releaseVersion='0.5.8';
 const releaseTag=`v${releaseVersion}`;
 const releaseCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 const latestReleaseApi='https://api.github.com/repos/B-Divyesh/sf-apk-provenance-locker/releases/latest';
@@ -357,26 +357,28 @@ test('@claim:apk-never-uploaded processes a real APK without sending its bytes o
   expect(errors).toEqual([]);
 });
 
-test('@claim:release-assets binds API release metadata and four assets to this immutable source commit',async({page})=>{
+test('@claim:release-assets binds API release metadata and four assets to this source commit',async({page})=>{
   const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/demo');
-  await expect(page.locator('[data-release-status]')).toHaveText(`${releaseTag} matches source ${releaseCommit.slice(0,12)}. APK 5.3 MB · AAB 5.1 MB.`);
+  await expect(page.locator('[data-release-status]')).toHaveText(`${releaseTag} matches source ${releaseCommit.slice(0,12)}.`);
   await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/app-release\\.apk$`));
   await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/app-release\\.aab$`));
   await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/SHA256SUMS$`));
-  await expect(page.getByRole('link',{name:'Download release provenance from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/RELEASE_PROVENANCE\\.json$`));
-  await expect(page.getByText('Use SHA256SUMS and the provenance record to check the package and its immutable source commit.')).toBeVisible();
+  await expect(page.getByRole('link',{name:'Download source record from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/RELEASE_PROVENANCE\\.json$`));
+  await expect(page.getByText('Use SHA256SUMS to check the files. Use the source record to confirm which repository commit built them.')).toBeVisible();
   await expect(page.getByText(/Google Play/)).toHaveCount(0);
   expect(requests.filter(url=>url===latestReleaseApi)).toHaveLength(1);
 });
 
-test('keeps immutable versioned release links when GitHub metadata is unavailable',async({page})=>{
+test('@claim:release-fallback keeps four versioned release links when GitHub metadata is unavailable',async({page})=>{
   await page.unroute(latestReleaseApi);
   await page.route(latestReleaseApi,route=>route.fulfill({status:503,contentType:'application/json',body:'{}'}));
   await page.goto('/demo');
   await expect(page.locator('[data-release-status]')).toHaveText(`GitHub metadata is unavailable. Versioned ${releaseTag} links remain available.`);
   await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/app-release\\.apk$`));
-  await expect(page.getByRole('link',{name:'Download release provenance from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/RELEASE_PROVENANCE\\.json$`));
+  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/app-release\\.aab$`));
+  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/SHA256SUMS$`));
+  await expect(page.getByRole('link',{name:'Download source record from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/RELEASE_PROVENANCE\\.json$`));
 });
 
 test('publishes a build identity for the exact source commit',async({request})=>{
@@ -593,6 +595,23 @@ test('opens sample records above the fold from the first-screen demo action',asy
   expect((await record.boundingBox())?.y||Infinity).toBeLessThan(844);
 });
 
+test('moves client routes to their heading and restores the exact Back scroll position',async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('/');
+  await expect(page.locator('[data-release-status]')).toContainText(`${releaseTag} matches source`);
+  const departedAt=await page.evaluate(async()=>{const root=document.documentElement,style=root.style.scrollBehavior;root.style.scrollBehavior='auto';window.scrollTo(0,root.scrollHeight);await new Promise(requestAnimationFrame);root.style.scrollBehavior=style;return window.scrollY});
+  expect(departedAt).toBeGreaterThan(0);
+  await page.getByRole('contentinfo').getByRole('link',{name:'Privacy'}).click();
+  await expect(page).toHaveURL(/\/privacy$/);
+  await expect.poll(()=>page.evaluate(()=>window.scrollY)).toBe(0);
+  await expect(page.getByRole('heading',{level:1})).toBeFocused();
+  expect((await page.getByRole('heading',{level:1}).boundingBox())?.y||-1).toBeGreaterThanOrEqual(0);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+  await expect.poll(()=>page.evaluate(()=>window.scrollY)).toBe(departedAt);
+  await expect(page.getByRole('heading',{level:1})).toBeFocused();
+});
+
 test('recorded evidence reflows long release identity and source at 390px and 200% text',async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto('/demo');
@@ -600,7 +619,7 @@ test('recorded evidence reflows long release identity and source at 390px and 20
     const key='demo:apk-locker:records';
     const records=JSON.parse(localStorage.getItem(key)!);
     records[0].packageName='in.sociobot.apk_provenance_locker';
-    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.7/in.sociobot.apk_provenance_locker/app-release.apk';
+    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.8/in.sociobot.apk_provenance_locker/app-release.apk';
     localStorage.setItem(key,JSON.stringify(records));
   });
   await page.reload();
@@ -674,6 +693,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v17');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v17']);
+  expect(state.caches).toContain('apk-locker-v18');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v18']);
 });

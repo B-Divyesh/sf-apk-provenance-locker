@@ -8,10 +8,10 @@
   },
   {
     "id": "signature-verification",
-    "claim": "Cryptographically verifies APK v1, v2, and v3 signatures and v3 signer lineage on this device",
+    "claim": "Cryptographically verifies APK v1, v2, and v3 signatures and v3 signing history on this device",
     "where": "Landing workflow, record card, evidence dialog, README",
     "test": "npm test -- --grep @claim:signature-verification",
-    "sandbox": "Select Android apksig's v1/v2/v3 fixture with a three-certificate lineage; assert every scheme and lineage node is verified"
+    "sandbox": "Select Android apksig's v1/v2/v3 fixture with a three-certificate signing history; assert every scheme and signing-history node is verified"
   },
   {
     "id": "v1-verification",
@@ -50,14 +50,14 @@
   },
   {
     "id": "signer-drift",
-    "claim": "Warns when a package signer is outside the previously verified signer lineage",
+    "claim": "Warns when a package signer is outside the previously verified signing history",
     "where": "Record workflow, README",
     "test": "npm test -- --grep @claim:signer-drift",
     "sandbox": "Record a verified package with an unrelated prior signer, select its signed APK, and assert the signer-change warning"
   },
   {
     "id": "apk-structure",
-    "claim": "Requires a signed APK archive containing compiled AndroidManifest.xml",
+    "claim": "Requires a signed APK archive with package and version details",
     "where": "Landing workflow, record dialog, Terms, README",
     "test": "npm test -- --grep @claim:apk-structure",
     "sandbox": "Select non-ZIP bytes and an inconsistent local/central ZIP entry; assert both are rejected"
@@ -67,7 +67,7 @@
     "claim": "Exports password-encrypted records and optional saved APK copies",
     "where": "Landing facts and workflow, export dialog, README",
     "test": "npm test -- --grep @claim:encrypted-export",
-    "sandbox": "Export a saved signed APK; assert plaintext package data is absent and the supplied password opens it with matching hash, signature, identity, and signer"
+    "sandbox": "Export a saved signed APK; assert plaintext package data is absent and the supplied password opens it with matching fingerprint, signature, package, version, and signer"
   },
   {
     "id": "password-not-stored",
@@ -134,10 +134,17 @@
   },
   {
     "id": "release-assets",
-    "claim": "The landing page binds v0.5.7 APK, AAB, checksums, and provenance links to this source commit",
+    "claim": "The landing page binds v0.5.8 APK, AAB, checksums, and source-record links to this source commit",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
-    "sandbox": "Mock the GitHub latest-release API with this build commit; assert all four immutable asset URLs, commit status, and one metadata request"
+    "sandbox": "Mock the GitHub latest-release API with this build commit; assert all four versioned asset URLs, commit status, and one metadata request"
+  },
+  {
+    "id": "release-fallback",
+    "claim": "Keeps versioned download links available when GitHub release metadata is unavailable",
+    "where": "Landing download status, README",
+    "test": "npm test -- --grep @claim:release-fallback",
+    "sandbox": "From /demo, return 503 for the GitHub latest-release API and assert the fallback status plus versioned APK, AAB, checksum, and source-record links"
   },
   {
     "id": "paid-unlock",

@@ -1,1 +1,1 @@
-Verify APK signatures and record file fingerprints before a reinstall.
+Check APK signatures and record file fingerprints before reinstalling.

@@ -56,6 +56,8 @@ describe('deployment and Android release configuration',()=>{
   it('builds v0.5.0 packages only from the matching tag and audits packaged identity, privacy, and removal safety',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
     const manifest=readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
+    const backupRules=readFileSync('android/app/src/main/res/xml/backup_rules.xml','utf8');
+    const extractionRules=readFileSync('android/app/src/main/res/xml/data_extraction_rules.xml','utf8');
     expect(workflow).toContain('npx cap sync android');
     expect(workflow).toContain('apksigner');
     expect(workflow).toContain('test "$GITHUB_REF_NAME" = "$EXPECTED_TAG"');
@@ -64,12 +66,18 @@ describe('deployment and Android release configuration',()=>{
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.aab "base/assets/public/${FILE#dist/}")');
     expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='5' versionName='0.5.0'");
     expect(workflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
-    expect(workflow).toContain("grep -q 'android:fullBackupContent.*0x0' packaged-manifest.txt");
+    expect(workflow).toContain('res/xml/backup_rules.xml');
+    expect(workflow).toContain('res/xml/data_extraction_rules.xml');
     expect(workflow).toContain("grep -q 'Keep record' packaged-app.js");
     expect(workflow).toContain("grep -q 'Remove record' packaged-app.js");
     expect(manifest).toMatch(/android:allowBackup="false"/);
-    expect(manifest).toMatch(/android:fullBackupContent="false"/);
+    expect(manifest).toMatch(/android:fullBackupContent="@xml\/backup_rules"/);
+    expect(manifest).toMatch(/android:dataExtractionRules="@xml\/data_extraction_rules"/);
     expect(manifest).not.toMatch(/android:allowBackup="true"/);
+    for(const domain of ['root','file','database','sharedpref','external']){
+      expect(backupRules).toContain(`<exclude domain="${domain}" path="." />`);
+      expect(extractionRules.match(new RegExp(`<exclude domain="${domain}" path="\\." />`,'g'))).toHaveLength(2);
+    }
     expect(workflow).toContain('SHA256SUMS');
     expect(readFileSync('vite.config.ts','utf8')).toContain("fileName:'build.json'");
   });

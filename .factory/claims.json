@@ -85,10 +85,10 @@
   },
   {
     "id": "android-backup-disabled",
-    "claim": "Android system backup is disabled for private locker and license storage",
+    "claim": "Android system backup and device transfer are disabled for installed-app data",
     "where": "Privacy, README",
     "test": "npm test -- --grep @claim:android-backup-disabled",
-    "sandbox": "Open /demo, inspect the Android source manifest, and assert backup and full-backup content are disabled; the release workflow repeats the assertion against the packaged manifest"
+    "sandbox": "Open /demo, then assert the Android manifest disables backup, both Android rule formats exclude every app-data domain, and the release workflow inspects those rules in the package"
   },
   {
     "id": "saved-copy-erasure",

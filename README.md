@@ -50,8 +50,7 @@ fixtures and their exact checksums are in `tests/fixtures`.
 
 These links use the current `v0.5.0` release. Check the APK against its line in
 the versioned `SHA256SUMS` file. A store release needs the owner's upload key.
-It is not on Google Play yet. Android system backup is disabled for the app's
-private locker and license storage.
+It is not on Google Play yet.
 
 ## Optional Locker Plus
 
@@ -64,6 +63,7 @@ labels. Verification remains free.
 ## Privacy and license
 
 Records and optional APK copies stay in browser or installed-app storage.
+Android system backup and device transfer are disabled for installed-app data.
 Recording, checking, and exporting send no APK data or record content over the
 network. There are no analytics, advertising, or accounts. The free locker
 makes no automatic third-party requests. Download links contact GitHub only

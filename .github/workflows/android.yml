@@ -52,7 +52,12 @@ jobs:
           "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='5' versionName='0.5.0'"
           "$AAPT" dump xmltree app-release.apk AndroidManifest.xml > packaged-manifest.txt
           grep -q 'android:allowBackup.*0x0' packaged-manifest.txt
-          grep -q 'android:fullBackupContent.*0x0' packaged-manifest.txt
+          "$AAPT" dump xmltree app-release.apk res/xml/backup_rules.xml > packaged-backup-rules.txt
+          "$AAPT" dump xmltree app-release.apk res/xml/data_extraction_rules.xml > packaged-extraction-rules.txt
+          for DOMAIN in root file database sharedpref external; do
+            grep -q "domain.*$DOMAIN" packaged-backup-rules.txt
+            test "$(grep -c "domain.*$DOMAIN" packaged-extraction-rules.txt)" -eq 2
+          done
           "$APKSIGNER" verify --verbose --print-certs app-release.apk
           while IFS= read -r FILE; do
             cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")

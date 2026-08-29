@@ -9,9 +9,9 @@ release `v0.5.0`:
    (code 5). The workflow compares every `dist/` file with both the APK and
    AAB, checks embedded `build.json`, and requires the packaged **Keep record**
    and **Remove record** confirmation copy before publication.
-2. Android backup and full-backup content are disabled. Locker records, saved
-   APK bytes, and the Plus token are therefore excluded from Android system
-   backup and device transfer.
+2. Android backup is disabled, and both the legacy and Android 12 extraction
+   rules exclude every private app-data domain from cloud backup and device
+   transfer. This covers locker records, saved APK bytes, and the Plus token.
 3. Focus uses a 3 px paper ring plus a 7 px ink ring. The light ring contrasts
    15.94:1 with night ink; the dark ring contrasts 14.47:1 with warm pulp and
    12.84:1 with moss paper.
@@ -38,7 +38,7 @@ and pale surfaces, and sizing only the checkbox glyph instead of its label.
 
 - `.factory/claims.json` now includes
   `@claim:android-backup-disabled`. It asserts both native backup flags and the
-  packaged-manifest workflow checks.
+  legacy/Android 12 exclusion rules, plus the packaged workflow checks.
 - The release configuration test requires v0.5.0/code 5, exact APK and AAB web
   byte comparisons, packaged backup flags, and both confirmation actions.
 - Browser coverage measures the checkbox label at 1440 px and 390 px and

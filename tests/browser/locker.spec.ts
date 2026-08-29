@@ -123,13 +123,21 @@ test('@claim:local-storage persists a demo record across reloads without writing
 
 test('@claim:android-backup-disabled keeps private installed-app storage out of Android backup and transfer',async({page})=>{
   await page.goto('/demo');
-  const manifest=(await readFile(resolve('android/app/src/main/AndroidManifest.xml'))).toString();
+  const manifest=await readFile(resolve('android/app/src/main/AndroidManifest.xml'),'utf8');
+  const backupRules=await readFile(resolve('android/app/src/main/res/xml/backup_rules.xml'),'utf8');
+  const extractionRules=await readFile(resolve('android/app/src/main/res/xml/data_extraction_rules.xml'),'utf8');
   const releaseWorkflow=(await readFile(resolve('.github/workflows/android.yml'))).toString();
   expect(manifest).toContain('android:allowBackup="false"');
-  expect(manifest).toContain('android:fullBackupContent="false"');
+  expect(manifest).toContain('android:fullBackupContent="@xml/backup_rules"');
+  expect(manifest).toContain('android:dataExtractionRules="@xml/data_extraction_rules"');
   expect(manifest).not.toContain('android:allowBackup="true"');
   expect(releaseWorkflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
-  expect(releaseWorkflow).toContain("grep -q 'android:fullBackupContent.*0x0' packaged-manifest.txt");
+  for(const domain of ['root','file','database','sharedpref','external']){
+    expect(backupRules).toContain(`<exclude domain="${domain}" path="." />`);
+    expect(extractionRules.match(new RegExp(`<exclude domain="${domain}" path="\\." />`,'g'))).toHaveLength(2);
+  }
+  expect(releaseWorkflow).toContain('res/xml/backup_rules.xml');
+  expect(releaseWorkflow).toContain('res/xml/data_extraction_rules.xml');
 });
 
 test('@claim:saved-copy-erasure confirms removal before erasing demo metadata and saved APK bytes',async({page})=>{

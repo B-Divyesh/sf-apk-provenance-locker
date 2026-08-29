@@ -81,7 +81,7 @@ banned marketing term.
 | Confirming it erases its optional saved copy. | 7 | Declared claim: saved-copy-erasure |
 | These links use the current v0.5.0 release. | 8 | Declared claim: release-assets |
 | Check the APK against its line in the versioned SHA256SUMS file. | 11 | Declared claim: release-assets |
-| Android system backup is disabled for the app's private locker and license storage. | 13 | Declared claim: android-backup-disabled |
+| Android system backup and device transfer are disabled for installed-app data. | 11 | Declared claim: android-backup-disabled |
 | Locker Plus costs $12 once. | 5 | Declared claims: paid-unlock, hosted-checkout |
 | It adds private device labels for organizing a large locker. | 10 | Declared claim: paid-unlock |
 | Verification, warnings, and restore-kit export remain free. | 7 | Declared claim: paid-unlock |
@@ -101,7 +101,7 @@ banned marketing term.
 
 | Sentence or label | Words | Result |
 | --- | ---: | --- |
-| Android system backup is disabled for the app's private locker and license storage. | 13 | Declared claim: android-backup-disabled |
+| Android system backup and device transfer are disabled for installed-app data. | 11 | Declared claim: android-backup-disabled |
 | After you confirm Remove, it erases the record and its saved copy. | 12 | Declared claim: saved-copy-erasure |
 | A refunded or revoked license stops private device labels. | 9 | Declared claim: revoked-license |
 | Remove `android.appsecurity.cts.tinyapp`? | 2 | Declared claim: saved-copy-erasure |

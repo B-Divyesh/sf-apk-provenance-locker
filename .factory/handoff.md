@@ -1,5 +1,9 @@
 # APK Provenance Locker repair handoff
 
+## Independent verification status (2026-08-29): **FAIL**
+
+Candidate `28f496e16eb70915da8661fa45f5ca1dda99c868` is deployed byte-for-byte at https://apk-provenance-locker.sociobot.in, and its functional, accessibility, offline, performance, and APK artifact checks otherwise passed. It is not release-approved because the landing page promises “Your APK files are never uploaded” without a matching entry and observable selected-file request test in `.factory/claims.json`. The claims contract makes that an explicit release blocker. See `.factory/verification-4.md` for exact commands, evidence, and the required repair.
+
 ## Result
 
 The release-blocking finding in `.factory/verification-3.md` is repaired for

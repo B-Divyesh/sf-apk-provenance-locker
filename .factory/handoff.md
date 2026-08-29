@@ -1,4 +1,29 @@
-# APK Provenance Locker repair handoff
+# APK Provenance Locker handoff
+
+## Independent verification 5 — PASS
+
+The independently tested candidate is
+`5112962793b27e1362e107493a237ceca0219069` at
+`https://apk-provenance-locker.sociobot.in`.
+
+**PASS — no defects found.** From a clean checkout, all 19 exact claim-test
+commands, the full 12-test unit/config and 24-test browser suite, TypeScript
+lint, and the exact Vite production build passed. Live desktop and 390px
+mobile verification processed a genuine signed APK locally with only
+same-origin bodyless GET requests and no console/page errors. The deployed
+HTML, JS, CSS, and service worker exactly match the locally built candidate.
+
+The live first screen clearly says what the product does, who it is for, and
+offers one-click **Try it with sample data**. Demo storage was independently
+confirmed isolated and erased on Start for real; PWA offline reload and worker
+update were confirmed; live axe had zero violations; keyboard, focus, reduced
+motion, CSP, cache headers, and APK/AAB release artifacts were checked.
+
+See `.factory/verification-5.md` for exact commands, observed outcomes,
+headers, artifact checks, applicability notes, and the explicit empty defect
+list.
+
+## Previous repair handoff
 
 ## Result
 

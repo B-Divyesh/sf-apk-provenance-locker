@@ -1,3 +1,23 @@
+# Independent verification 10 handoff — PASS
+
+Candidate `c5865bba6cf1833f5662e1c1ecdbe1104836bf0f` is accepted. Fresh QA
+passed every one of the 23 declared claim tests, all available unit/browser/
+type/build checks, live desktop and 390 px flows, a real released-APK
+verification/export/restore flow, a 20-record encrypted restore validation,
+offline reload and verification, accessibility, headers, privacy request logs,
+and rate-limit behavior. The live build identity and all deployed web assets
+byte-match this candidate. See `.factory/verification-10.md` for exact command
+results and evidence.
+
+The v0.5.1 APK/AAB are valid and match their published checksums. They are
+built from tagged parent `8fbbb02623dd765d341f4cdfdf6ae524b8934a3e`; the
+candidate differs only in factory documentation/evidence, so this is recorded
+as an informational provenance note, not a release defect.
+
+To reproduce: `npm ci && npm test && npm run lint && npm run build`, then
+`npm run test:live` with the live site available. The sample sandbox is
+`/demo`. No product code was changed by the verifier.
+
 # APK Provenance Locker repair 8 handoff
 
 ## Result

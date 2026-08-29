@@ -49,7 +49,7 @@ jobs:
           unzip -l app-release.aab | grep -q 'manifest/AndroidManifest.xml'
           AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)"
           APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -1)"
-          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='7' versionName='0.5.2'"
+          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='8' versionName='0.5.3'"
           "$AAPT" dump xmltree app-release.apk AndroidManifest.xml > packaged-manifest.txt
           grep -q 'android:allowBackup.*0x0' packaged-manifest.txt
           grep -q 'android:fullBackupContent' packaged-manifest.txt
@@ -63,6 +63,8 @@ jobs:
           grep -q 'Keep record' packaged-app.js
           grep -q 'Remove record' packaged-app.js
           sha256sum app-release.apk app-release.aab > SHA256SUMS
+      - name: Run packaged demo-erasure and provenance regression
+        run: npm run test:release -- --apk app-release.apk --aab app-release.aab --checksums SHA256SUMS
       - uses: softprops/action-gh-release@v2
         with:
           files: |

@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-29 for polish round 3. Counts treat hyphenated terms, URLs,
+Checked 2026-08-29 for repair 9. Counts treat hyphenated terms, URLs,
 paths, and filenames as one word. No audited sentence exceeds 22 words or uses
 a banned marketing word. **File fingerprint** is the one product term for the
 SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
@@ -50,6 +50,8 @@ SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
 | Try the isolated sample at /?demo=1 or /demo. | 8 | Declared claim: demo-sandbox |
 | Leaving, Reset demo, and Start for real erase demo data. | 10 | Declared claim: demo-sandbox |
 | APK checks run in the browser. | 6 | Declared claim: signature-verification |
+| After the tag workflow publishes a release, npm run test:release downloads its APK, AAB, and checksums. | 15 | Release verification instruction |
+| It checks their source identity and runs every demo-exit erasure path from the web assets inside the APK. | 18 | Release verification instruction |
 | Compare its SHA-256 file fingerprint with the matching line in SHA256SUMS. | 11 | Declared claim: release-assets |
 | Records and optional APK copies stay in browser or installed-app storage. | 11 | Declared claim: local-storage |
 | Recording, checking, and exporting send no APK data or record content over the network. | 14 | Declared claim: apk-never-uploaded |

@@ -38,6 +38,9 @@ npx cap sync android
 
 `npm test -- --grep @claim:<id>` runs each observable claim listed in
 `.factory/claims.json`. The production static site is written to `dist/`.
+After the tag workflow publishes a release, `npm run test:release` downloads
+its APK, AAB, and checksums. It checks their source identity and runs every
+demo-exit erasure path from the web assets inside the APK.
 
 ## Deploy
 
@@ -51,11 +54,11 @@ exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.2/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.2/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.2/SHA256SUMS)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.3/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.3/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.3/SHA256SUMS)
 
-These links use the current `v0.5.2` release. Compare its SHA-256 file
+These links use the current `v0.5.3` release. Compare its SHA-256 file
 fingerprint with the matching line in `SHA256SUMS`.
 
 ## Optional Locker Plus

@@ -341,9 +341,9 @@ test('@claim:apk-never-uploaded processes a real APK without sending its bytes o
 test('@claim:release-assets exposes deterministic direct APK, AAB, and checksum links without an API request',async({page})=>{
   const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/demo');
-  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.2\/app-release\.apk$/);
-  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.2\/app-release\.aab$/);
-  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.2\/SHA256SUMS$/);
+  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.3\/app-release\.apk$/);
+  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.3\/app-release\.aab$/);
+  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.3\/SHA256SUMS$/);
   await expect(page.getByText("Use the versioned SHA256SUMS file to check the APK's SHA-256 file fingerprint.")).toBeVisible();
   await expect(page.getByText(/Google Play/)).toHaveCount(0);
   expect(requests.some(url=>url.includes('api.github.com'))).toBe(false);
@@ -354,7 +354,7 @@ test('publishes a build identity for the exact source commit',async({request})=>
   expect(response.ok()).toBe(true);
   expect(await response.json()).toEqual({
     product:'apk-provenance-locker',
-    version:'0.5.2',
+    version:'0.5.3',
     commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
   });
 });
@@ -523,7 +523,7 @@ test('recorded evidence reflows long release identity and source at 390px and 20
     const key='demo:apk-locker:records';
     const records=JSON.parse(localStorage.getItem(key)!);
     records[0].packageName='in.sociobot.apk_provenance_locker';
-    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.2/in.sociobot.apk_provenance_locker/app-release.apk';
+    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.3/in.sociobot.apk_provenance_locker/app-release.apk';
     localStorage.setItem(key,JSON.stringify(records));
   });
   await page.reload();
@@ -592,6 +592,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v12');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v12']);
+  expect(state.caches).toContain('apk-locker-v13');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v13']);
 });

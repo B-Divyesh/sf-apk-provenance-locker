@@ -1,105 +1,50 @@
-# APK Provenance Locker repair 7 handoff
+# APK Provenance Locker verification 9 handoff
 
 ## Result
 
-All four release blockers from independent verification 8 are repaired for
-release `v0.5.0`:
+**FAIL — candidate `3cf8abb27a28650519464571565f4995fd84aa65` is not accepted.**
 
-1. The Android release tag now builds the current source as version `0.5.0`
-   (code 5). The workflow compares every `dist/` file with both the APK and
-   AAB, checks embedded `build.json`, and requires the packaged **Keep record**
-   and **Remove record** confirmation copy before publication.
-2. Android backup is disabled, and both the legacy and Android 12 extraction
-   rules exclude every private app-data domain from cloud backup and device
-   transfer. This covers locker records, saved APK bytes, and the Plus token.
-3. Focus uses a 3 px paper ring plus a 7 px ink ring. The light ring contrasts
-   15.94:1 with night ink; the dark ring contrasts 14.47:1 with warm pulp and
-   12.84:1 with moss paper.
-4. The saved-copy checkbox has a 44 px minimum label target and a 20 px visible
-   control at desktop and 390 px.
+The live site and v0.5.0 APK/AAB match the candidate, all 23 claim tests pass,
+all repository gates pass, and the product works end to end. One mobile
+accessibility defect remains release-blocking under the supplied contract.
 
-The researched scope, offline behavior, local verification, demo isolation,
-paid license flow, and confirmed record removal behavior are unchanged.
+## Release blocker
 
-## Reproduction and root cause
+At 390 px, the **Recorded evidence** dialog expands for the product's own
+package name, `in.sociobot.apk_provenance_locker`. Its 367 px viewport has 502
+px of content at normal text size. At 200% text it has 983 px of content and
+requires 616 px of horizontal panning. Exact package and source evidence runs
+off-screen. See:
 
-The old `v0.4.0` APK was reproduced at 5,585,535 bytes with SHA-256
-`05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0`.
-Its embedded `build.json` named commit `152ed6e25a66eb5ddae98d583c997d535bb736de`,
-its worker used `apk-locker-v7`, and its JavaScript lacked **Keep record**.
-The source manifest set `android:allowBackup="true"`; the global focus color was
-`#ff9a6f`; and the checkbox label had no minimum target height.
+- `.factory/verification-evidence-9/release-apk-mobile-evidence.png`
+- `.factory/verification-evidence-9/live-details-mobile-200pct-overflow.png`
 
-The root causes were a release tag left behind after the safety repair, an
-unrestricted default Capacitor backup policy, one focus color used across dark
-and pale surfaces, and sizing only the checkbox glyph instead of its label.
+Make grid children shrink and wrap, then test the details dialog at 390 px and
+200% with a long real package/source. Assert dialog `scrollWidth <=
+clientWidth`.
 
-## Regression coverage
+## Verification summary
 
-- `.factory/claims.json` now includes
-  `@claim:android-backup-disabled`. It asserts both native backup flags and the
-  legacy/Android 12 exclusion rules, plus the packaged-manifest checks.
-- The release configuration test requires v0.5.0/code 5, exact APK and AAB web
-  byte comparisons, packaged backup flags, and both confirmation actions.
-- Browser coverage measures the checkbox label at 1440 px and 390 px and
-  requires at least 44 px height.
-- Browser coverage reads the computed dual-ring focus styles and calculates
-  both light-on-dark and dark-on-light contrast above 3:1.
-- The existing saved-copy-erasure claim still proves cancellation keeps the
-  record and confirmation erases metadata plus IndexedDB bytes.
-- Release links point only to deterministic `v0.5.0` assets. SHA-256 values
-  come from the versioned `SHA256SUMS` asset, avoiding a stale hash embedded in
-  the package whose own bytes it describes.
+- Opening gates: 23/23 exact claim commands PASS; cold first read and one-click
+  sample demo PASS.
+- Install/build: `npm ci`, audit, lint, 17 unit tests, 33 browser tests, full
+  `npm test`, exact production build, Capacitor sync, and live smoke PASS.
+- Live workflow: invalid input recovery, v1/v2/v3 and lineage verification,
+  encrypted export, wrong-password recovery, 20-record restore validation,
+  and safe removal behavior PASS.
+- Privacy: complete core flows made only bodyless same-origin GETs; no uploads,
+  third-party runtime calls, analytics, console errors, or page errors.
+- License API: observed allowance 30 requests per burst; excess requests
+  returned 429 with `Retry-After`. Checkout redirected to Dodo.
+- PWA: service-worker update, sole v9 cache, offline reload, and offline v1
+  verification PASS.
+- Android: v0.5.0 tag, checksums, package/version, signatures, embedded commit,
+  exact embedded web files, backup-disabled manifest, and decoded exclusion
+  rules PASS.
+- Axe: zero violations on all live routes at desktop/mobile. The manual reflow
+  defect above is not detected by axe.
+- Lighthouse mobile median: Performance 99; Accessibility, Best Practices, and
+  SEO 100; LCP 1.36 s; TBT 134 ms; CLS 0.
 
-## Verification evidence
-
-Run from a clean dependency install on 2026-08-29 UTC:
-
-- `npm ci`: 189 packages installed; 0 vulnerabilities.
-- `npm audit --audit-level=high`: pass; 0 vulnerabilities.
-- `npm run lint`: pass.
-- `npm run test:unit`: 17/17 pass.
-- `npm run test:browser`: 33/33 pass in Chromium, including desktop, 390 px,
-  keyboard, dialogs, 200% text, axe, reduced motion, offline reload, service
-  worker update, privacy network logging, and all product workflows.
-- `npm test`: pass; the same 17 unit/integration and 33 browser tests.
-- Every one of the 23 claim commands in `.factory/claims.json`: exactly one
-  selected test and pass.
-- `npm run build`: pass; `dist/` produced. Initial JS is 39.06 KB raw / 13.91
-  KB gzip. CSS is 10.46 KB raw / 3.13 KB gzip.
-- `npx cap sync android`: pass.
-- Factory `verify-url.sh` on local `/` and `/demo`: HTTP 200, correct titles,
-  `lang=en`, one h1, main landmark, complete alt/button labels, and zero console
-  errors at desktop and 390 px.
-- Lighthouse 12.8.2 mobile `/demo`: Performance 100, Accessibility 100, Best
-  Practices 100, SEO 100; FCP 0.9 s, LCP 1.8 s, TBT 50 ms, CLS 0.
-
-Local screenshots, reports, and Lighthouse JSON are under
-`.factory/qa-evidence/repair-7-local/`.
-
-## Release and deployment
-
-The `v0.5.0` tag workflow runs lint, build, unit tests, the full Playwright
-suite, Capacitor sync, release APK/AAB assembly, signature verification,
-package/version inspection, backup-policy inspection, embedded source identity
-checks, exact packaged-web comparisons, and SHA256SUMS generation. It publishes
-`app-release.apk`, `app-release.aab`, and `SHA256SUMS` to the GitHub release.
-
-The PWA deploy command is:
-
-```sh
-/opt/fleet/lib/deploy-static.sh apk-provenance-locker dist
-```
-
-After deployment, verify `/`, `/demo`, `/privacy`, `/terms`, the real 404,
-`/build.json`, response headers, release asset redirects, package contents,
-and the live desktop/390 px APK flow.
-
-## Known gaps and operator notes
-
-- The release APK uses the workflow-generated release key, as required for
-  this factory stage. A store listing needs the owner's upload key.
-- The app is not on Google Play. Users must allow the selected browser or file
-  manager to install the APK.
-- No functional release blocker remains. Android remains the final authority
-  on whether a package may be installed.
+Full commands, hashes, measurements, and applicability notes are in
+`.factory/verification-9.md`. No product code was changed.

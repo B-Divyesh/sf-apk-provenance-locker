@@ -55,12 +55,12 @@ exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.9/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.9/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.9/SHA256SUMS)
-- [Download source record](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.9/RELEASE_PROVENANCE.json)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.10/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.10/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.10/SHA256SUMS)
+- [Download source record](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.10/RELEASE_PROVENANCE.json)
 
-These links use the fixed `v0.5.9` release. Compare each file fingerprint with
+These links use the fixed `v0.5.10` release. Compare each file fingerprint with
 `SHA256SUMS`. Then use `RELEASE_PROVENANCE.json`, the source record, to confirm
 which repository commit built the files.
 
@@ -77,9 +77,8 @@ revoked license stops private device labels. Verification remains free.
 Records and optional APK copies stay in browser or installed-app storage.
 Android system backup and device transfer are disabled for installed-app data.
 Recording, checking, and exporting send no APK data or record content over the
-network. There are no analytics, advertising, or accounts. The download
-section sends one bodyless GET to `api.github.com` for public release metadata.
-When GitHub metadata is unavailable, versioned download links remain available.
+network. There are no analytics, advertising, or accounts. The page makes no
+automatic third-party requests.
 A saved Plus license is sent only to Sociobot for verification, at most once
 each day.
 

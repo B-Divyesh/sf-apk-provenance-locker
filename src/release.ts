@@ -4,7 +4,6 @@ declare const __BUILD_COMMIT__: string;
 export const releaseRepository='B-Divyesh/sf-apk-provenance-locker';
 export const releaseTag=`v${__APP_VERSION__}`;
 export const releaseCommit=__BUILD_COMMIT__;
-export const latestReleaseApi=`https://api.github.com/repos/${releaseRepository}/releases/latest`;
 
 const assetNames=['app-release.apk','app-release.aab','SHA256SUMS','RELEASE_PROVENANCE.json'] as const;
 type AssetName=typeof assetNames[number];
@@ -42,10 +41,4 @@ export function parseReleaseMetadata(value:unknown):ReleaseMetadata{
     assets[name]={url:url.href,bytes:asset.size};
   }
   return {tag:releaseTag,commit:releaseCommit,assets};
-}
-
-export async function fetchLatestRelease():Promise<ReleaseMetadata>{
-  const response=await fetch(latestReleaseApi,{cache:'no-store',headers:{Accept:'application/vnd.github+json'}});
-  if(!response.ok)throw new Error(`GitHub release metadata returned ${response.status}.`);
-  return parseReleaseMetadata(await response.json());
 }

@@ -38,15 +38,6 @@ describe('deployment and Android release configuration',()=>{
     expect(app.match(/Verification, signer and downgrade warnings, and restore-kit export stay free\./g)).toHaveLength(3);
   });
 
-  it('registers the versioned download fallback as an observable claim',()=>{
-    const claims=JSON.parse(readFileSync('.factory/claims.json','utf8')) as Array<{id:string;claim:string;where:string}>;
-    expect(claims).toContainEqual(expect.objectContaining({
-      id:'release-fallback',
-      claim:'Keeps versioned download links available when GitHub release metadata is unavailable',
-      where:'Landing download status, README',
-    }));
-  });
-
   it('serves only known SPA routes and lets unknown routes reach the real 404 override',()=>{
     const config=JSON.parse(readFileSync('public/staticwebapp.config.json','utf8'));
     expect(config.navigationFallback).toBeUndefined();
@@ -54,7 +45,7 @@ describe('deployment and Android release configuration',()=>{
     expect(config.responseOverrides['404']).toEqual({rewrite:'/404.html',statusCode:404});
   });
 
-  it('declares MIME types and limits connections to release metadata and paid-license APIs',()=>{
+  it('declares MIME types and limits connections to the paid-license API',()=>{
     const config=JSON.parse(readFileSync('public/staticwebapp.config.json','utf8'));
     const app=readFileSync('src/main.ts','utf8');
     expect(config.mimeTypes['.webmanifest']).toBe('application/manifest+json');
@@ -62,18 +53,17 @@ describe('deployment and Android release configuration',()=>{
     expect(config.globalHeaders['Content-Security-Policy']).toContain("connect-src 'self' https://api.sociobot.in");
     expect(config.globalHeaders['Content-Security-Policy']).toContain("form-action 'self' https://api.sociobot.in");
     expect(config.globalHeaders['Content-Security-Policy']).toContain("'wasm-unsafe-eval'");
-    expect(config.globalHeaders['Content-Security-Policy']).toContain('https://api.github.com');
-    expect(readFileSync('src/release.ts','utf8')).toContain('https://api.github.com');
+    expect(config.globalHeaders['Content-Security-Policy']).not.toContain('https://api.github.com');
   });
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v19'");
+    expect(worker).toContain("CACHE='apk-locker-v20'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
 
-  it('builds v0.5.9 packages only from the matching tag and audits downloaded immutable provenance',()=>{
+  it('builds v0.5.10 packages only from the matching tag and audits downloaded immutable provenance',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
     const manifest=readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
     const backupRules=readFileSync('android/app/src/main/res/xml/backup_rules.xml','utf8');
@@ -84,7 +74,7 @@ describe('deployment and Android release configuration',()=>{
     expect(workflow).toContain('test "$(git rev-parse HEAD)" = "$GITHUB_SHA"');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.aab "base/assets/public/${FILE#dist/}")');
-    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='14' versionName='0.5.9'");
+    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='15' versionName='0.5.10'");
     expect(workflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:fullBackupContent' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:dataExtractionRules' packaged-manifest.txt");
@@ -154,7 +144,7 @@ describe('deployment and Android release configuration',()=>{
     expect(readme).toContain('## Deploy APK Provenance Locker');
     expect(readme).toContain('The demo keeps its records\nand files separate from your real locker.');
     expect(readme).toContain('APK, AAB, checksums, and source record from GitHub.');
-    expect(readme).toContain('When GitHub metadata is unavailable, versioned download links remain available.');
+    expect(readme).toContain('The page makes no\nautomatic third-party requests.');
     expect(readme).not.toContain('demo-exit erasure path');
     expect(readme).not.toContain('source identity');
     for(const sentence of [

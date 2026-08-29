@@ -21,21 +21,9 @@ const lineageFixture=resolve('tests/fixtures/v1v2v3-lineage.apk');
 const v1Fixture=resolve('tests/fixtures/v1-only-rsa-2048.apk');
 const invalidLineageFixture=resolve('tests/fixtures/v1v2v3-invalid-lineage.apk');
 const fixturePackage='android.appsecurity.cts.tinyapp';
-const releaseVersion='0.5.9';
+const releaseVersion='0.5.10';
 const releaseTag=`v${releaseVersion}`;
 const releaseCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
-const latestReleaseApi='https://api.github.com/repos/B-Divyesh/sf-apk-provenance-locker/releases/latest';
-const releaseAsset=(name:string,size:number)=>({name,size,browser_download_url:`https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/${releaseTag}/${name}`});
-const currentRelease={
-  tag_name:releaseTag,
-  draft:false,
-  body:`Built from immutable source commit ${releaseCommit}.`,
-  assets:[releaseAsset('app-release.apk',5_600_000),releaseAsset('app-release.aab',5_400_000),releaseAsset('SHA256SUMS',160),releaseAsset('RELEASE_PROVENANCE.json',850)],
-};
-
-test.beforeEach(async({page})=>{
-  await page.route(latestReleaseApi,route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(currentRelease)}));
-});
 
 async function chooseApk(page:any,file:string|Uint8Array=lineageFixture){
   await page.getByRole('button',{name:/verify an apk/i}).first().click();
@@ -322,7 +310,7 @@ test('@claim:apk-structure rejects non-ZIP and inconsistent APK-shaped files',as
   await expect(page.getByText(/invalid local ZIP entry/)).toBeVisible();
 });
 
-test('@claim:no-account-network runs without an account and sends only a bodyless public release-metadata request',async({page})=>{
+test('@claim:no-account-network runs without an account or automatic third-party requests',async({page})=>{
   const requests:Array<{url:string;method:string;body:Buffer|null}>=[];page.on('request',request=>requests.push({url:request.url(),method:request.method(),body:request.postDataBuffer()}));
   await page.goto('/demo');
   await expect(page.locator('[data-release-status]')).toContainText(`${releaseTag} matches source`);
@@ -330,8 +318,7 @@ test('@claim:no-account-network runs without an account and sends only a bodyles
   await chooseApk(page,v1Fixture);
   await page.getByRole('button',{name:'Reset demo'}).click();
   await expect(page.locator('input[type=email], input[name*=account], input[name*=login]')).toHaveCount(0);
-  expect([...new Set(requests.map(request=>new URL(request.url).origin)).values()].sort()).toEqual(['http://127.0.0.1:4173','https://api.github.com']);
-  expect(requests.filter(request=>request.url===latestReleaseApi)).toHaveLength(1);
+  expect([...new Set(requests.map(request=>new URL(request.url).origin)).values()].sort()).toEqual(['http://127.0.0.1:4173']);
   expect(requests.every(request=>request.method==='GET'&&request.body===null)).toBe(true);
 });
 
@@ -350,15 +337,13 @@ test('@claim:apk-never-uploaded processes a real APK without sending its bytes o
   await page.waitForTimeout(100);
 
   expect(requests.length).toBeGreaterThan(0);
-  expect([...new Set(requests.map(request=>new URL(request.url).origin)).values()].sort()).toEqual(['http://127.0.0.1:4173','https://api.github.com']);
-  expect(requests.filter(request=>request.url===latestReleaseApi)).toHaveLength(1);
+  expect([...new Set(requests.map(request=>new URL(request.url).origin)).values()].sort()).toEqual(['http://127.0.0.1:4173']);
   expect(requests.every(request=>request.method==='GET'&&request.body===null)).toBe(true);
   expect(requests.some(request=>request.body?.includes(apk))).toBe(false);
   expect(errors).toEqual([]);
 });
 
-test('@claim:release-assets binds API release metadata and four assets to this source commit',async({page})=>{
-  const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
+test('@claim:release-assets binds four versioned release assets to this source commit',async({page})=>{
   await page.goto('/demo');
   await expect(page.locator('[data-release-status]')).toHaveText(`${releaseTag} matches source ${releaseCommit.slice(0,12)}.`);
   await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/app-release\\.apk$`));
@@ -367,18 +352,6 @@ test('@claim:release-assets binds API release metadata and four assets to this s
   await expect(page.getByRole('link',{name:'Download source record from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/RELEASE_PROVENANCE\\.json$`));
   await expect(page.getByText('Use SHA256SUMS to check the files. Use the source record to confirm which repository commit built them.')).toBeVisible();
   await expect(page.getByText(/Google Play/)).toHaveCount(0);
-  expect(requests.filter(url=>url===latestReleaseApi)).toHaveLength(1);
-});
-
-test('@claim:release-fallback keeps four versioned release links when GitHub metadata is unavailable',async({page})=>{
-  await page.unroute(latestReleaseApi);
-  await page.route(latestReleaseApi,route=>route.fulfill({status:503,contentType:'application/json',body:'{}'}));
-  await page.goto('/demo');
-  await expect(page.locator('[data-release-status]')).toHaveText(`GitHub metadata is unavailable. Versioned ${releaseTag} links remain available.`);
-  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/app-release\\.apk$`));
-  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/app-release\\.aab$`));
-  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/SHA256SUMS$`));
-  await expect(page.getByRole('link',{name:'Download source record from GitHub'})).toHaveAttribute('href',new RegExp(`/releases/download/${releaseTag}/RELEASE_PROVENANCE\\.json$`));
 });
 
 test('publishes a build identity for the exact source commit',async({request})=>{
@@ -621,7 +594,7 @@ test('recorded evidence reflows long release identity and source at 390px and 20
     const key='demo:apk-locker:records';
     const records=JSON.parse(localStorage.getItem(key)!);
     records[0].packageName='in.sociobot.apk_provenance_locker';
-    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.9/in.sociobot.apk_provenance_locker/app-release.apk';
+    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.10/in.sociobot.apk_provenance_locker/app-release.apk';
     localStorage.setItem(key,JSON.stringify(records));
   });
   await page.reload();
@@ -668,11 +641,10 @@ test('@claim:offline-reload reloads the demo shell without the browser HTTP cach
   await expect(page.locator('[data-release-status]')).toContainText(`${releaseTag} matches source`);
   await expect.poll(()=>page.evaluate(()=>Boolean(navigator.serviceWorker.controller))).toBe(true);
   const session=await context.newCDPSession(page);await session.send('Network.enable');await session.send('Network.setCacheDisabled',{cacheDisabled:true});await session.send('Network.clearBrowserCache');
-  await page.unroute(latestReleaseApi);
   await context.setOffline(true);await page.reload();
   await expect(page.getByRole('heading',{level:1})).toHaveText('Check sample APK records');
   await expect(page.getByRole('heading',{name:/^org\.fdroid\.fdroid /})).toBeVisible();
-  await expect(page.locator('[data-release-status]')).toHaveText(`GitHub metadata is unavailable. Versioned ${releaseTag} links remain available.`);
+  await expect(page.locator('[data-release-status]')).toHaveText(`${releaseTag} matches source ${releaseCommit.slice(0,12)}.`);
   expect(errors).toEqual([]);
   await context.setOffline(false);
 });
@@ -695,6 +667,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v19');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v19']);
+  expect(state.caches).toContain('apk-locker-v20');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v20']);
 });

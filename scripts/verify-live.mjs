@@ -29,14 +29,13 @@ try{
     await page.getByRole('button',{name:'Keep record'}).click();
     await remove.waitFor();
 
-    const allowedOrigins=new Set([baseUrl,'https://api.github.com']);
+    const allowedOrigins=new Set([baseUrl]);
     const thirdParty=requests.filter(request=>!allowedOrigins.has(new URL(request.url).origin));
     const uploads=requests.filter(request=>request.method!=='GET'||request.hasBody);
-    const githubApi=requests.filter(request=>request.url.includes('api.github.com'));
-    if(thirdParty.length||uploads.length||githubApi.length!==1||errors.length){
-      throw new Error(`${viewport.name}: dirty live flow\n${JSON.stringify({thirdParty,uploads,githubApi,errors},null,2)}`);
+    if(thirdParty.length||uploads.length||errors.length){
+      throw new Error(`${viewport.name}: dirty live flow\n${JSON.stringify({thirdParty,uploads,errors},null,2)}`);
     }
-    console.log(`${viewport.name}: clean /demo APK verification and removal confirmation; one bodyless GitHub metadata GET; zero console errors`);
+    console.log(`${viewport.name}: clean /demo APK verification and removal confirmation; same-origin bodyless GETs; zero console errors`);
     await context.close();
   }
 }finally{

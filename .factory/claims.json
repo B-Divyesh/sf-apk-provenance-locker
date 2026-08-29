@@ -106,17 +106,17 @@
   },
   {
     "id": "no-account-network",
-    "claim": "The demo needs no account; its only automatic third-party request reads public release metadata from GitHub",
+    "claim": "The demo needs no account and makes no automatic third-party requests",
     "where": "Landing facts, Privacy, README",
     "test": "npm test -- --grep @claim:no-account-network",
-    "sandbox": "Run and reset demo while recording requests; assert no account input and only same-origin GETs plus one bodyless api.github.com metadata GET"
+    "sandbox": "Run and reset demo while recording requests; assert no account input and only same-origin bodyless GETs occur"
   },
   {
     "id": "apk-never-uploaded",
     "claim": "Selected APK files are never uploaded",
     "where": "Landing image caption, Privacy, README",
     "test": "npm test -- --grep @claim:apk-never-uploaded",
-    "sandbox": "From /demo, select and fully verify a genuine signed APK fixture while recording every request; assert only product-origin GETs plus one bodyless api.github.com metadata GET occur, no request contains APK bytes, and no console or page error is emitted"
+    "sandbox": "From /demo, select and fully verify a genuine signed APK fixture while recording every request; assert only product-origin bodyless GETs occur, no request contains APK bytes, and no console or page error is emitted"
   },
   {
     "id": "offline-reload",
@@ -134,17 +134,10 @@
   },
   {
     "id": "release-assets",
-    "claim": "The landing page binds v0.5.9 APK, AAB, checksums, and source-record links to this source commit",
+    "claim": "The landing page binds v0.5.10 APK, AAB, checksums, and source-record links to this source commit",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
-    "sandbox": "Mock the GitHub latest-release API with this build commit; assert all four versioned asset URLs, commit status, and one metadata request"
-  },
-  {
-    "id": "release-fallback",
-    "claim": "Keeps versioned download links available when GitHub release metadata is unavailable",
-    "where": "Landing download status, README",
-    "test": "npm test -- --grep @claim:release-fallback",
-    "sandbox": "From /demo, return 503 for the GitHub latest-release API and assert the fallback status plus versioned APK, AAB, checksum, and source-record links"
+    "sandbox": "From /demo, assert the built version and commit status plus all four versioned asset URLs without an automatic third-party request"
   },
   {
     "id": "paid-unlock",

@@ -3,19 +3,15 @@
 | Sentence or label | Words | Flag |
 | --- | ---: | --- |
 | Keep APK restore evidence | 4 | — |
-| For Android sideloaders who need every file, signer, and source ready before a reinstall. | 15 | — |
+| For Android sideloaders who need each APK, hash, certificate evidence, and source ready before a reinstall. | 16 | — |
 | See a ready-to-check locker. | 5 | — |
 | Stored on this device | 5 | — |
 | Encrypted exports | 2 | — |
-| No account required | 3 | — |
 | Record what you can prove | 6 | — |
-| It is hashed on your device. | 6 | — |
-| The locker reads v2/v3 signer evidence when present. | 9 | — |
-| Your password encrypts the manifest and saved copies. | 8 | — |
-| Locker Plus is $12 once. | 5 | — |
-| It adds the signer-change timeline when it ships. | 9 | — |
-| Hashing, exports, and safety checks stay free. | 7 | — |
-| It does not find APKs, bypass Android controls, crack apps, or send your collection to a cloud account. | 18 | — |
+| Its ZIP structure and Android manifest are checked, then it is hashed on this device. | 15 | — |
+| Readable v2/v3 certificate fingerprints are saved as evidence. Android confirms install signatures. | 13 | — |
+| Your password encrypts the manifest and any copies you choose to save. | 13 | — |
+| It does not find APKs, bypass Android controls, crack apps, or replace Android signature checks. | 17 | — |
 | It only records files you choose. | 6 | — |
 
 No sentence exceeds 22 words or uses a banned term.

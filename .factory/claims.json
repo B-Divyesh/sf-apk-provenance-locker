@@ -3,4 +3,6 @@
   {"id":"hash-check","claim":"Hashes selected APK bytes on this device","where":"Record APK dialog","test":"npm test -- --grep @claim:hash-check","sandbox":"fixed selected-file bytes; SHA-256 digest is asserted"},
   {"id":"demo-sandbox","claim":"Demo data is not saved with real records","where":"Demo banner, README","test":"npm test -- --grep @claim:demo-sandbox","sandbox":"demo uses the demo:apk-locker:records namespace and seeded sample inventory"}
   ,{"id":"local-storage","claim":"Records are stored on this device","where":"Landing facts, Privacy, README","test":"npm test -- --grep @claim:local-storage","sandbox":"real and demo storage keys are distinct local browser namespaces"}
+  ,{"id":"apk-structure","claim":"Rejects files that are not structurally APKs","where":"Record APK dialog","test":"npm test -- --grep @claim:apk-structure","sandbox":"select non-APK bytes and assert the record is blocked with a clear error"}
+  ,{"id":"offline-reload","claim":"Demo reloads offline after the first visit","where":".factory/demo.md","test":"npm test -- --grep @claim:offline-reload","sandbox":"visit /demo once, take the browser offline, reload, and assert the demo shell renders"}
 ]

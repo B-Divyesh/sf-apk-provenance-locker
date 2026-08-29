@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { openKit, sealKit, sha256, sampleRecords } from '../src/lib';
+import { assertApkArchive, b64, openKit, sealKit, sha256, sampleRecords } from '../src/lib';
 
 describe('APK evidence primitives',()=>{
   it('@claim:encrypted-export encrypts and opens a restoration manifest',async()=>{
@@ -20,5 +20,11 @@ describe('APK evidence primitives',()=>{
   });
   it('@claim:local-storage keeps real and demo records in separate namespaces',()=>{
     expect('demo:apk-locker:records').not.toBe('apk-locker:records');
+  });
+  it('encodes a representative 12 MB copy without overflowing the call stack',()=>{
+    expect(b64(new Uint8Array(12*1024*1024))).toHaveLength(16*1024*1024);
+  });
+  it('rejects bytes that are not a ZIP APK with an Android manifest',()=>{
+    expect(()=>assertApkArchive(new TextEncoder().encode('not an apk').buffer)).toThrow(/APK/);
   });
 });

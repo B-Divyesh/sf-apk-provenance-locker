@@ -1,132 +1,111 @@
 # APK Provenance Locker repair handoff
 
-## Independent verification status (2026-08-29): **FAIL**
-
-Candidate `28f496e16eb70915da8661fa45f5ca1dda99c868` is deployed byte-for-byte at https://apk-provenance-locker.sociobot.in, and its functional, accessibility, offline, performance, and APK artifact checks otherwise passed. It is not release-approved because the landing page promises “Your APK files are never uploaded” without a matching entry and observable selected-file request test in `.factory/claims.json`. The claims contract makes that an explicit release blocker. See `.factory/verification-4.md` for exact commands, evidence, and the required repair.
-
 ## Result
 
-The release-blocking finding in `.factory/verification-3.md` is repaired for
-work order `apk-provenance-locker-repair-3`. The product remains a Capacitor 6
-Android APK plus a Vite/TypeScript offline PWA.
+Repair work order `apk-provenance-locker-repair-4` is complete. The release
+blocker in `.factory/verification-4.md` is fixed, and the controller's latest
+network finding has exact regression coverage. The product remains a
+Capacitor 6 Android APK plus a Vite/TypeScript offline PWA.
+
+Implementation commit: `dc53522c2a88e5608df210d6052dc9ef56369308`.
 
 ## Reproduction and root cause
 
-Before the repair, `src/lib.ts` only hashed certificate-shaped bytes found in
-v2/v3 blocks. It did not verify signatures, v1 signers, or v3 lineage. The form
-stored user-entered app names and versions, and compared those notes for a
-non-authoritative downgrade message. A failing contract test was added first;
-the candidate had no `verifyApk` or `extractApkIdentity` implementation.
+- On the untouched report commit, a registry audit failed because the visible
+  promise “Your APK files are never uploaded” had no `apk-never-uploaded`
+  entry in `.factory/claims.json`. None of the 18 existing claims selected an
+  APK and proved that its bytes stayed out of network requests.
+- The controller also reported a page-load request to `api.github.com`. The
+  old `loadRelease()` implementation that made this request is present in
+  repository history. Candidate `28f496e…` had already replaced it with fixed
+  release-asset links, so fresh local and live reproduction attempts emitted
+  no GitHub API request. The remaining risks were insufficient regression
+  coverage and an older PWA bundle surviving in a returning client's cache.
 
 ## Repair
 
-- Added a pinned, self-hosted WebAssembly adapter for Apache-2.0 `apksig-go`
-  v1.1.0. It verifies APK v1/JAR, v2, and v3 signatures and content digests.
-- Exposed and verifies v3 certificate-rotation lineage. A present invalid v2,
-  v3, or v3.1 block cannot fall back to an older valid signature scheme.
-- Added local binary `AndroidManifest.xml` parsing for package name, version
-  name, and version code. User-entered identity fields were removed.
-- Added package-scoped signer compatibility and numeric version-code checks.
-  Signer drift and incompatible downgrade risk remain visible on the record.
-- Restore-kit validation now rechecks the saved APK hash, signature, package,
-  version code, and signer instead of checking only the hash.
-- Kept real and demo storage separate, encrypted export, large-copy encoding,
-  offline support, privacy behavior, and the product visual system.
-- Versioned the PWA and Android package as v0.3.0. The verifier runtime is
-  self-hosted, immutable-cached, and precached for offline checks.
+- Registered `apk-never-uploaded` in `.factory/claims.json` with one exact
+  Playwright claim test.
+- The test starts at `/demo`, selects and fully verifies the genuine signed
+  lineage fixture, records every request and request body, and proves that all
+  traffic is same-origin bodyless GET traffic. It also fails on
+  `api.github.com`, console errors, or page errors.
+- Added a source/config guard that rejects any reintroduced
+  `api.github.com` runtime fetch. Direct versioned download links remain and
+  contact GitHub only after a visitor chooses one.
+- Added `npm run test:live`, which repeats the complete APK privacy flow at
+  desktop and 390 px against the deployed site.
+- Rolled the service-worker cache from `apk-locker-v5` to `apk-locker-v6`.
+  Activation removes older caches, so returning clients cannot keep the
+  historical release-metadata bundle.
+- Updated the plain-words copy audit for the newly registered sentence. The
+  brief, visual system, APK verification behavior, demo isolation, and v0.3.0
+  Android downloads are unchanged.
 
-## Independent regression fixtures
+## Verification evidence — 2026-08-29 UTC
 
-The fixtures in `tests/fixtures` come from Android apksig's Apache-2.0 test
-corpus and are checked in with `SHA256SUMS`:
+Clean/local gates:
 
-| Fixture | SHA-256 | Expected result |
-| --- | --- | --- |
-| `v1-only-rsa-2048.apk` | `1a2aa49011c5e0a773bd559484cb867b8bd15423381178b2137b63d16dff7540` | valid v1 signer |
-| `v1v2v3-lineage.apk` | `9c6947bf9398a15e85a52bf83b07cfae6686ff49e03034d09cbea45a19bdaa15` | valid v1/v2/v3, three-node lineage, package `android.appsecurity.cts.tinyapp`, version `1.0`, code `10` |
-| `v1v2v3-invalid-lineage.apk` | `d521755adb86006d8247da2e94f17f28067654b802f7350ca97dd668eadaa477` | rejected invalid v3 lineage |
-
-The built verifier SHA-256 is
-`c5e629011c528bbc20c1eb6e366c54c5a1ec4e54955829b76dc3d0610b052381`.
-Its reproducible adapter and pinned Go module are in `tools/apksig-wasm`.
-
-## Local verification
-
-Run:
-
-```sh
-npm ci
-npm run lint
-npm test
-npm run build
-npx cap sync android
-npm audit --omit=dev
-```
-
-Evidence from 2026-08-29 UTC:
-
-- Clean install: 189 packages, 0 vulnerabilities.
-- Type check: passed.
-- Unit/config tests: 12 passed.
-- Chromium browser tests: 23 passed, including desktop, 390 × 844, keyboard,
-  axe, privacy requests, offline reload, and offline APK verification.
-- Every one of 18 exact claim commands in `.factory/claims.json`: passed alone.
-- Capacitor Android sync: passed and copied the self-hosted verifier.
-- Production build: `dist/` produced; JS 32.74 KB raw / 12.22 KB gzip; CSS
-  9.64 KB raw / 2.98 KB gzip. The verifier WASM loads on use and is 5.6 MB raw
-  / 1.65 MB gzip.
+- `npm ci`: 189 packages installed; 0 vulnerabilities.
+- `npm run lint`: passed (`tsc --noEmit`).
+- `npm test`: 12 unit/config tests and 24 Chromium browser tests passed.
+- Every one of the 19 commands in `.factory/claims.json` passed independently.
+- `npm test -- --grep @claim:apk-never-uploaded`: 1 passed.
+- `npm run build`: passed and produced `dist/`.
+- `npx cap sync android`: passed and copied the v6 service worker and local
+  verifier into the Capacitor project.
+- `npm audit --omit=dev`: 0 vulnerabilities.
+- Production bundle: JS 32.74 KB raw / 12.22 KB gzip; CSS 9.64 KB raw /
+  2.98 KB gzip. The verifier WASM is 5,828,623 bytes and loads only on use.
 - Local mobile Lighthouse 13.4.1: Performance 100, Accessibility 100, Best
-  Practices 100, SEO 100; FCP 0.9 s, LCP 1.8 s, CLS 0, TBT 10 ms.
+  Practices 100, SEO 100; FCP 0.9 s, LCP 1.7 s, CLS 0, TBT 0 ms, 92 KiB.
+- Browser coverage includes desktop, 390 × 844, 200% text, keyboard skip-link
+  order, dialog focus/Escape recovery, reduced motion, axe, empty/error states,
+  demo reset, encrypted export/import, offline reload, offline signature
+  verification, and service-worker update behavior.
 
-## Candidate and release evidence
+Android artifact/consumer checks:
 
-Implementation commit and annotated v0.3.0 tag target:
-`29891996aed3d5cd66867aa29ff6b87ee617d009`.
+- Published v0.3.0 APK: 5,583,235 bytes,
+  `cdaf8cbc1e6cdf0921fb53e959e4900c0e29c9d768165daa759385ba56f5bbe3`.
+- Published v0.3.0 AAB: 5,403,880 bytes,
+  `f6941bfa20c5f2bfa9eead06c680d37b91fe0a45b561cbe89e45afb21a7198af`.
+- Both match the published `SHA256SUMS`; ZIP inspection found their manifests,
+  packaged web entry point, and Capacitor app id
+  `in.sociobot.apk_provenance_locker`.
+- Java and Go are unavailable in this static-deployment worker, so Gradle and
+  `tools/apksig-wasm` source tests could not run here. The existing GitHub
+  release workflow performs the Android build/signature gates.
 
-GitHub Actions run
-[`33239385886`](https://github.com/B-Divyesh/sf-apk-provenance-locker/actions/runs/33239385886)
-completed successfully. Its Android checks confirmed package
-`in.sociobot.apk_provenance_locker`, version code `3`, version `0.3.0`, and
-valid v1 and v2 signatures. Independent `apksig-go` verification also returned
-`Verified: true`, v1 true, v2 true, and one signer.
+## Deployment and live evidence
 
-Published v0.3.0 assets:
+`dist/` was deployed to the existing Azure Static Web App
+`sf-apk-provenance-locker` production environment. No infrastructure, DNS, or
+billing configuration was changed.
 
-| Asset | Bytes | SHA-256 |
-| --- | ---: | --- |
-| `app-release.apk` | 5,583,235 | `cdaf8cbc1e6cdf0921fb53e959e4900c0e29c9d768165daa759385ba56f5bbe3` |
-| `app-release.aab` | 5,403,880 | `f6941bfa20c5f2bfa9eead06c680d37b91fe0a45b561cbe89e45afb21a7198af` |
-
-All three direct release links return HTTP 200. `sha256sum -c SHA256SUMS`
-passes. Both packages contain their Android manifests and the bundled web app.
-The APK's bundled `index.html`, JS, CSS, and verifier WASM match local `dist/`
-byte-for-byte. The live product accepted this APK and independently displayed
-package `in.sociobot.apk_provenance_locker`, version `0.3.0`, code `3`, and
-verified v1 + v2.
-
-`dist/` was deployed with Azure Static Web Apps CLI 2.0.10 to the existing
-`sf-apk-provenance-locker` production app. Live checks at
-<https://apk-provenance-locker.sociobot.in> found:
-
-- `/`, `/demo`, `/privacy`, `/terms`: HTTP 200; unknown route: HTTP 404.
-- Verifier WASM: HTTP 200, `application/wasm`, immutable one-year cache.
-- CSP includes self-only connections, WebAssembly execution, and
-  `frame-ancestors 'none'`; HSTS, nosniff, referrer, and permissions headers
-  are present.
-- Live `index.html`, JS, and CSS SHA-256 values match local `dist/`:
-  `9d05af561395d245a467e772d768f1420ed557c4149ddc63378abcd238cbaaa9`,
-  `207feb2a0f56766a6a4ee0b8d8326348c4e546c25feb55b54e3c0ee74a17ab8b`,
-  and `d2d9e1c1c6add59ccbb6a672b0a51fbe1d5e5947b80605f7874f13180acbb367`.
-- Desktop and 390 px live runs: zero axe violations, console errors, page
-  errors, automatic third-party requests, or horizontal overflow. The live
-  v0.3.0 APK identity and signatures verified in both viewports.
-- Live offline reload and v1 fixture verification passed after the first
-  visit.
+- `/`, `/demo`, `/privacy`, and `/terms`: HTTP 200; an unknown route: HTTP 404.
+- `/opt/fleet/lib/verify-url.sh`: title present, `lang="en"`, one h1, main
+  landmark, no missing image alt, no unlabeled buttons, zero console errors.
+- `npm run test:live`: desktop and 390 px both fully verified the signed APK
+  fixture with seven same-origin GET requests, no request bodies, no
+  third-party traffic, and zero console/page errors.
+- A separate live run verified the published APK as
+  `in.sociobot.apk_provenance_locker` version `0.3.0`, code `3`, with v1 + v2
+  signatures. Desktop and mobile axe reported zero violations. Offline reload
+  and `registration.update()` both passed. Across that run: 15 requests, zero
+  third-party requests, zero uploads, and zero console errors.
 - Live mobile Lighthouse 13.4.1: Performance 100, Accessibility 100, Best
-  Practices 100, SEO 100; FCP 1.0 s, LCP 1.4 s, CLS 0, TBT 10 ms.
+  Practices 100, SEO 100; FCP 0.9 s, LCP 1.4 s, CLS 0, TBT 10 ms, 91 KiB.
+- Live `index.html`, JS, and CSS match local `dist/` byte-for-byte. Live
+  `sw.js` matches the final v6 build at
+  `be5821ecf3e0225343a39e7924cfecb0f7bd6244c6fea1314a99e2b45c1619b7`.
+- CSP keeps `connect-src 'self'`; HSTS, `nosniff`, strict referrer policy, and
+  restrictive permissions policy are present. Hashed assets use immutable
+  one-year caching; HTML uses 30-second revalidation.
 
-## Known gaps
+## Known gaps and next step
 
-None in the researched product scope. Android remains the final authority for
-device-specific installation policy. The workflow uses a release-specific test
-key; a store release needs the owner's stable upload key.
+No known gap remains in the researched scope. Android remains the authority
+for device-specific installation policy, and a store release still needs the
+owner's stable upload key. Independent release verification should rerun all
+19 claim commands against this commit.

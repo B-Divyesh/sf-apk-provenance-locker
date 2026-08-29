@@ -1,3 +1,26 @@
+# APK Provenance Locker verification 13 handoff — PASS
+
+## Independent verification result
+
+**PASS** for candidate `728decf811fe84104d57a778ad2edd85fd1eece8` at
+<https://apk-provenance-locker.sociobot.in> on 2026-08-29 UTC. No product code
+was changed by the verifier. The full report is
+`.factory/verification-13.md`.
+
+Fresh evidence resolves the prior deployment-only failure: live web,
+published v0.5.3 APK, and published AAB all embed the candidate's exact
+identity. The actual packaged APK erases demo records, saved-copy state, and
+demo licenses through Start for real, Locker, and the wordmark while retaining
+real storage. All 25 required claims, 17 unit/config tests, and 38 browser
+tests pass from a clean `npm ci`; `npm run lint`, `npm run build`,
+`npm run test:live`, and `npm run test:release` pass too.
+
+No critical, high, medium, or low defects remain. The known store-upload-key
+operator note below still applies; it is not a release blocker for this
+factory-stage APK.
+
+---
+
 # APK Provenance Locker repair 9 handoff
 
 ## Result

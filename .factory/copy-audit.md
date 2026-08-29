@@ -55,6 +55,8 @@ banned marketing term.
 | Later, choose Validate a restore kit to check saved copies. | 10 | Declared claim: encrypted-export |
 | Import verified records or download a verified saved APK from the report. | 12 | Declared claims: restore-import, saved-apk-download |
 | APK checks run in the browser. | 6 | Declared claim: signature-verification |
+| The factory deploys dist with the configured static work order. | 10 | Deployment documentation |
+| Pushing a matching v<version> tag runs the Android release workflow and publishes APK, AAB, and checksum assets. | 16 | Deployment documentation |
 | Developers can inspect the pinned apksig-go v1.1.0 WebAssembly adapter in tools/apksig-wasm. | 10 | Developer documentation |
 | Locker Plus uses Sociobot's hosted checkout. | 5 | Declared claim: hosted-checkout |
 | A refunded or revoked license stops private device labels. | 9 | Declared claim: revoked-license |

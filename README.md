@@ -39,6 +39,12 @@ npx cap sync android
 `npm test -- --grep @claim:<id>` runs each observable claim listed in
 `.factory/claims.json`. The production static site is written to `dist/`.
 
+## Deploy
+
+The factory deploys `dist/` with the configured static work order. Pushing a
+matching `v<version>` tag runs the Android release workflow and publishes APK,
+AAB, and checksum assets.
+
 APK checks run in the browser. Developers can inspect the pinned `apksig-go`
 v1.1.0 WebAssembly adapter in `tools/apksig-wasm`. Android fixtures and their
 exact checksums are in `tests/fixtures`.

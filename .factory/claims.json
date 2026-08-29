@@ -1,8 +1,79 @@
 [
-  {"id":"encrypted-export","claim":"Exports an encrypted restoration manifest","where":"Export restore kit dialog, README","test":"npm test -- --grep @claim:encrypted-export","sandbox":"sample records; exported text has no record names; the supplied password opens it"},
-  {"id":"hash-check","claim":"Hashes selected APK bytes on this device","where":"Record APK dialog","test":"npm test -- --grep @claim:hash-check","sandbox":"fixed selected-file bytes; SHA-256 digest is asserted"},
-  {"id":"demo-sandbox","claim":"Demo data is not saved with real records","where":"Demo banner, README","test":"npm test -- --grep @claim:demo-sandbox","sandbox":"demo uses the demo:apk-locker:records namespace and seeded sample inventory"}
-  ,{"id":"local-storage","claim":"Records are stored on this device","where":"Landing facts, Privacy, README","test":"npm test -- --grep @claim:local-storage","sandbox":"real and demo storage keys are distinct local browser namespaces"}
-  ,{"id":"apk-structure","claim":"Rejects files that are not structurally APKs","where":"Record APK dialog","test":"npm test -- --grep @claim:apk-structure","sandbox":"select non-APK bytes and assert the record is blocked with a clear error"}
-  ,{"id":"offline-reload","claim":"Demo reloads offline after the first visit","where":".factory/demo.md","test":"npm test -- --grep @claim:offline-reload","sandbox":"visit /demo once, take the browser offline, reload, and assert the demo shell renders"}
+  {
+    "id": "hash-check",
+    "claim": "Hashes every selected APK byte on this device",
+    "where": "Landing workflow, record dialog, README",
+    "test": "npm test -- --grep @claim:hash-check",
+    "sandbox": "Select a deterministic APK-shaped fixture and assert its complete known SHA-256 in the evidence dialog"
+  },
+  {
+    "id": "signer-evidence",
+    "claim": "Reads one unverified embedded certificate fingerprint from v2/v3 signing blocks",
+    "where": "Landing workflow, record card, evidence dialog, README",
+    "test": "npm test -- --grep @claim:signer-evidence",
+    "sandbox": "Select a deterministic v2/v3-block fixture; assert both scheme labels, the certificate-byte digest, and the unverified warning"
+  },
+  {
+    "id": "apk-structure",
+    "claim": "Requires an APK-shaped ZIP directory containing AndroidManifest.xml",
+    "where": "Landing workflow, record dialog, Terms, README",
+    "test": "npm test -- --grep @claim:apk-structure",
+    "sandbox": "Select non-ZIP bytes and an inconsistent local/central ZIP entry; assert both are rejected"
+  },
+  {
+    "id": "encrypted-export",
+    "claim": "Exports password-encrypted records and optional saved APK copies",
+    "where": "Landing facts and workflow, export dialog, README",
+    "test": "npm test -- --grep @claim:encrypted-export",
+    "sandbox": "Export a saved 12 MiB fixture; assert plaintext names are absent and the supplied password opens it with a matching hash"
+  },
+  {
+    "id": "password-not-stored",
+    "claim": "The restore-kit password is never stored",
+    "where": "Export dialog, Privacy, README",
+    "test": "npm test -- --grep @claim:password-not-stored",
+    "sandbox": "Export with a unique password and search localStorage, sessionStorage, and Cache Storage for it"
+  },
+  {
+    "id": "local-storage",
+    "claim": "Records and optional APK copies are stored on this device",
+    "where": "Landing facts, Privacy, README",
+    "test": "npm test -- --grep @claim:local-storage",
+    "sandbox": "Record a real fixture, reload, and assert it persists only in the real local namespace"
+  },
+  {
+    "id": "saved-copy-erasure",
+    "claim": "Remove erases a record and its saved APK copy",
+    "where": "Remove notice, Privacy, README",
+    "test": "npm test -- --grep @claim:saved-copy-erasure",
+    "sandbox": "Save a fixture, prove metadata and bytes exist, remove it, then assert the real record list and IndexedDB store are empty"
+  },
+  {
+    "id": "demo-sandbox",
+    "claim": "Demo data is separate and erased when leaving demo mode",
+    "where": "Demo banner, Privacy, README, .factory/demo.md",
+    "test": "npm test -- --grep @claim:demo-sandbox",
+    "sandbox": "Add demo metadata and bytes, choose Start for real, then assert the demo localStorage key and IndexedDB database are absent"
+  },
+  {
+    "id": "no-account-network",
+    "claim": "The demo needs no account and makes no automatic third-party requests",
+    "where": "Landing facts, Privacy, README",
+    "test": "npm test -- --grep @claim:no-account-network",
+    "sandbox": "Run and reset demo while recording requests; assert no account input and only the product origin"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "Demo reloads offline after the first visit",
+    "where": ".factory/demo.md",
+    "test": "npm test -- --grep @claim:offline-reload",
+    "sandbox": "Load /demo, disable the browser HTTP cache, go offline, reload, and assert the shell and sample records render"
+  },
+  {
+    "id": "release-assets",
+    "claim": "The landing page links directly to the v0.2.0 APK, AAB, and SHA256SUMS assets",
+    "where": "Landing download section, README",
+    "test": "npm test -- --grep @claim:release-assets",
+    "sandbox": "Assert deterministic GitHub release-asset URLs and that page load makes no GitHub API request"
+  }
 ]

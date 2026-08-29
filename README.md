@@ -1,47 +1,60 @@
 # APK Provenance Locker
 
-APK Provenance Locker helps Android sideloaders keep a local record of APK
-hashes, readable certificate evidence, sources, and encrypted restoration kits. It is for
-people who already hold lawful APKs and want to know exactly what they can
-restore later.
+APK Provenance Locker records APK hashes, sources, user-entered version notes,
+and limited certificate evidence before an Android reinstall. It is for people
+who already hold lawful APK files and want an encrypted restoration record.
 
-It never distributes APKs, searches for apps, or bypasses Android controls.
-Your records and optional saved APK copies remain in browser or app storage.
+The web app hashes every selected byte locally. It checks the ZIP directory for
+`AndroidManifest.xml` and can read one embedded certificate fingerprint from a
+v2 or v3 signing block. That fingerprint is unverified comparison evidence.
+
+The web app does not cryptographically verify APK signatures. It does not read
+v1 signer data, v3 signer lineage, or trusted package/version fields. Android
+decides whether an APK can install or downgrade.
 
 ## Use it
 
 1. Open the app and choose **Record an APK**.
-2. Choose an APK you own, add its name, version, and source URL.
-3. The app checks that it is a ZIP-based APK with `AndroidManifest.xml`, hashes
-   it locally, and records readable v2/v3 certificate evidence when present.
-   Android remains the authority for installation-signature verification.
-4. Choose **Export restore kit** and set a password to download an encrypted
-   manifest with any APK copies you chose to save.
-5. Later, use **Validate a restore kit** to check its saved copies against the
+2. Choose an APK you own. Enter a name, version note, and source you trust.
+3. Choose whether to keep an optional APK copy in local app storage.
+4. Choose **Export restore kit** and set a password.
+5. Later, choose **Validate a restore kit** to check saved copies against their
    recorded hashes.
 
-Try the isolated sample at `/demo`. Demo metadata and optional APK files use
-separate `demo:` storage namespaces and are discarded with **Reset demo** or
-**Start for real**. Removing a real record also removes its optional saved copy.
+Try the isolated sample at `/demo`. Demo metadata and files use separate
+`demo:` namespaces. **Reset demo** and **Start for real** erase the demo data.
+Removing a real record erases its optional saved copy.
 
 ## Develop and verify
 
 ```sh
-npm install
-npm run dev
+npm ci
+npm run lint
 npm test
-npm run build # writes ./dist
+npm run build
+npx cap sync android
 ```
 
-The static deploy root is `dist/`. The Capacitor project is in `android/`.
-GitHub Actions builds the signed-with-an-ephemeral-debug-key APK and AAB after a
-version tag. A store release needs an owner-controlled upload key.
+`npm test -- --grep @claim:<id>` runs each observable claim listed in
+`.factory/claims.json`. The production static site is written to `dist/`.
 
-## Privacy and Android release
+## Android downloads
 
-There are no analytics or third-party runtime scripts. Encrypted kits use
-PBKDF2-SHA256 and AES-GCM in the browser. The export password is never stored.
-Read the in-app `/privacy` and `/terms` pages. The source is MIT licensed.
-The landing page reads the public GitHub release listing to show the Android
-download when a release is published. Each release includes an APK, AAB, and
-`SHA256SUMS`; it is not distributed through Google Play.
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.2.0/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.2.0/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.2.0/SHA256SUMS)
+
+The release workflow syncs the Capacitor 6 project, builds both packages, checks
+their size, package id, manifest, and APK signature, then publishes checksums.
+The release-specific test key supports direct sideloading. A store release needs
+the owner's upload key. The app is not on Google Play.
+
+## Privacy and license
+
+Records and optional APK copies stay in browser or installed-app storage.
+Recording, checking, and exporting send no APK data or record content over the
+network. There are no analytics, advertising, account, or automatic third-party
+requests. Download links contact GitHub only when selected.
+
+Restore kits use PBKDF2-SHA256 and AES-GCM in the browser. The app does not store
+the export password. See `/privacy` and `/terms`. The source is MIT licensed.

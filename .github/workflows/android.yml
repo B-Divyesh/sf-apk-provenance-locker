@@ -16,8 +16,10 @@ jobs:
         with: {distribution: temurin, java-version: '17'}
       - uses: android-actions/setup-android@v3
       - run: npm ci
+      - run: npm run lint
       - run: npm run build
-      - run: npx cap copy android
+      - run: npm run test:unit
+      - run: npx cap sync android
       - name: Generate release signing key
         run: keytool -genkeypair -keystore $RUNNER_TEMP/release.jks -storepass android -keypass android -alias release -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=APK Provenance Locker,OU=Release,O=Param Factory,L=Internet,ST=Internet,C=IN"
       - name: Build signed APK and AAB
@@ -32,6 +34,26 @@ jobs:
             -Pandroid.injected.signing.key.password=android
           cp app/build/outputs/apk/release/app-release.apk ../app-release.apk
           cp app/build/outputs/bundle/release/app-release.aab ../app-release.aab
-      - run: sha256sum app-release.apk app-release.aab > SHA256SUMS
+      - name: Verify Android packages
+        run: |
+          test "$(stat -c%s app-release.apk)" -gt 1000000
+          test "$(stat -c%s app-release.aab)" -gt 1000000
+          unzip -l app-release.apk | grep -q 'AndroidManifest.xml'
+          unzip -l app-release.aab | grep -q 'manifest/AndroidManifest.xml'
+          AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)"
+          APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -1)"
+          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='2' versionName='0.2.0'"
+          "$APKSIGNER" verify --verbose --print-certs app-release.apk
+          sha256sum app-release.apk app-release.aab > SHA256SUMS
       - uses: softprops/action-gh-release@v2
-        with: {files: "app-release.apk\napp-release.aab\nSHA256SUMS"}
+        with:
+          files: |
+            app-release.apk
+            app-release.aab
+            SHA256SUMS
+          make_latest: true
+          body: |
+            APK Provenance Locker v0.2.0.
+
+            The APK and AAB use a release-specific test key for direct sideloading.
+            Verify downloads with SHA256SUMS. A store release needs the owner's upload key.

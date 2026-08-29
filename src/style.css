@@ -330,6 +330,10 @@ figcaption {
   font-size: 0.83rem;
   font-weight: 750;
 }
+.evidence-limit {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
 .icon-button,
 .close {
   border: 0;
@@ -442,6 +446,23 @@ figcaption {
 .small {
   font-size: 0.82rem;
   font-weight: 400;
+}
+.release-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 14px;
+}
+.release-links > a:not(.download) {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.install-steps {
+  max-width: 62ch;
+  padding-left: 22px;
+  color: #d5dec9;
 }
 .legal {
   max-width: 840px;

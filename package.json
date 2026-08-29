@@ -1,1 +1,33 @@
-{"name":"apk-provenance-locker","private":true,"version":"0.1.1","type":"module","scripts":{"dev":"vite","build":"tsc --noEmit && vite build","preview":"vite preview","lint":"tsc --noEmit","test":"node scripts/test.mjs","test:unit":"vitest run","test:browser":"playwright test","test:watch":"vitest"},"dependencies":{"@capacitor/android":"^6.2.1","@capacitor/core":"^6.2.1"},"devDependencies":{"@axe-core/playwright":"^4.13.0","@capacitor/cli":"^6.2.1","@playwright/test":"^1.58.2","@types/node":"^26.4.0","jsdom":"^30.0.1","playwright":"^1.58.2","typescript":"^7.0.2","vite":"^8.2.2","vitest":"^4.1.11"},"overrides":{"tar":"^7.5.11"}}
+{
+  "name": "apk-provenance-locker",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "postinstall": "node scripts/fix-capacitor-cli.mjs",
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit",
+    "test": "node scripts/test.mjs",
+    "test:unit": "vitest run",
+    "test:browser": "playwright test",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@capacitor/android": "6.2.1",
+    "@capacitor/core": "6.2.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@capacitor/cli": "6.2.1",
+    "@playwright/test": "1.58.2",
+    "@types/node": "26.4.0",
+    "jsdom": "30.0.1",
+    "playwright": "1.58.2",
+    "typescript": "7.0.2",
+    "vite": "8.2.2",
+    "vitest": "4.1.11"
+  },
+  "overrides": {"tar": "7.5.22"}
+}

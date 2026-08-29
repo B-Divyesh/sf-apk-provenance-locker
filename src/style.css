@@ -245,6 +245,29 @@ main {
   background: #dce8c6;
   box-shadow: 15px 18px 0 #0d1714;
 }
+.demo-product {
+  background: var(--night);
+  color: var(--paper);
+  padding: 28px clamp(18px, 7vw, 120px) 22px;
+}
+.demo-product .eyebrow {
+  color: #9accc1;
+}
+.demo-product h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  letter-spacing: -0.055em;
+  line-height: 1;
+  margin: 0 0 10px;
+}
+.demo-product p:not(.eyebrow) {
+  margin: 0;
+  max-width: 54ch;
+  color: #e4e8d8;
+}
+.demo-product + .locker-section {
+  padding-top: clamp(28px, 4vw, 48px);
+}
 .hero img {
   display: block;
   width: 100%;
@@ -411,6 +434,9 @@ figcaption {
 }
 .how {
   background: var(--paper);
+}
+.demo-how {
+  padding-top: clamp(36px, 5vw, 64px);
 }
 .how ol {
   padding: 0;

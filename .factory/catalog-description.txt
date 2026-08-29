@@ -1,1 +1,1 @@
-Verify APK signatures, hashes, and signer history before restoring.
+Verify APK signatures, hashes, and signing history before restoring.

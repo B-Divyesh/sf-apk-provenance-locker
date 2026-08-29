@@ -1,24 +1,25 @@
 # APK Provenance Locker
 
-APK Provenance Locker verifies APK signatures, identity, hashes, and signer
+APK Provenance Locker verifies APK signatures, identity, hashes, and signing
 history before an Android reinstall. It is for people who keep lawful APK
-files and want an encrypted restoration record.
+files and want an encrypted restore kit.
 
-The app verifies v1/JAR, v2, and v3 signatures locally. It checks certificate
-history after an Android signing-key change and rejects files whose signed
-contents changed. It reads the
+The app verifies Android's v1, v2, and v3 signing formats on this device. It
+checks signing history after an Android signing-key change and rejects files
+whose signed contents changed. It reads the
 package name, version name, and version code from compiled `AndroidManifest.xml`.
-Prior verified records reveal signer drift and lower-version downgrade risk.
+Prior verified records reveal a new signing certificate and lower-version
+downgrade risk.
 Android still makes the final install decision.
 
-## Use it
+## Use APK Provenance Locker
 
 1. Open the app and choose **Verify an APK**.
 2. Choose an APK you own and add its source URL.
 3. Choose whether to keep an optional APK copy in local app storage.
 4. Choose **Export restore kit** and set a password.
-5. Later, choose **Validate a restore kit** to recheck saved copies against
-   their hashes, signatures, package identity, and signers.
+5. Later, choose **Validate a restore kit** to check saved copies.
+6. Import verified records or download a verified saved APK from the report.
 
 Try the isolated sample at `/demo`. Demo metadata and files use separate
 `demo:` namespaces. **Reset demo** and **Start for real** erase the demo data.
@@ -38,27 +39,26 @@ npx cap sync android
 `npm test -- --grep @claim:<id>` runs each observable claim listed in
 `.factory/claims.json`. The production static site is written to `dist/`.
 
-Signature verification uses the self-hosted Apache-2.0 `apksig-go` v1.1.0
-WebAssembly build. Its pinned adapter is in `tools/apksig-wasm`. Android apksig
-fixtures and their exact checksums are in `tests/fixtures`.
+APK checks run in the browser. Developers can inspect the pinned `apksig-go`
+v1.1.0 WebAssembly adapter in `tools/apksig-wasm`. Android fixtures and their
+exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.1/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.1/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.1/SHA256SUMS)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.2/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.2/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.2/SHA256SUMS)
 
-These links use the current `v0.5.1` release. Check the APK against its line in
-the versioned `SHA256SUMS` file. A store release needs the owner's upload key.
-It is not on Google Play yet.
+These links use the current `v0.5.2` release. Check the APK against its line in
+the versioned `SHA256SUMS` file.
 
 ## Optional Locker Plus
 
 Locker Plus costs $12 once. It adds private device labels for organizing a
 large locker. Verification, warnings, and restore-kit export remain free.
-Buy through Sociobot/Dodo, or use **Have a license? Paste it** to restore a
-purchase on another device. A refunded or revoked license stops private device
-labels. Verification remains free.
+Buy through Sociobot's hosted checkout, or use **Restore Locker Plus license**
+to restore a purchase on another device. A refunded or revoked license stops
+private device labels. Verification remains free.
 
 ## Privacy and license
 

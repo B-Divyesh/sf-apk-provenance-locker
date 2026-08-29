@@ -42,7 +42,7 @@ test('@claim:signature-verification verifies v1/v2/v3 and a three-certificate li
   await page.goto('/demo');
   await chooseApk(page);
   await expect(page.getByText('Signature verified · v1 + v2 + v3')).toBeVisible();
-  await expect(page.getByText('3-certificate lineage verified')).toBeVisible();
+  await expect(page.getByText('3-certificate signing history verified')).toBeVisible();
   await page.getByRole('button',{name:'View full evidence'}).first().click();
   await expect(page.getByText('android.appsecurity.cts.tinyapp',{exact:true}).first()).toBeVisible();
   await expect(page.getByText('1.0 · code 10')).toBeVisible();
@@ -177,6 +177,66 @@ test('@claim:encrypted-export hides record names and opens with the supplied pas
   await expect(page.getByRole('heading',{name:'1 APKs match'})).toBeVisible();
 });
 
+test('@claim:restore-import imports verified evidence and saved bytes into a clean demo locker',async({page,browser})=>{
+  await page.goto('/demo');
+  await chooseApk(page);
+  await page.getByRole('button',{name:'Export restore kit'}).click();
+  await page.getByLabel('Password',{exact:true}).fill('correct horse battery');
+  await page.getByLabel('Confirm password',{exact:true}).fill('correct horse battery');
+  const pending=page.waitForEvent('download');
+  await page.getByRole('button',{name:'Download encrypted kit'}).click();
+  const encrypted=await readFile((await (await pending).path())!);
+  const clean=await browser.newContext();
+  const restored=await clean.newPage();
+  await restored.goto('/demo');
+  await restored.getByRole('button',{name:'Validate a restore kit'}).click();
+  await restored.getByLabel('Encrypted kit').setInputFiles({name:'restore.locker',mimeType:'application/json',buffer:encrypted});
+  await restored.getByLabel('Kit password').fill('correct horse battery');
+  await restored.getByRole('button',{name:'Check APK evidence'}).click();
+  await restored.getByRole('button',{name:'Import verified records'}).click();
+  await restored.getByRole('button',{name:'Confirm import verified records'}).click();
+  await expect(restored.getByRole('heading',{name:`${fixturePackage} 1.0 (10)`})).toBeVisible();
+  const restoredBytes=await restored.evaluate(async()=>{const record=JSON.parse(localStorage.getItem('demo:apk-locker:records')!).find((item:any)=>item.packageName==='android.appsecurity.cts.tinyapp');const db=await new Promise<IDBDatabase>((resolve,reject)=>{const request=indexedDB.open('demo:apk-locker-files');request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)});return await new Promise<number[]>((resolve,reject)=>{const request=db.transaction('files').objectStore('files').get(record.id);request.onsuccess=()=>{db.close();resolve(Array.from(new Uint8Array(request.result)))};request.onerror=()=>reject(request.error)})});
+  expect(Buffer.from(restoredBytes)).toEqual(await readFile(lineageFixture));
+  await clean.close();
+});
+
+test('@claim:saved-apk-download downloads a verified saved APK without changing its bytes',async({page})=>{
+  await page.goto('/demo');
+  await chooseApk(page);
+  await page.getByRole('button',{name:'Export restore kit'}).click();
+  await page.getByLabel('Password',{exact:true}).fill('correct horse battery');
+  await page.getByLabel('Confirm password',{exact:true}).fill('correct horse battery');
+  const pendingKit=page.waitForEvent('download');
+  await page.getByRole('button',{name:'Download encrypted kit'}).click();
+  const encrypted=await readFile((await (await pendingKit).path())!);
+  await page.getByRole('button',{name:'Validate a restore kit'}).click();
+  await page.getByLabel('Encrypted kit').setInputFiles({name:'restore.locker',mimeType:'application/json',buffer:encrypted});
+  await page.getByLabel('Kit password').fill('correct horse battery');
+  await page.getByRole('button',{name:'Check APK evidence'}).click();
+  const pendingApk=page.waitForEvent('download');
+  await page.getByRole('button',{name:'Download verified APK'}).click();
+  expect(await readFile((await (await pendingApk).path())!)).toEqual(await readFile(lineageFixture));
+});
+
+test('shows a conflict choice before replacing a matching local record',async({page})=>{
+  await page.goto('/demo');
+  await chooseApk(page);
+  await page.getByRole('button',{name:'Export restore kit'}).click();
+  await page.getByLabel('Password',{exact:true}).fill('correct horse battery');
+  await page.getByLabel('Confirm password',{exact:true}).fill('correct horse battery');
+  const pending=page.waitForEvent('download');
+  await page.getByRole('button',{name:'Download encrypted kit'}).click();
+  const encrypted=await readFile((await (await pending).path())!);
+  await page.getByRole('button',{name:'Validate a restore kit'}).click();
+  await page.getByLabel('Encrypted kit').setInputFiles({name:'restore.locker',mimeType:'application/json',buffer:encrypted});
+  await page.getByLabel('Kit password').fill('correct horse battery');
+  await page.getByRole('button',{name:'Check APK evidence'}).click();
+  await page.getByRole('button',{name:'Import verified records'}).click();
+  await expect(page.getByText('1 record already uses the same package and version.')).toBeVisible();
+  await expect(page.getByRole('button',{name:'Replace matching records'})).toBeVisible();
+});
+
 test('exports a 12 MiB saved copy without overflowing the browser stack',async({page})=>{
   test.setTimeout(120_000);
   await page.goto('/');await chooseApk(page);
@@ -251,11 +311,11 @@ test('@claim:apk-never-uploaded processes a real APK without sending its bytes o
 test('@claim:release-assets exposes deterministic direct APK, AAB, and checksum links without an API request',async({page})=>{
   const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/demo');
-  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.1\/app-release\.apk$/);
-  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.1\/app-release\.aab$/);
-  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.1\/SHA256SUMS$/);
+  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.2\/app-release\.apk$/);
+  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.2\/app-release\.aab$/);
+  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.2\/SHA256SUMS$/);
   await expect(page.getByText("Use the versioned SHA256SUMS file to check the APK's SHA-256.")).toBeVisible();
-  await expect(page.getByText('This app is not on Google Play yet.')).toBeVisible();
+  await expect(page.getByText(/Google Play/)).toHaveCount(0);
   expect(requests.some(url=>url.includes('api.github.com'))).toBe(false);
 });
 
@@ -264,7 +324,7 @@ test('publishes a build identity for the exact source commit',async({request})=>
   expect(response.ok()).toBe(true);
   expect(await response.json()).toEqual({
     product:'apk-provenance-locker',
-    version:'0.5.1',
+    version:'0.5.2',
     commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
   });
 });
@@ -278,7 +338,7 @@ test('@claim:paid-unlock restores a valid one-time license and persists a privat
   await page.goto('/demo');
   await expect(page.getByText('Locker Plus costs $12 once.')).toBeVisible();
   await expect(page.getByRole('link',{name:'Buy Locker Plus — $12'})).toHaveAttribute('href','https://api.sociobot.in/api/v1/products/apk-provenance-locker/checkout');
-  await page.getByRole('button',{name:'Have a license? Paste it'}).click();
+  await page.getByRole('button',{name:'Restore Locker Plus license'}).click();
   await page.getByLabel('License token').fill('qa-valid-license-123');
   await page.getByRole('button',{name:'Verify license'}).click();
   await expect(page.locator('.license-state')).toHaveText('Locker Plus is active on this device.');
@@ -406,7 +466,7 @@ test('passes axe, has one page structure, and fits mobile at 200% text',async({p
   expect((await new AxeBuilder({page}).analyze()).violations).toEqual([]);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
   await page.keyboard.press('Escape');
-  await page.getByRole('button',{name:'Have a license? Paste it'}).click();
+  await page.getByRole('button',{name:'Restore Locker Plus license'}).click();
   expect((await new AxeBuilder({page}).analyze()).violations).toEqual([]);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
   await page.keyboard.press('Escape');
@@ -416,6 +476,16 @@ test('passes axe, has one page structure, and fits mobile at 200% text',async({p
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
 });
 
+test('opens sample records above the fold from the first-screen demo action',async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('/');
+  await page.getByRole('link',{name:'Try it with sample data'}).click();
+  await expect(page).toHaveURL('/demo');
+  const record=page.locator('.record').first();
+  await expect(record).toBeVisible();
+  expect((await record.boundingBox())?.y||Infinity).toBeLessThan(844);
+});
+
 test('recorded evidence reflows long release identity and source at 390px and 200% text',async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto('/demo');
@@ -423,7 +493,7 @@ test('recorded evidence reflows long release identity and source at 390px and 20
     const key='demo:apk-locker:records';
     const records=JSON.parse(localStorage.getItem(key)!);
     records[0].packageName='in.sociobot.apk_provenance_locker';
-    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.1/in.sociobot.apk_provenance_locker/app-release.apk';
+    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.2/in.sociobot.apk_provenance_locker/app-release.apk';
     localStorage.setItem(key,JSON.stringify(records));
   });
   await page.reload();
@@ -469,7 +539,7 @@ test('@claim:offline-reload reloads the demo shell without the browser HTTP cach
   await expect.poll(()=>page.evaluate(()=>Boolean(navigator.serviceWorker.controller))).toBe(true);
   const session=await context.newCDPSession(page);await session.send('Network.enable');await session.send('Network.setCacheDisabled',{cacheDisabled:true});await session.send('Network.clearBrowserCache');
   await context.setOffline(true);await page.reload();
-  await expect(page.getByRole('heading',{level:1})).toHaveText('Verify APKs before restoring');
+  await expect(page.getByRole('heading',{level:1})).toHaveText('Check sample APK records');
   await expect(page.getByRole('heading',{name:/^org\.fdroid\.fdroid /})).toBeVisible();
   await context.setOffline(false);
 });
@@ -492,6 +562,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v10');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v10']);
+  expect(state.caches).toContain('apk-locker-v11');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v11']);
 });

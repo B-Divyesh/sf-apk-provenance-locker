@@ -144,6 +144,6 @@ export function assessCompatibility(next:{packageName:string;versionCode:number;
   const priorAcceptsNext=prior.currentSigner===next.currentSigner||prior.lineage.some(node=>node.certificateSha256===next.currentSigner);
   if(!nextAcceptsPrior&&!priorAcceptsNext)return {kind:'signer-change',message:`Signer change: this certificate is outside the verified lineage recorded for version code ${prior.versionCode}. Android will reject it as an update.`};
   if(next.versionCode<prior.versionCode)return {kind:'downgrade',message:`Incompatible downgrade risk: version code ${next.versionCode} is below recorded ${prior.versionCode}. Android normally blocks this install.`};
-  if(next.versionCode===prior.versionCode)return {kind:'same',message:`Same package, signer lineage, and version code ${next.versionCode}.`};
-  return {kind:'upgrade',message:`Compatible signer lineage and a higher version code than ${prior.versionCode}.`};
+  if(next.versionCode===prior.versionCode)return {kind:'same',message:`Same package, signing history, and version code ${next.versionCode}.`};
+  return {kind:'upgrade',message:`Compatible signing history and a higher version code than ${prior.versionCode}.`};
 }

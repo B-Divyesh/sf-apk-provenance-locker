@@ -1,7 +1,7 @@
 {
   "name": "apk-provenance-locker",
   "private": true,
-  "version": "0.5.1",
+  "version": "0.5.2",
   "type": "module",
   "scripts": {
     "postinstall": "node scripts/fix-capacitor-cli.mjs",

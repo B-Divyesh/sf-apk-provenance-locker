@@ -159,5 +159,19 @@
     "where": "Landing paid tier, Terms, README",
     "test": "npm test -- --grep @claim:hosted-checkout",
     "sandbox": "Assert the exact price and checkout URL, then require an HTTP redirect to a Dodo hosted checkout session"
+  },
+  {
+    "id": "restore-import",
+    "claim": "Imports verified records and saved APK copies from a restore kit",
+    "where": "Validation report, README",
+    "test": "npm test -- --grep @claim:restore-import",
+    "sandbox": "Export a verified saved APK from /demo, open it in a fresh demo browser context, import it, and compare the restored record and bytes"
+  },
+  {
+    "id": "saved-apk-download",
+    "claim": "Downloads a verified saved APK copy from a restore-kit report",
+    "where": "Validation report, README",
+    "test": "npm test -- --grep @claim:saved-apk-download",
+    "sandbox": "Export and validate a signed APK from /demo, download the matching saved copy, and compare every byte with the fixture"
   }
 ]

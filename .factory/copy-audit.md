@@ -47,9 +47,9 @@ term for certificate changes. **Source record** is the user-facing name for
 | Android download | 2 | Pass |
 | APK checks run on this device using Android's signature rules. | 10 | Declared claim: signature-verification |
 | Android still makes the final install decision. | 7 | Limitation |
-| v0.5.8 matches source `<commit>`. | 4 | Declared claim: release-assets |
+| v0.5.9 matches source `<commit>`. | 4 | Declared claim: release-assets |
 | GitHub metadata is unavailable. | 4 | Declared claim: release-fallback |
-| Versioned v0.5.8 links remain available. | 5 | Declared claim: release-fallback |
+| Versioned v0.5.9 links remain available. | 5 | Declared claim: release-fallback |
 | Download APK from GitHub | 4 | Declared claim: release-assets |
 | Download AAB from GitHub | 4 | Declared claim: release-assets |
 | Download SHA256SUMS from GitHub | 4 | Declared claim: release-assets |
@@ -94,7 +94,7 @@ term for certificate changes. **Source record** is the user-facing name for
 | It checks that the tag, release notes, source record, and both packages name this repository commit. | 16 | Release verification instruction |
 | It also checks that Start for real, Locker, and the wordmark erase demo data. | 14 | Declared claim: demo-sandbox |
 | Deploy APK Provenance Locker | 4 | Heading |
-| These links use the fixed v0.5.8 release. | 7 | Declared claim: release-assets |
+| These links use the fixed v0.5.9 release. | 7 | Declared claim: release-assets |
 | Compare each file fingerprint with SHA256SUMS. | 6 | Declared claim: release-assets |
 | Then use RELEASE_PROVENANCE.json, the source record, to confirm which repository commit built the files. | 13 | Declared claim: release-assets |
 | Verification, signer and downgrade warnings, and restore-kit export stay free. | 10 | Declared claim: free-core-features |

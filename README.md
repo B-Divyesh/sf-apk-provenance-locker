@@ -55,12 +55,12 @@ exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.8/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.8/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.8/SHA256SUMS)
-- [Download source record](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.8/RELEASE_PROVENANCE.json)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.9/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.9/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.9/SHA256SUMS)
+- [Download source record](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.9/RELEASE_PROVENANCE.json)
 
-These links use the fixed `v0.5.8` release. Compare each file fingerprint with
+These links use the fixed `v0.5.9` release. Compare each file fingerprint with
 `SHA256SUMS`. Then use `RELEASE_PROVENANCE.json`, the source record, to confirm
 which repository commit built the files.
 

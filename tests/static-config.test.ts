@@ -68,12 +68,12 @@ describe('deployment and Android release configuration',()=>{
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v18'");
+    expect(worker).toContain("CACHE='apk-locker-v19'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
 
-  it('builds v0.5.8 packages only from the matching tag and audits downloaded immutable provenance',()=>{
+  it('builds v0.5.9 packages only from the matching tag and audits downloaded immutable provenance',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
     const manifest=readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
     const backupRules=readFileSync('android/app/src/main/res/xml/backup_rules.xml','utf8');
@@ -84,7 +84,7 @@ describe('deployment and Android release configuration',()=>{
     expect(workflow).toContain('test "$(git rev-parse HEAD)" = "$GITHUB_SHA"');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.aab "base/assets/public/${FILE#dist/}")');
-    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='13' versionName='0.5.8'");
+    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='14' versionName='0.5.9'");
     expect(workflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:fullBackupContent' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:dataExtractionRules' packaged-manifest.txt");

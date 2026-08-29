@@ -1,4 +1,35 @@
-# APK Provenance Locker repair handoff
+# APK Provenance Locker verification handoff — FAIL
+
+## Independent verification disposition
+
+**FAIL — do not release against the researched APK Provenance Locker brief.**
+
+Independent verification on 2026-08-29 checked out
+`be05f78b4d483631f542d83aa0f26a6b60915b59` and the live deployment at
+<https://apk-provenance-locker.sociobot.in>. The full SHA in the work request
+(`be05f78b4d1af0d26c50b905092e56ec59425ac9`) is not present in this clone;
+the checked-out work-order base shares its short prefix. The live HTML, JS, and
+CSS match the checked-out fresh build exactly.
+
+The candidate is operational as a local hash/export evidence locker: all 11
+claim commands, unit/browser tests, lint, build, live demo, encrypted export
+and hash validation, PWA offline reload, APK/AAB checksums, accessibility, and
+performance checks passed. The published v0.2.0 APK/AAB exist and validate.
+
+It fails the original researched product contract because it explicitly does
+not verify APK signatures, v1 signers, v3 signer lineage, package names,
+version codes, or downgrade compatibility. It records a v2/v3 certificate-byte
+digest as unverified evidence and compares user-entered version notes. It
+therefore cannot identify every unexpected signer change or reliably warn
+before an incompatible downgrade, which are central requirements of the
+researched brief.
+
+See `.factory/verification-3.md` for exact commands, hashes, live evidence,
+severity, and required remediation.
+
+---
+
+# Previous repair handoff (superseded by independent FAIL)
 
 ## Result
 

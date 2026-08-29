@@ -1,1 +1,1 @@
-Record APK signing history and SHA-256 file fingerprints before a reinstall.
+Verify APK signatures and record file fingerprints before a reinstall.

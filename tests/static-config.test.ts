@@ -27,6 +27,17 @@ describe('deployment and Android release configuration',()=>{
     expect(readFileSync('src/main.ts','utf8')).toContain('A refunded or revoked license stops private device labels.');
   });
 
+  it('registers every free Locker Plus entitlement as one observable no-license claim',()=>{
+    const claims=JSON.parse(readFileSync('.factory/claims.json','utf8')) as Array<{id:string;claim:string;where:string}>;
+    expect(claims).toContainEqual(expect.objectContaining({
+      id:'free-core-features',
+      claim:'Verification, signer and downgrade warnings, and restore-kit export work without a Locker Plus license',
+      where:'Landing paid tier, evidence dialog, Terms, README',
+    }));
+    const app=readFileSync('src/main.ts','utf8');
+    expect(app.match(/Verification, signer and downgrade warnings, and restore-kit export stay free\./g)).toHaveLength(3);
+  });
+
   it('serves only known SPA routes and lets unknown routes reach the real 404 override',()=>{
     const config=JSON.parse(readFileSync('public/staticwebapp.config.json','utf8'));
     expect(config.navigationFallback).toBeUndefined();
@@ -48,12 +59,12 @@ describe('deployment and Android release configuration',()=>{
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v13'");
+    expect(worker).toContain("CACHE='apk-locker-v14'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
 
-  it('builds v0.5.3 packages only from the matching tag and audits packaged identity, privacy, and demo erasure',()=>{
+  it('builds v0.5.4 packages only from the matching tag and audits packaged identity, privacy, and demo erasure',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
     const manifest=readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
     const backupRules=readFileSync('android/app/src/main/res/xml/backup_rules.xml','utf8');
@@ -64,7 +75,7 @@ describe('deployment and Android release configuration',()=>{
     expect(workflow).toContain('test "$(git rev-parse HEAD)" = "$GITHUB_SHA"');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.aab "base/assets/public/${FILE#dist/}")');
-    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='8' versionName='0.5.3'");
+    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='9' versionName='0.5.4'");
     expect(workflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:fullBackupContent' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:dataExtractionRules' packaged-manifest.txt");
@@ -115,5 +126,11 @@ describe('deployment and Android release configuration',()=>{
     expect(app).toContain('APK checks run on this device using Android\'s signature rules.');
     expect(app).toContain('Restore Locker Plus license');
     expect(readme).toContain('## Use APK Provenance Locker');
+    expect(readme).toContain('## Develop and verify APK Provenance Locker');
+    expect(readme).toContain('## Deploy APK Provenance Locker');
+    expect(readme).toContain('The demo keeps its records\nand files separate from your real locker.');
+    expect(readme).toContain('It confirms that both packages name this\nrepository commit.');
+    expect(readme).not.toContain('demo-exit erasure path');
+    expect(readme).not.toContain('source identity');
   });
 });

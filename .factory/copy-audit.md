@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-29 for repair 9. Counts treat hyphenated terms, URLs,
+Checked 2026-08-29 for polish round 4. Counts treat hyphenated terms, URLs,
 paths, and filenames as one word. No audited sentence exceeds 22 words or uses
 a banned marketing word. **File fingerprint** is the one product term for the
 SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
@@ -30,6 +30,7 @@ SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
 | Read the package and version. | 5 | Pass |
 | Check signer and downgrade risks. | 5 | Pass |
 | Locker Plus costs $12 once. | 5 | Declared claims: paid-unlock, hosted-checkout |
+| Verification, signer and downgrade warnings, and restore-kit export stay free. | 10 | Declared claim: free-core-features |
 | APK checks run on this device using Android's signature rules. | 10 | Declared claim: signature-verification |
 | Use the versioned SHA256SUMS file to check the APK's SHA-256 file fingerprint. | 12 | Declared claim: release-assets |
 | Compare the APK's SHA-256 file fingerprint with the matching line in SHA256SUMS. | 12 | Declared claim: release-assets |
@@ -48,14 +49,24 @@ SHA-256 digest; the acronym appears only with that term or in `SHA256SUMS`.
 | It checks signing history after an Android signing-key change and rejects files whose signed contents changed. | 16 | Declared claims: signer-drift, tamper-rejection |
 | Use APK Provenance Locker | 4 | Pass |
 | Try the isolated sample at /?demo=1 or /demo. | 8 | Declared claim: demo-sandbox |
+| The demo keeps its records and files separate from your real locker. | 12 | Declared claim: demo-sandbox |
 | Leaving, Reset demo, and Start for real erase demo data. | 10 | Declared claim: demo-sandbox |
+| Develop and verify APK Provenance Locker | 6 | Pass |
 | APK checks run in the browser. | 6 | Declared claim: signature-verification |
 | After the tag workflow publishes a release, npm run test:release downloads its APK, AAB, and checksums. | 15 | Release verification instruction |
-| It checks their source identity and runs every demo-exit erasure path from the web assets inside the APK. | 18 | Release verification instruction |
+| It confirms that both packages name this repository commit. | 9 | Release verification instruction |
+| It also checks that Start for real, Locker, and the wordmark erase demo data. | 14 | Declared claim: demo-sandbox |
+| Deploy APK Provenance Locker | 4 | Pass |
 | Compare its SHA-256 file fingerprint with the matching line in SHA256SUMS. | 11 | Declared claim: release-assets |
+| Verification, signer and downgrade warnings, and restore-kit export stay free. | 10 | Declared claim: free-core-features |
 | Records and optional APK copies stay in browser or installed-app storage. | 11 | Declared claim: local-storage |
 | Recording, checking, and exporting send no APK data or record content over the network. | 14 | Declared claim: apk-never-uploaded |
 | Restore kits encrypt records in this browser with your password (PBKDF2-SHA256 and AES-GCM). | 13 | Declared claim: encrypted-export |
+
+The landing and README contain no “namespaces,” “source identity,” or
+“demo-exit erasure path” wording. The catalog sentence is “Verify APK
+signatures and record file fingerprints before a reinstall.” It has ten
+words, starts with a verb, and is 70 characters including the final period.
 
 ## Terminology
 

@@ -21,12 +21,12 @@ Android still makes the final install decision.
 5. Later, choose **Validate a restore kit** to check saved copies.
 6. Import verified records or download a verified saved APK from the report.
 
-Try the isolated sample at `/?demo=1` or `/demo`. Demo metadata and files use
-separate `demo:` namespaces. Leaving, **Reset demo**, and **Start for real**
-erase demo data. Removing a record first asks for confirmation. Confirming it
-erases its optional saved copy.
+Try the isolated sample at `/?demo=1` or `/demo`. The demo keeps its records
+and files separate from your real locker. Leaving, **Reset demo**, and **Start
+for real** erase demo data. Removing a record first asks for confirmation.
+Confirming it erases its optional saved copy.
 
-## Develop and verify
+## Develop and verify APK Provenance Locker
 
 ```sh
 npm ci
@@ -39,10 +39,11 @@ npx cap sync android
 `npm test -- --grep @claim:<id>` runs each observable claim listed in
 `.factory/claims.json`. The production static site is written to `dist/`.
 After the tag workflow publishes a release, `npm run test:release` downloads
-its APK, AAB, and checksums. It checks their source identity and runs every
-demo-exit erasure path from the web assets inside the APK.
+its APK, AAB, and checksums. It confirms that both packages name this
+repository commit. It also checks that **Start for real**, **Locker**, and the
+wordmark erase demo data.
 
-## Deploy
+## Deploy APK Provenance Locker
 
 The factory deploys `dist/` with the configured static work order. Pushing a
 matching `v<version>` tag runs the Android release workflow and publishes APK,
@@ -54,20 +55,20 @@ exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.3/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.3/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.3/SHA256SUMS)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.4/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.4/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.4/SHA256SUMS)
 
-These links use the current `v0.5.3` release. Compare its SHA-256 file
+These links use the current `v0.5.4` release. Compare its SHA-256 file
 fingerprint with the matching line in `SHA256SUMS`.
 
 ## Optional Locker Plus
 
 Locker Plus costs $12 once. It adds private device labels for organizing a
-large locker. Verification, warnings, and restore-kit export remain free.
-Buy through Sociobot's hosted checkout, or use **Restore Locker Plus license**
-to restore a purchase on another device. A refunded or revoked license stops
-private device labels. Verification remains free.
+large locker. Verification, signer and downgrade warnings, and restore-kit
+export stay free. Buy through Sociobot's hosted checkout, or use **Restore
+Locker Plus license** to restore a purchase on another device. A refunded or
+revoked license stops private device labels. Verification remains free.
 
 ## Privacy and license
 

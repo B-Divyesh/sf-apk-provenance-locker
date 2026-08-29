@@ -341,9 +341,9 @@ test('@claim:apk-never-uploaded processes a real APK without sending its bytes o
 test('@claim:release-assets exposes deterministic direct APK, AAB, and checksum links without an API request',async({page})=>{
   const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
   await page.goto('/demo');
-  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.3\/app-release\.apk$/);
-  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.3\/app-release\.aab$/);
-  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.3\/SHA256SUMS$/);
+  await expect(page.getByRole('link',{name:'Download APK from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.4\/app-release\.apk$/);
+  await expect(page.getByRole('link',{name:'Download AAB from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.4\/app-release\.aab$/);
+  await expect(page.getByRole('link',{name:'Download SHA256SUMS from GitHub'})).toHaveAttribute('href',/\/releases\/download\/v0\.5\.4\/SHA256SUMS$/);
   await expect(page.getByText("Use the versioned SHA256SUMS file to check the APK's SHA-256 file fingerprint.")).toBeVisible();
   await expect(page.getByText(/Google Play/)).toHaveCount(0);
   expect(requests.some(url=>url.includes('api.github.com'))).toBe(false);
@@ -354,7 +354,7 @@ test('publishes a build identity for the exact source commit',async({request})=>
   expect(response.ok()).toBe(true);
   expect(await response.json()).toEqual({
     product:'apk-provenance-locker',
-    version:'0.5.3',
+    version:'0.5.4',
     commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
   });
 });
@@ -387,6 +387,53 @@ test('@claim:paid-unlock restores a valid one-time license and persists a privat
   expect(verificationRequests).toHaveLength(1);
   const cachedUrls=await page.evaluate(async()=>Promise.all((await caches.keys()).map(async name=>(await (await caches.open(name)).keys()).map(request=>request.url))).then(groups=>groups.flat()));
   expect(cachedUrls.join('\n')).not.toContain('qa-valid-license-123');
+});
+
+test('@claim:free-core-features keeps verification, both warnings, and restore-kit export available without a license',async({page})=>{
+  test.setTimeout(120_000);
+  await page.goto('/demo');
+  expect(await page.evaluate(()=>localStorage.getItem('demo:sb_license:apk-provenance-locker'))).toBeNull();
+  await expect(page.getByText('Verification, signer and downgrade warnings, and restore-kit export stay free.')).toBeVisible();
+
+  await chooseApk(page);
+  await expect(page.getByText('Signature verified · v1 + v2 + v3')).toBeVisible();
+  await page.evaluate(()=>{
+    const records=JSON.parse(localStorage.getItem('demo:apk-locker:records')!);
+    const verified=records.find((record:any)=>record.packageName==='android.appsecurity.cts.tinyapp');
+    verified.versionCode=11;
+    localStorage.setItem('demo:apk-locker:records',JSON.stringify(records));
+  });
+  await page.reload();
+  await chooseApk(page);
+  await expect(page.locator('.record .risk').first()).toContainText('Incompatible downgrade risk');
+
+  await page.evaluate(()=>{
+    const records=JSON.parse(localStorage.getItem('demo:apk-locker:records')!);
+    for(const record of records.filter((item:any)=>item.packageName==='android.appsecurity.cts.tinyapp')){
+      record.versionCode=12;
+      record.currentSigner='f'.repeat(64);
+      record.lineage=[];
+    }
+    localStorage.setItem('demo:apk-locker:records',JSON.stringify(records));
+  });
+  await page.reload();
+  await chooseApk(page);
+  await expect(page.locator('.record .risk').first()).toContainText('Signer change: this certificate is outside the verified lineage');
+
+  await page.getByRole('button',{name:'Export restore kit'}).click();
+  await page.getByLabel('Password',{exact:true}).fill('free features proof');
+  await page.getByLabel('Confirm password',{exact:true}).fill('free features proof');
+  const pending=page.waitForEvent('download');
+  await page.getByRole('button',{name:'Download encrypted kit'}).click();
+  const encrypted=await readFile((await (await pending).path())!);
+  expect(encrypted.toString('utf8')).not.toContain(fixturePackage);
+  await page.getByRole('button',{name:'Validate a restore kit'}).click();
+  await page.getByLabel('Encrypted kit').setInputFiles({name:'free-features.locker',mimeType:'application/json',buffer:encrypted});
+  await page.getByLabel('Kit password').fill('free features proof');
+  await page.getByRole('button',{name:'Check APK evidence'}).click();
+  await expect(page.getByRole('heading',{name:/APKs match/})).toBeVisible();
+  expect(await page.evaluate(()=>localStorage.getItem('demo:sb_license:apk-provenance-locker'))).toBeNull();
+  expect(await page.evaluate(()=>localStorage.getItem('demo:sb_license:apk-provenance-locker:verdict'))).toBeNull();
 });
 
 test('@claim:hosted-checkout shows the one-time price and reaches Sociobot hosted checkout',async({page,request})=>{
@@ -523,7 +570,7 @@ test('recorded evidence reflows long release identity and source at 390px and 20
     const key='demo:apk-locker:records';
     const records=JSON.parse(localStorage.getItem(key)!);
     records[0].packageName='in.sociobot.apk_provenance_locker';
-    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.3/in.sociobot.apk_provenance_locker/app-release.apk';
+    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.4/in.sociobot.apk_provenance_locker/app-release.apk';
     localStorage.setItem(key,JSON.stringify(records));
   });
   await page.reload();
@@ -592,6 +639,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v13');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v13']);
+  expect(state.caches).toContain('apk-locker-v14');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v14']);
 });

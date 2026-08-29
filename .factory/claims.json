@@ -134,7 +134,7 @@
   },
   {
     "id": "release-assets",
-    "claim": "The landing page links directly to the v0.5.3 APK, AAB, and SHA256SUMS assets",
+    "claim": "The landing page links directly to the v0.5.4 APK, AAB, and SHA256SUMS assets",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
     "sandbox": "Assert deterministic GitHub release-asset URLs and that page load makes no GitHub API request"
@@ -145,6 +145,13 @@
     "where": "Landing paid tier, evidence dialog, Privacy, Terms, README",
     "test": "npm test -- --grep @claim:paid-unlock",
     "sandbox": "Mock a valid Sociobot verdict, paste a license, assert the namespaced token and daily verdict cache, then save and persist a device label"
+  },
+  {
+    "id": "free-core-features",
+    "claim": "Verification, signer and downgrade warnings, and restore-kit export work without a Locker Plus license",
+    "where": "Landing paid tier, evidence dialog, Terms, README",
+    "test": "npm test -- --grep @claim:free-core-features",
+    "sandbox": "From a fresh no-license /demo, verify a signed APK, trigger signer and downgrade warnings, export an encrypted restore kit, decrypt it, and assert no license was stored"
   },
   {
     "id": "revoked-license",

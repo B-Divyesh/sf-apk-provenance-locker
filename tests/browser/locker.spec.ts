@@ -136,8 +136,8 @@ test('@claim:android-backup-disabled keeps private installed-app storage out of 
     expect(backupRules).toContain(`<exclude domain="${domain}" path="." />`);
     expect(extractionRules.match(new RegExp(`<exclude domain="${domain}" path="\\." />`,'g'))).toHaveLength(2);
   }
-  expect(releaseWorkflow).toContain('res/xml/backup_rules.xml');
-  expect(releaseWorkflow).toContain('res/xml/data_extraction_rules.xml');
+  expect(releaseWorkflow).toContain("grep -q 'android:fullBackupContent' packaged-manifest.txt");
+  expect(releaseWorkflow).toContain("grep -q 'android:dataExtractionRules' packaged-manifest.txt");
 });
 
 test('@claim:saved-copy-erasure confirms removal before erasing demo metadata and saved APK bytes',async({page})=>{

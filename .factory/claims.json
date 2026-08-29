@@ -88,7 +88,7 @@
     "claim": "Android system backup and device transfer are disabled for installed-app data",
     "where": "Privacy, README",
     "test": "npm test -- --grep @claim:android-backup-disabled",
-    "sandbox": "Open /demo, then assert the Android manifest disables backup, both Android rule formats exclude every app-data domain, and the release workflow inspects those rules in the package"
+    "sandbox": "Open /demo, then assert the Android manifest disables backup, both Android rule formats exclude every app-data domain, and the release workflow inspects the packaged manifest"
   },
   {
     "id": "saved-copy-erasure",

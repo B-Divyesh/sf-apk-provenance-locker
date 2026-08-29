@@ -38,7 +38,7 @@ and pale surfaces, and sizing only the checkbox glyph instead of its label.
 
 - `.factory/claims.json` now includes
   `@claim:android-backup-disabled`. It asserts both native backup flags and the
-  legacy/Android 12 exclusion rules, plus the packaged workflow checks.
+  legacy/Android 12 exclusion rules, plus the packaged-manifest checks.
 - The release configuration test requires v0.5.0/code 5, exact APK and AAB web
   byte comparisons, packaged backup flags, and both confirmation actions.
 - Browser coverage measures the checkbox label at 1440 px and 390 px and

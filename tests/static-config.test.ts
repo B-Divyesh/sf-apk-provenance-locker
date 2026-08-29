@@ -66,8 +66,8 @@ describe('deployment and Android release configuration',()=>{
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.aab "base/assets/public/${FILE#dist/}")');
     expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='5' versionName='0.5.0'");
     expect(workflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
-    expect(workflow).toContain('res/xml/backup_rules.xml');
-    expect(workflow).toContain('res/xml/data_extraction_rules.xml');
+    expect(workflow).toContain("grep -q 'android:fullBackupContent' packaged-manifest.txt");
+    expect(workflow).toContain("grep -q 'android:dataExtractionRules' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'Keep record' packaged-app.js");
     expect(workflow).toContain("grep -q 'Remove record' packaged-app.js");
     expect(manifest).toMatch(/android:allowBackup="false"/);

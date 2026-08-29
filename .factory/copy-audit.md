@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-29 after repair 5. Counts treat hyphenated terms, URLs,
+Checked 2026-08-29 after repair 6. Counts treat hyphenated terms, URLs,
 and file names as one word. No audited sentence exceeds 22 words or uses a
 banned marketing term.
 
@@ -42,11 +42,13 @@ banned marketing term.
 | Buy Locker Plus — $12 | 5 | Declared claim: hosted-checkout |
 | Have a license? Paste it | 5 | Declared claim: paid-unlock |
 | One-time purchase. | 2 | Declared claims: paid-unlock, hosted-checkout |
-| Sociobot/Dodo handles checkout and refunds. | 5 | Declared claims: paid-unlock, hosted-checkout |
+| One-time purchase through Sociobot/Dodo. | 4 | Declared claim: hosted-checkout |
 | Android download | 2 | Pass |
 | The verifier runs locally with a pinned browser build of the Android-compatible apksig verifier. | 15 | Declared claims: offline-verification, apk-never-uploaded |
 | Android still makes the final install decision. | 7 | Pass |
-| Download the APK and compare its SHA-256 with SHA256SUMS. | 9 | Pass |
+| APK SHA-256: `05977905…9470ba0` | 2 | Declared claim: release-assets |
+| This app is not on Google Play yet. | 8 | Pass |
+| Download the APK and compare its SHA-256 with the value above or SHA256SUMS. | 14 | Pass |
 | Allow installs from your browser or file manager when Android asks. | 11 | Pass |
 | Open the APK. | 3 | Pass |
 | Android shows the final install decision. | 6 | Pass |
@@ -74,13 +76,15 @@ banned marketing term.
 | Try the isolated sample at /demo. | 5 | Pass |
 | Demo metadata and files use separate demo: namespaces. | 7 | Declared claim: demo-sandbox |
 | Reset demo and Start for real erase the demo data. | 10 | Declared claim: demo-sandbox |
-| Removing a real record erases its optional saved copy. | 9 | Declared claim: saved-copy-erasure |
+| Removing a record first asks for confirmation. | 7 | Declared claim: saved-copy-erasure |
+| Confirming it erases its optional saved copy. | 7 | Declared claim: saved-copy-erasure |
 | These links use the current v0.4.0 release. | 8 | Declared claim: release-assets |
 | Locker Plus costs $12 once. | 5 | Declared claims: paid-unlock, hosted-checkout |
 | It adds private device labels for organizing a large locker. | 10 | Declared claim: paid-unlock |
 | Verification, warnings, and restore-kit export remain free. | 7 | Declared claim: paid-unlock |
 | Buy through Sociobot/Dodo, or use Have a license? Paste it to restore a purchase on another device. | 16 | Declared claims: paid-unlock, hosted-checkout |
-| Refunds are handled by the merchant of record. | 8 | Declared claim: paid-unlock |
+| A refunded or revoked license stops private device labels. | 9 | Declared claim: revoked-license |
+| Verification remains free. | 3 | Declared claim: paid-unlock |
 | Records and optional APK copies stay in browser or installed-app storage. | 10 | Declared claim: local-storage |
 | Recording, checking, and exporting send no APK data or record content over the network. | 13 | Declared claim: apk-never-uploaded |
 | There are no analytics, advertising, or accounts. | 7 | Declared claim: no-account-network |
@@ -89,6 +93,18 @@ banned marketing term.
 | A saved Plus license is sent only to Sociobot for verification, at most once each day. | 15 | Declared claim: paid-unlock |
 | Restore kits encrypt records in this browser with your password (PBKDF2-SHA256 and AES-GCM). | 12 | Declared claim: encrypted-export |
 | The app does not store the export password. | 8 | Declared claim: password-not-stored |
+
+## Privacy, Terms, and destructive confirmation
+
+| Sentence or label | Words | Result |
+| --- | ---: | --- |
+| After you confirm Remove, it erases the record and its saved copy. | 12 | Declared claim: saved-copy-erasure |
+| A refunded or revoked license stops private device labels. | 9 | Declared claim: revoked-license |
+| Remove `android.appsecurity.cts.tinyapp`? | 2 | Declared claim: saved-copy-erasure |
+| This permanently erases this record and its saved APK copy from this device. | 13 | Declared claim: saved-copy-erasure |
+| It cannot be undone. | 4 | Declared claim: saved-copy-erasure |
+| Keep record | 2 | Pass |
+| Remove record | 2 | Declared claim: saved-copy-erasure |
 
 ## Terminology
 

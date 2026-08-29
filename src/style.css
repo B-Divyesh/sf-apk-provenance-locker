@@ -205,6 +205,11 @@ main {
   color: var(--ink);
   border-color: #849476;
 }
+.danger {
+  background: var(--red);
+  color: #fff;
+  border-color: #70261f;
+}
 .ink {
   background: var(--night);
   color: var(--paper);
@@ -549,6 +554,11 @@ figcaption {
   margin: 0;
   font-weight: 700;
 }
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
 .results ul {
   padding: 0;
   list-style: none;
@@ -566,8 +576,12 @@ figcaption {
 }
 .evidence dd,
 .release-links a,
-.wordmark {
+.wordmark,
+.checksum code {
   overflow-wrap: anywhere;
+}
+.checksum {
+  max-width: 62ch;
 }
 .evidence a {
   min-height: 44px;

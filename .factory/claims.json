@@ -81,14 +81,14 @@
     "claim": "Records and optional APK copies are stored on this device",
     "where": "Landing facts, Privacy, README",
     "test": "npm test -- --grep @claim:local-storage",
-    "sandbox": "Record a real fixture, reload, and assert it persists only in the real local namespace"
+    "sandbox": "Record a fixture in /demo, reload, and assert it persists only in the isolated demo local namespace"
   },
   {
     "id": "saved-copy-erasure",
     "claim": "Remove erases a record and its saved APK copy",
     "where": "Remove notice, Privacy, README",
     "test": "npm test -- --grep @claim:saved-copy-erasure",
-    "sandbox": "Save a fixture, prove metadata and bytes exist, remove it, then assert the real record list and IndexedDB store are empty"
+    "sandbox": "Save a fixture in /demo, prove metadata and bytes exist, require the specific removal confirmation, then assert the demo record and IndexedDB store are empty"
   },
   {
     "id": "demo-sandbox",
@@ -138,6 +138,13 @@
     "where": "Landing paid tier, evidence dialog, Privacy, Terms, README",
     "test": "npm test -- --grep @claim:paid-unlock",
     "sandbox": "Mock a valid Sociobot verdict, paste a license, assert the namespaced token and daily verdict cache, then save and persist a device label"
+  },
+  {
+    "id": "revoked-license",
+    "claim": "A refunded or revoked Locker Plus license stops private device labels while verification stays free",
+    "where": "Terms",
+    "test": "npm test -- --grep @claim:revoked-license",
+    "sandbox": "From /demo, mock a revoked Sociobot verdict for a returned license, assert its demo token is removed, then verify a signed APK"
   },
   {
     "id": "hosted-checkout",

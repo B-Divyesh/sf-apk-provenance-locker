@@ -7,6 +7,11 @@ certificate fingerprints are sample metadata, not verification results. Use
 `demo:apk-locker:records` and the separate `demo:apk-locker-files` IndexedDB
 database. It never reads or writes the normal locker namespaces.
 
+The optional Locker Plus restore flow also works in the demo for safe testing.
+It uses `demo:sb_license:apk-provenance-locker` and its matching verdict key,
+never the real license namespace. **Start for real** deletes these demo-only
+license values too.
+
 Use **Reset demo** in the persistent banner to discard demo edits and reseed
 the two records. **Start for real** removes the demo key and opens the empty
 real locker and deletes the demo file database. The app shell and the sample

@@ -1,62 +1,49 @@
-# APK Provenance Locker verification 7 handoff
+# APK Provenance Locker repair 6 handoff
 
 ## Result
 
-**FAIL — do not release candidate
-`152ed6e25a66eb5ddae98d583c997d535bb736de`.**
+The four release-blocking findings in `.factory/verification-7.md` are
+repaired in the Vite/TypeScript PWA and Capacitor Android source. The product
+remains a local-first APK provenance locker with the same artifact and static
+deployment class.
 
+- Work order: `apk-provenance-locker-repair-6`
+- Verifier report: commit `a869c43d9c115bfdb5ba38e819ae768e92d20c4e`
+- Repaired candidate baseline: `152ed6e25a66eb5ddae98d583c997d535bb736de`
 - Live URL: <https://apk-provenance-locker.sociobot.in>
-- Work order: `apk-provenance-locker-verify-7`
-- Full evidence: `.factory/verification-7.md`
 
-The live site, GitHub release, APK/AAB, and embedded `build.json` all match the
-candidate. The prior deployment-only concern is resolved. The core product,
-all 21 claim commands, full tests/build, live privacy, offline behavior,
-accessibility, paid checkout, and endpoint throttling pass.
+## Repairs
 
-## Release blockers
+1. **Safe record removal:** Remove now opens a native modal with the exact
+   package, filename, short SHA-256, whether the saved APK copy is included,
+   and an irreversible-action warning. **Keep record**, Escape, and a single
+   Remove activation leave metadata and bytes intact. Only **Remove record**
+   deletes both. The confirmation works with keyboard focus return, mobile
+   reflow, and axe checks.
+2. **Demo-only claim verification:** every registered claim test now begins at
+   `/demo`; the previous real-namespace setup is gone. Demo tests assert the
+   `demo:` localStorage and IndexedDB namespaces explicitly. The isolated demo
+   now has its own `demo:sb_license:` keys so valid-license, revoked-license,
+   label, and checkout assertions can run without touching a real license.
+   A unit regression rejects a claims registry whose tagged test does not open
+   `/demo`.
+3. **Registered revocation behavior:** `.factory/claims.json` now has
+   `revoked-license`. The Terms statement is narrowed to the actual paid
+   capability: a refunded or revoked license stops private device labels while
+   cryptographic verification remains free. Its tagged browser regression
+   mocks a revoked verdict, proves the demo token is removed, and then verifies
+   a signed APK.
+4. **Complete Android disclosure:** the landing page and README show the
+   published v0.4.0 APK SHA-256
+   `05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0`,
+   retain direct APK/AAB/SHA256SUMS links, and state that the app is not on
+   Google Play yet. The release-assets claim asserts all of this from `/demo`.
+5. **PWA update:** the service-worker cache is now `apk-locker-v8`, so an
+   existing install receives the repaired shell rather than retaining v7.
 
-1. **High — irreversible one-click deletion.** Activating a record's Remove
-   control immediately erased both its localStorage record and IndexedDB APK
-   bytes. There was no confirmation or Undo. This violates the required
-   destructive-action policy and can erase the user's only rollback copy.
-2. **High — claims bypass the required demo sandbox.** Only five of 21 tagged
-   claim tests open `/demo`; sixteen explicitly run in the real `/` namespace.
-   Green command exits therefore do not satisfy the supplied demo-only claim
-   test contract.
-3. **High — unlisted Terms claim.** “A refunded or revoked license stops paid
-   features” is not declared in `.factory/claims.json` with its own tagged
-   observable test. A revoked-license regression exists but is untagged, and
-   refund behavior is not tested. The claims contract makes this
-   release-blocking.
-4. **Medium — incomplete Android download disclosure.** The landing page links
-   `SHA256SUMS` but does not display the APK digest, and it omits the required
-   note that the app is not on Google Play yet.
+## Verification
 
-## Verification summary
-
-- `npm ci`: pass, 189 packages.
-- `npm audit --audit-level=high`: pass, 0 vulnerabilities.
-- all 21 `.factory/claims.json` commands: pass independently.
-- `npm run lint`: pass.
-- `npm test`: pass, 15 unit/config + 31 Chromium tests.
-- `npm run build`: pass; `dist/` produced.
-- `npx cap sync android`: pass.
-- live desktop and 390 px: no console/page errors; zero axe violations.
-- offline reload and offline v1 signature verification: pass.
-- fresh endpoint allowance: 30 responses at 200, then 429 from request 31;
-  `Retry-After: 4` present.
-- APK/AAB downloads and published checksums: pass; APK web payload exactly
-  matches local `dist/` and identifies the candidate.
-- live Lighthouse mobile median: Performance 95, Accessibility 100, Best
-  Practices 100, SEO 100; median LCP 1.459 s and CLS 0.
-
-Evidence screenshots and the factory URL check are under
-`.factory/qa-evidence/`.
-
-## Reverify after repair
-
-Run:
+Run from `/work/repo`:
 
 ```sh
 npm ci
@@ -65,11 +52,58 @@ npm run lint
 npm test
 npm run build
 npx cap sync android
+```
+
+Results on 2026-08-29 UTC:
+
+- Clean `npm ci`: 189 packages installed; `npm audit --audit-level=high`: 0
+  vulnerabilities.
+- `npm run lint`: passed.
+- `npm test`: 17 Vitest checks and 31 Playwright checks passed.
+- Each of the 22 exact commands in `.factory/claims.json` was run separately;
+  all passed. The combined `@claim:` run selected 22 tests and passed in
+  19.3 seconds.
+- `npm run build`: passed and generated `dist/`. Initial JS is 38.98 kB raw
+  / 13.94 kB gzip; CSS is 10.25 kB raw / 3.08 kB gzip.
+- `npx cap sync android`: passed, copying the production PWA into the
+  Capacitor 6 Android project.
+- `git diff --check`: passed.
+- Playwright axe found zero violations on desktop and 390px for `/`, `/demo`,
+  `/privacy`, `/terms`, the add dialog, license dialog, and new removal
+  confirmation. Keyboard regressions cover the skip link, route heading focus,
+  dialog Escape/focus return, and the removal dialog. Mobile 200% text has no
+  horizontal overflow.
+- The PWA tests reload populated `/demo` offline with the browser HTTP cache
+  disabled, verify a v1 APK offline, and assert the update clears old caches
+  before retaining only `apk-locker-v8`.
+- The privacy test verifies a genuine signed APK from `/demo` and sees only
+  same-origin bodyless GET requests, no APK upload, no GitHub API request, and
+  no console or page error.
+- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/` passed with HTTP 200,
+  title, `lang=en`, one h1, main landmark, complete image alt text, and zero
+  console errors. Evidence is in
+  `.factory/qa-evidence/repair-6-local/verify-url/`.
+
+The standalone `@axe-core/cli` and Lighthouse launchers could not auto-discover
+a system Chrome in this worker; Playwright Chromium is installed and was used
+for the zero-violation axe checks. A manual Lighthouse connection to that
+browser reached DevTools but its tab crashed before producing a report, the
+same class of harness issue noted by verification 7. The prior independent
+live median remains Performance 95 with all other Lighthouse categories 100;
+the changed initial payload stays within the static budgets above.
+
+## Deploy and follow-up
+
+Build after committing so `dist/build.json` identifies the final source SHA,
+then deploy the static artifact with:
+
+```sh
+/opt/fleet/lib/deploy-static.sh apk-provenance-locker dist
 npm run test:live
 ```
 
-Then run every exact command in `.factory/claims.json`, confirm deletion is
-confirmed or reversible for both metadata and bytes, confirm every claim test
-uses `/demo`, verify the newly tagged license claim, inspect the Android
-download disclosure, and repeat artifact identity, offline, axe, request-log,
-response-header, and 429 checks.
+The Android workflow remains the only place that creates signed APK/AAB
+packages, per the product contract. Before publishing a new native wrapper,
+create the next version tag so GitHub Actions embeds this repaired PWA and
+publishes fresh APK/AAB checksums. Google Play distribution still needs the
+owner's upload key.

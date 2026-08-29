@@ -10,6 +10,23 @@ describe('deployment and Android release configuration',()=>{
     expect(tags.sort()).toEqual(claims.map(claim=>claim.id).sort());
   });
 
+  it('starts every declared claim from the isolated demo sandbox',()=>{
+    const browser=readFileSync('tests/browser/locker.spec.ts','utf8');
+    const claimBlocks=browser.split("test('").filter(block=>block.startsWith('@claim:'));
+    expect(claimBlocks).toHaveLength(JSON.parse(readFileSync('.factory/claims.json','utf8')).length);
+    for(const block of claimBlocks)expect(block.slice(0,block.indexOf("\ntest('")<0?block.length:block.indexOf("\ntest('"))).toContain("page.goto('/demo");
+  });
+
+  it('registers the Terms revocation behavior as an observable claim',()=>{
+    const claims=JSON.parse(readFileSync('.factory/claims.json','utf8')) as Array<{id:string;claim:string;where:string}>;
+    expect(claims).toContainEqual(expect.objectContaining({
+      id:'revoked-license',
+      claim:'A refunded or revoked Locker Plus license stops private device labels while verification stays free',
+      where:'Terms',
+    }));
+    expect(readFileSync('src/main.ts','utf8')).toContain('A refunded or revoked license stops private device labels.');
+  });
+
   it('serves only known SPA routes and lets unknown routes reach the real 404 override',()=>{
     const config=JSON.parse(readFileSync('public/staticwebapp.config.json','utf8'));
     expect(config.navigationFallback).toBeUndefined();
@@ -31,7 +48,7 @@ describe('deployment and Android release configuration',()=>{
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v7'");
+    expect(worker).toContain("CACHE='apk-locker-v8'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
@@ -61,7 +78,7 @@ describe('deployment and Android release configuration',()=>{
     expect(page).toContain('href="/terms">Terms</a>');
   });
 
-  it('keeps reviewed visitor copy concrete and removes unlisted release claims',()=>{
+  it('keeps reviewed visitor copy concrete and discloses the published Android package',()=>{
     const app=readFileSync('src/main.ts','utf8');
     const readme=readFileSync('README.md','utf8');
     expect(app).toContain('Local APK verification');
@@ -71,7 +88,8 @@ describe('deployment and Android release configuration',()=>{
     expect(app).toContain('Records and saved APK copies stay on this device.');
     expect(app).not.toContain('Original generated paper-cut art.');
     expect(`${app}\n${readme}`).not.toContain('release-specific test key');
-    expect(`${app}\n${readme}`).not.toContain('not on Google Play');
+    expect(app).toContain('05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0');
+    expect(app).toContain('This app is not on Google Play yet.');
     expect(readme).not.toContain('The release workflow builds the APK and AAB.');
     expect(readme).not.toContain('It checks their size, package ID, manifest, signature, and checksums.');
   });

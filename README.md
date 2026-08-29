@@ -22,7 +22,8 @@ Android still makes the final install decision.
 
 Try the isolated sample at `/demo`. Demo metadata and files use separate
 `demo:` namespaces. **Reset demo** and **Start for real** erase the demo data.
-Removing a real record erases its optional saved copy.
+Removing a record first asks for confirmation. Confirming it erases its
+optional saved copy.
 
 ## Develop and verify
 
@@ -48,14 +49,17 @@ fixtures and their exact checksums are in `tests/fixtures`.
 - [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/SHA256SUMS)
 
 These links use the current `v0.4.0` release. A store release needs the owner's
-upload key.
+upload key. The APK SHA-256 is
+`05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0`.
+It is not on Google Play yet.
 
 ## Optional Locker Plus
 
 Locker Plus costs $12 once. It adds private device labels for organizing a
 large locker. Verification, warnings, and restore-kit export remain free.
 Buy through Sociobot/Dodo, or use **Have a license? Paste it** to restore a
-purchase on another device. Refunds are handled by the merchant of record.
+purchase on another device. A refunded or revoked license stops private device
+labels. Verification remains free.
 
 ## Privacy and license
 

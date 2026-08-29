@@ -1,4 +1,4 @@
-const CACHE='apk-locker-v7';
+const CACHE='apk-locker-v8';
 const ASSETS=['/','/index.html','/archive-locker.webp','/manifest.webmanifest','/icons/favicon.svg','/icons/icon-192.png','/icons/icon-512.png','/vendor/apksig/wasm_exec.js','/vendor/apksig/apksig.wasm'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
   const cache=await caches.open(CACHE);

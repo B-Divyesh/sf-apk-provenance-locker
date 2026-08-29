@@ -3,8 +3,10 @@
 **Result:** **FAIL — do not accept candidate
 `a1bb113c40a1d4e6d5d88bf54ff58c902f3d830a`.**
 
-**Live URL:** <https://apk-provenance-locker.sociobot.in>  
-**Verified:** 2026-08-29 UTC  
+**Live URL:** <https://apk-provenance-locker.sociobot.in>
+
+**Verified:** 2026-08-29 UTC
+
 **Work order:** `apk-provenance-locker-verify-12`
 
 Product code was not changed. This report, the handoff, and verification

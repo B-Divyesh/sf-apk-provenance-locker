@@ -1,0 +1,25 @@
+
+> apk-provenance-locker@0.5.2 test
+> node scripts/test.mjs
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  3 passed (3)
+      Tests  17 passed (17)
+   Start at  18:50:25
+   Duration  5.80s (transform 492ms, setup 0ms, import 799ms, tests 1.20s, environment 11.50s)
+
+[WebServer] (node:5929) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:5962) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 38 tests using 1 worker
+(node:5980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+······································
+  38 passed (55.8s)

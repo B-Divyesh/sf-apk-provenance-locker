@@ -1,0 +1,6 @@
+
+> apk-provenance-locker@0.5.2 test:live
+> node scripts/verify-live.mjs
+
+desktop: clean /demo APK verification and removal confirmation; 5 same-origin GET requests; zero console errors
+mobile: clean /demo APK verification and removal confirmation; 5 same-origin GET requests; zero console errors

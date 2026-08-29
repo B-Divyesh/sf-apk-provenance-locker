@@ -1,4 +1,4 @@
-HTTP/2 200 
+HTTP/2 200
 content-type: text/html
 date: Sat, 29 Aug 2026 18:51:44 GMT
 cache-control: public, must-revalidate, max-age=30
@@ -12,4 +12,3 @@ x-xss-protection: 1; mode=block
 x-dns-prefetch-control: off
 permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
 content-security-policy: default-src 'self'; connect-src 'self' https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self' 'wasm-unsafe-eval'; base-uri 'self'; form-action 'self' https://api.sociobot.in; frame-ancestors 'none'
-

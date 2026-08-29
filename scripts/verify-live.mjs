@@ -23,13 +23,19 @@ try{
     await page.getByRole('button',{name:/verify and record apk/i}).click();
     await page.getByText('Signature verified · v1 + v2 + v3').waitFor();
 
+    const remove=page.getByRole('button',{name:'Remove android.appsecurity.cts.tinyapp'}).first();
+    await remove.click();
+    await page.getByRole('heading',{name:'Remove android.appsecurity.cts.tinyapp?'}).waitFor();
+    await page.getByRole('button',{name:'Keep record'}).click();
+    await remove.waitFor();
+
     const thirdParty=requests.filter(request=>new URL(request.url).origin!==baseUrl);
     const uploads=requests.filter(request=>request.method!=='GET'||request.hasBody);
     const githubApi=requests.filter(request=>request.url.includes('api.github.com'));
     if(thirdParty.length||uploads.length||githubApi.length||errors.length){
       throw new Error(`${viewport.name}: dirty live flow\n${JSON.stringify({thirdParty,uploads,githubApi,errors},null,2)}`);
     }
-    console.log(`${viewport.name}: clean /demo APK verification; ${requests.length} same-origin GET requests; zero console errors`);
+    console.log(`${viewport.name}: clean /demo APK verification and removal confirmation; ${requests.length} same-origin GET requests; zero console errors`);
     await context.close();
   }
 }finally{

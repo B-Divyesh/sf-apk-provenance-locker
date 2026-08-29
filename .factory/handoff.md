@@ -84,13 +84,29 @@ Results on 2026-08-29 UTC:
   console errors. Evidence is in
   `.factory/qa-evidence/repair-6-local/verify-url/`.
 
-The standalone `@axe-core/cli` and Lighthouse launchers could not auto-discover
-a system Chrome in this worker; Playwright Chromium is installed and was used
-for the zero-violation axe checks. A manual Lighthouse connection to that
-browser reached DevTools but its tab crashed before producing a report, the
-same class of harness issue noted by verification 7. The prior independent
-live median remains Performance 95 with all other Lighthouse categories 100;
-the changed initial payload stays within the static budgets above.
+The standalone `@axe-core/cli` launcher could not auto-discover a system Chrome
+in this worker; Playwright Chromium is installed and was used for the
+zero-violation axe checks. A manual Lighthouse connection to that browser
+produced a partial mobile result (Performance 96, Accessibility 100), then its
+tab crashed while gathering the full-page screenshot. The partial JSON is in
+`.factory/qa-evidence/repair-6-local/lighthouse-demo.json`; it is not used for
+the remaining Lighthouse categories. The prior independent live median remains
+Performance 95 with all other Lighthouse categories 100; the changed initial
+payload stays within the static budgets above.
+
+## Production deployment evidence
+
+The static artifact deployed successfully to the existing Azure Static Web App
+(`sf-apk-provenance-locker`, Central US; deployment ID
+`869bf4aa-16ec-4aa0-8913-6313c2450a73`). Managed TLS returned HTTPS 200 for
+the custom domain. `npm run test:live` exercised `/demo` at desktop and 390px:
+it cryptographically verified the shipped v1/v2/v3 fixture, opened and safely
+cancelled the new removal confirmation, observed only seven same-origin GET
+requests per viewport, and recorded no console errors. The live URL verifier
+also passed; screenshots and JSON are in
+`.factory/qa-evidence/repair-6-live/verify-url/`. The live response retains
+HSTS, nosniff, strict-origin referrer policy, restrictive permissions policy,
+and the CSP with `frame-ancestors 'none'`.
 
 ## Deploy and follow-up
 

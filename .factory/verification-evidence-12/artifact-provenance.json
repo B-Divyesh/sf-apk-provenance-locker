@@ -1,0 +1,25 @@
+{
+  "candidate_commit": "a1bb113c40a1d4e6d5d88bf54ff58c902f3d830a",
+  "live_web_build_commit": "a1bb113c40a1d4e6d5d88bf54ff58c902f3d830a",
+  "release_tag": "v0.5.2",
+  "release_tag_commit": "752f078cf2c007e013182e34fedb5240c636427a",
+  "apk_embedded_build_commit": "752f078cf2c007e013182e34fedb5240c636427a",
+  "aab_embedded_build_commit": "752f078cf2c007e013182e34fedb5240c636427a",
+  "apk": {
+    "size_bytes": 5588120,
+    "sha256": "67adb0d6c6bf80ceb17ed0db8c8896fc74337c31eba779e24c83e44cfe76ce4c",
+    "published_checksum_matches": true,
+    "package": "in.sociobot.apk_provenance_locker",
+    "version_name": "0.5.2",
+    "version_code": 7,
+    "verified_signature_schemes": ["v1", "v2"]
+  },
+  "aab": {
+    "size_bytes": 5408642,
+    "sha256": "4c60c62d932390f5051ada05409759920a09e0aa08793f95edaa6267dd0c8d3c",
+    "published_checksum_matches": true,
+    "manifest_entry": "base/manifest/AndroidManifest.xml"
+  },
+  "current_web_js_sha256": "5001b604cbccf4682afce2c2216be4f72466402152fd79cb3c3456c1c0c0daaa",
+  "packaged_web_js_sha256": "fe8d0e86f80cd06637e55c2a124f1638f9cef3587b0a38672eff71fb12c21a29"
+}

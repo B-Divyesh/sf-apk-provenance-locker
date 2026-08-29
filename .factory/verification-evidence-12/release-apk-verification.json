@@ -1,0 +1,34 @@
+{
+  "record": {
+    "id": "24ef7cec-ed9c-481b-9e8e-772201eaeae6",
+    "packageName": "in.sociobot.apk_provenance_locker",
+    "versionCode": 7,
+    "versionName": "0.5.2",
+    "source": "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.2/app-release.apk",
+    "filename": "app-release.apk",
+    "size": 5588120,
+    "sha256": "67adb0d6c6bf80ceb17ed0db8c8896fc74337c31eba779e24c83e44cfe76ce4c",
+    "currentSigner": "7ae373fe6167dfad4fa36e75f88dcc85b779d4d786132cb8d1b1de849fef95be",
+    "signers": [
+      {
+        "scheme": "v2",
+        "certificateSha256": "7ae373fe6167dfad4fa36e75f88dcc85b779d4d786132cb8d1b1de849fef95be",
+        "subject": "CN=APK Provenance Locker,OU=Release,O=Param Factory,L=Internet,ST=Internet,C=IN"
+      },
+      {
+        "scheme": "v1",
+        "certificateSha256": "7ae373fe6167dfad4fa36e75f88dcc85b779d4d786132cb8d1b1de849fef95be",
+        "subject": "CN=APK Provenance Locker,OU=Release,O=Param Factory,L=Internet,ST=Internet,C=IN"
+      }
+    ],
+    "lineage": [],
+    "schemes": [
+      "v1",
+      "v2"
+    ],
+    "added": "2026-08-29T18:57:12.737Z",
+    "backup": true,
+    "verification": "verified"
+  },
+  "errors": []
+}

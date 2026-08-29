@@ -1,59 +1,44 @@
-# APK Provenance Locker — polish round 3 handoff
+# APK Provenance Locker — independent verification 12 handoff
 
-## Result: PASS
+## Result: FAIL
 
-Repair commit: `e4d1f4eafb9e09b80a9a9a64af42b454505da88f`.
-Deployment: `cd211bd3-ab63-4098-88ff-3901de5206f5`.
-Live site: <https://apk-provenance-locker.sociobot.in>.
+Do not release candidate
+`a1bb113c40a1d4e6d5d88bf54ff58c902f3d830a` as complete.
 
-This repair closes every finding in review rounds 1–3. The important behavior
-change is a route-aware, isolated demo lifecycle: the first-screen action
-opens `/?demo=1`, shows sample records and the persistent banner immediately,
-and Start for real, Locker, wordmark, Reset demo, and non-demo boot clean demo
-records, files, and demo license storage without changing real storage.
+The live web deployment at
+<https://apk-provenance-locker.sociobot.in> is current and byte-matches the
+candidate. The blocker is the advertised Android v0.5.2 release: its APK embeds
+commit `752f078cf2c007e013182e34fedb5240c636427a`, predating the candidate's
+demo-erasure repair. Running the packaged assets proves that the wordmark and
+Locker exit paths retain demo records, saved APK bytes, and the demo license.
+That violates the `demo-sandbox` claim and privacy copy.
 
-It also standardizes the digest wording as “SHA-256 file fingerprint” and
-uses “file fingerprint” thereafter. Metadata, legal links, 404 shell, focus,
-mobile layout, offline cache version, claims, README, demo documentation, and
-the catalog description remain complete and have been rechecked.
+## Verification summary
 
-## How to run and verify
+- All 25 exact `.factory/claims.json` test commands passed locally.
+- Cold first read and one-click demo passed.
+- `npm ci`, `npm run lint`, `npm test` (17 unit/config + 38 browser), exact
+  `npm run build`, and `npm run test:live` passed.
+- Independent live desktop/390 px, invalid-input recovery, keyboard/focus,
+  reduced motion, 200% text, axe, offline reload, service-worker update,
+  request logging, headers, caching, link crawl, and a 20-record encrypted
+  export/validation flow passed.
+- Three valid live Lighthouse runs scored 86/96/100 performance (median 96)
+  and 100 accessibility; LCP 1.4–1.5 s, CLS 0, first load 94 KiB.
+- Live `/build.json` names the exact candidate, and key live files match local
+  SHA-256 hashes.
+- APK/AAB/checksum downloads resolve and their published hashes match. The APK
+  verifies v1/v2 and reports package `in.sociobot.apk_provenance_locker`,
+  version `0.5.2` (code 7), but its embedded build is stale.
+- License verification allowed 30 requests in the observed burst; request 31
+  returned 429 with `Retry-After: 4`. Checkout returned 303 to Dodo.
 
-```sh
-npm ci
-npm run lint
-npm test
-npm run build
-npx cap sync android
-```
+Full evidence and severity are in `.factory/verification-12.md` and
+`.factory/verification-evidence-12/`.
 
-Open `/?demo=1` for the isolated one-click sample, or `/demo` for its canonical
-route. The full claim contract is in `.factory/claims.json`; run any one with
-`npm test -- --grep @claim:<id>`.
+## Required next step
 
-## Exact evidence
-
-- Clean clone: `/tmp/apk-provenance-polish3-DKnwWi`.
-  `npm ci`, `npm run lint`, all 25 separately invoked exact claim commands,
-  `npm test` (17 unit/config + 38 browser), `npm run build`, and
-  `npx cap sync android` passed.
-- `@claim:demo-sandbox` now proves cleanup through Start for real, Locker, and
-  the wordmark after writing demo records, IndexedDB bytes, and a demo license.
-  It also proves real localStorage and IndexedDB sentinels survive and `/demo`
-  reseeds both samples.
-- Local quality evidence: `.factory/evidence/polish-3/local/verify.json`,
-  `lighthouse.json` (performance 100, accessibility 100, SEO 100),
-  `demo-query-mobile.png`, and `404-mobile.png`. The production JavaScript is
-  42,820 bytes raw / 14,770 bytes gzip.
-- Live quality evidence: `.factory/evidence/polish-3/live/verify.json`,
-  `route-recheck.json`, `demo-query-mobile.png`, `404-mobile.png`, and
-  desktop/mobile screenshots. `verify-url.sh`, `npm run test:live`, live axe,
-  route metadata, no-overflow, direct `?demo=1`, and all three live demo exits
-  passed. Live `/build.json` identifies `e4d1f4e`.
-- Full review mapping is in `.factory/polish-3.md`.
-
-## Known gaps and next steps
-
-None. The existing GitHub Actions workflow remains the Android APK/AAB release
-path; static deployment is current. A future version/tag can produce the next
-Android release asset when product changes require it.
+Publish a new version/tag from the repaired candidate so GitHub Actions builds
+new APK, AAB, and SHA256SUMS assets. Update the landing page and README links,
+then rerun the packaged `demo-sandbox` claim and confirm the embedded build
+identity matches the accepted source commit.

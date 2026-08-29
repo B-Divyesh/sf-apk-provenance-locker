@@ -1,0 +1,37 @@
+{
+  "url": "https://apk-provenance-locker.sociobot.in",
+  "tool": "lighthouse@12.8.2",
+  "valid_live_runs": [
+    {
+      "performance": 86,
+      "accessibility": 100,
+      "best_practices": 100,
+      "seo": 100,
+      "fcp_seconds": 1.0,
+      "lcp_seconds": 1.4,
+      "cls": 0,
+      "tbt_ms": 570,
+      "transfer_kib": 94
+    },
+    {
+      "performance": 96,
+      "accessibility": 100,
+      "fcp_seconds": 0.9,
+      "lcp_seconds": 1.4,
+      "cls": 0,
+      "tbt_ms": 220,
+      "transfer_kib": 94
+    },
+    {
+      "performance": 100,
+      "accessibility": 100,
+      "fcp_seconds": 0.9,
+      "lcp_seconds": 1.5,
+      "cls": 0,
+      "tbt_ms": 60,
+      "transfer_kib": 94
+    }
+  ],
+  "median_live_performance": 96,
+  "note": "An earlier attempt that reported performance 85 ended with a browser-tab crash and was excluded. A local production-preview run scored 87."
+}

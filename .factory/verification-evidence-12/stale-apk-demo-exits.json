@@ -1,0 +1,22 @@
+[
+  {
+    "target": "wordmark",
+    "url": "http://127.0.0.1:4174/",
+    "banner": true,
+    "demoRecords": true,
+    "demoLicense": "stale-demo-license",
+    "databaseNames": [
+      "demo:apk-locker-files"
+    ]
+  },
+  {
+    "target": "Locker",
+    "url": "http://127.0.0.1:4174/#locker",
+    "banner": false,
+    "demoRecords": true,
+    "demoLicense": "stale-demo-license",
+    "databaseNames": [
+      "demo:apk-locker-files"
+    ]
+  }
+]

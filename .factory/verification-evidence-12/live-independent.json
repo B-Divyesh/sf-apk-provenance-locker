@@ -1,0 +1,219 @@
+{
+  "base": "https://apk-provenance-locker.sociobot.in",
+  "checkedAt": "2026-08-29T18:54:06.822Z",
+  "routes": [
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "status": 200,
+      "title": "APK Provenance Locker — Verify APK restore evidence",
+      "structure": {
+        "lang": "en",
+        "h1": 1,
+        "main": 1,
+        "title": "APK Provenance Locker — Verify APK restore evidence",
+        "clientWidth": 1280,
+        "scrollWidth": 1280
+      },
+      "axeViolations": [],
+      "seriousCritical": 0,
+      "requestCount": 4,
+      "thirdParty": [],
+      "errors": []
+    },
+    {
+      "path": "/demo",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "status": 200,
+      "title": "Demo — APK Provenance Locker",
+      "structure": {
+        "lang": "en",
+        "h1": 1,
+        "main": 1,
+        "title": "Demo — APK Provenance Locker",
+        "clientWidth": 1280,
+        "scrollWidth": 1280
+      },
+      "axeViolations": [],
+      "seriousCritical": 0,
+      "requestCount": 3,
+      "thirdParty": [],
+      "errors": []
+    },
+    {
+      "path": "/privacy",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "status": 200,
+      "title": "Privacy — APK Provenance Locker",
+      "structure": {
+        "lang": "en",
+        "h1": 1,
+        "main": 1,
+        "title": "Privacy — APK Provenance Locker",
+        "clientWidth": 1280,
+        "scrollWidth": 1280
+      },
+      "axeViolations": [],
+      "seriousCritical": 0,
+      "requestCount": 3,
+      "thirdParty": [],
+      "errors": []
+    },
+    {
+      "path": "/terms",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "status": 200,
+      "title": "Terms — APK Provenance Locker",
+      "structure": {
+        "lang": "en",
+        "h1": 1,
+        "main": 1,
+        "title": "Terms — APK Provenance Locker",
+        "clientWidth": 1280,
+        "scrollWidth": 1280
+      },
+      "axeViolations": [],
+      "seriousCritical": 0,
+      "requestCount": 3,
+      "thirdParty": [],
+      "errors": []
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": 200,
+      "title": "APK Provenance Locker — Verify APK restore evidence",
+      "structure": {
+        "lang": "en",
+        "h1": 1,
+        "main": 1,
+        "title": "APK Provenance Locker — Verify APK restore evidence",
+        "clientWidth": 390,
+        "scrollWidth": 390
+      },
+      "axeViolations": [],
+      "seriousCritical": 0,
+      "requestCount": 4,
+      "thirdParty": [],
+      "errors": []
+    }
+  ],
+  "flows": {
+    "keyboard": {
+      "skip": {
+        "text": "Skip to content",
+        "top": 12,
+        "outline": "rgb(255, 253, 246) solid 3px",
+        "boxShadow": "rgb(20, 34, 30) 0px 0px 0px 7px"
+      },
+      "dialogFocusRestored": true
+    },
+    "demo": {
+      "sampleRecords": 2,
+      "invalidError": "This file is too short to be an APK.",
+      "recoveredWithValidSignedApk": true,
+      "resetRecords": 2,
+      "reducedMotion": {
+        "duration": "0s",
+        "behavior": "auto"
+      },
+      "zoom200": {
+        "clientWidth": 390,
+        "scrollWidth": 390
+      },
+      "requests": [
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/assets/index-BnS27S5f.js",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/assets/style-Dxosa8K4.css",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/archive-locker.webp",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/?demo=1",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/assets/index-BnS27S5f.js",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/assets/style-Dxosa8K4.css",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/vendor/apksig/wasm_exec.js",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/vendor/apksig/apksig.wasm",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/?demo=1",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/assets/index-BnS27S5f.js",
+          "hasBody": false
+        },
+        {
+          "method": "GET",
+          "url": "https://apk-provenance-locker.sociobot.in/assets/style-Dxosa8K4.css",
+          "hasBody": false
+        }
+      ],
+      "thirdParty": [],
+      "nonGetOrBody": [],
+      "errors": [],
+      "serviceWorker": {
+        "scriptURL": "https://apk-provenance-locker.sociobot.in/sw.js",
+        "cacheKeys": [
+          "apk-locker-v12"
+        ],
+        "controlled": true
+      },
+      "offlineReload": true
+    },
+    "notFound": {
+      "status": 404,
+      "title": "Page not found — APK Provenance Locker",
+      "h1": "That page is not here"
+    }
+  }
+}

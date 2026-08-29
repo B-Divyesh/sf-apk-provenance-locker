@@ -1,0 +1,192 @@
+{
+  "routes": [
+    {
+      "viewport": "desktop",
+      "path": "/",
+      "status": 200,
+      "title": "APK Provenance Locker — Verify APK restore evidence",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "errors": [],
+      "axeViolations": [],
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": "desktop",
+      "path": "/demo",
+      "status": 200,
+      "title": "Demo — APK Provenance Locker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "errors": [],
+      "axeViolations": [],
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": "desktop",
+      "path": "/privacy",
+      "status": 200,
+      "title": "Privacy — APK Provenance Locker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "errors": [],
+      "axeViolations": [],
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": "desktop",
+      "path": "/terms",
+      "status": 200,
+      "title": "Terms — APK Provenance Locker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "errors": [],
+      "axeViolations": [],
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": "mobile",
+      "path": "/",
+      "status": 200,
+      "title": "APK Provenance Locker — Verify APK restore evidence",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "errors": [],
+      "axeViolations": [],
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": "mobile",
+      "path": "/demo",
+      "status": 200,
+      "title": "Demo — APK Provenance Locker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "errors": [],
+      "axeViolations": [],
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": "mobile",
+      "path": "/privacy",
+      "status": 200,
+      "title": "Privacy — APK Provenance Locker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "errors": [],
+      "axeViolations": [],
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": "mobile",
+      "path": "/terms",
+      "status": 200,
+      "title": "Terms — APK Provenance Locker",
+      "lang": "en",
+      "h1Count": 1,
+      "mainCount": 1,
+      "errors": [],
+      "axeViolations": [],
+      "horizontalOverflow": false
+    }
+  ],
+  "keyboard": {
+    "first": {
+      "text": "Skip to content",
+      "className": "skip",
+      "outline": "rgb(255, 154, 111) solid 3px",
+      "outlineOffset": "3px"
+    },
+    "afterSkip": {
+      "tag": "H1",
+      "id": "",
+      "inMain": true
+    },
+    "routeFocus": {
+      "tag": "H1",
+      "text": "Your APK data stays local"
+    }
+  },
+  "reducedMotion": {
+    "moving": [],
+    "textZoomOverflow": {
+      "scrollWidth": 390,
+      "innerWidth": 390
+    }
+  },
+  "workflow": {
+    "emptyInvalid": true,
+    "invalidError": "This file is too short to be an APK.",
+    "evidence": "×\n\nRECORDED EVIDENCE\n\nandroid.appsecurity.cts.tinyapp\nPackage from APK\nandroid.appsecurity.cts.tinyapp\nVersion from APK\n1.0 · code 10\nFile\nv1v2v3-lineage.apk\nSource\nhttps://example.test/apk\nSHA-256\n9c6947bf9398a15e85a52bf83b07cfae6686ff49e03034d09cbea45a19bdaa15\nCurrent signer certificate\nbb77a72efc60e66501ab75953af735874f82cfe52a70d035186a01b3482180f3\nVerified signature schemes\nv1 + v2 + v3\nVerified signer lineage\n1. CN=rsa-2048 — fb5dbd3c669a…0e04fca8\n2. CN=rsa-2048_2 — 681b0e56a796…4d50264d\n3. CN=rsa-2048_3 — bb77a72efc60…482180f3\nDevice label\nNo device label\n\nLocker Plus adds private device labels. Verification and exports stay free.\n\nThe APK signature, signed identity, and any included rotation lineage were verified locally.\n\nClose evidence",
+    "mismatchError": "The two passwords do not match.",
+    "kitBytes": 33158,
+    "plaintextLeak": false,
+    "wrongPasswordError": "That password did not open this restore kit.",
+    "validationHeading": "1 APKs match",
+    "removalText": "×\n\nREMOVE EVIDENCE\n\nRemove android.appsecurity.cts.tinyapp?\n\nThis permanently erases this record and its saved APK copy from this device. It cannot be undone.\n\nFile: v1v2v3-lineage.apk · SHA-256 9c6947bf9398…19bdaa15\n\nKeep record\nRemove record",
+    "survivedCancel": true,
+    "removed": true,
+    "storedFiles": 0,
+    "requests": [
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/demo",
+        "method": "GET",
+        "bodyBytes": 0
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/index-CQGhKtuq.js",
+        "method": "GET",
+        "bodyBytes": 0
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/style-DInr33HP.css",
+        "method": "GET",
+        "bodyBytes": 0
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/archive-locker.webp",
+        "method": "GET",
+        "bodyBytes": 0
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/vendor/apksig/wasm_exec.js",
+        "method": "GET",
+        "bodyBytes": 0
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/vendor/apksig/apksig.wasm",
+        "method": "GET",
+        "bodyBytes": 0
+      }
+    ],
+    "origins": [
+      "https://apk-provenance-locker.sociobot.in"
+    ],
+    "errors": []
+  },
+  "pwa": {
+    "offlineHeading": "Verify APKs before restoring",
+    "offlineSamples": 1,
+    "offlineVerified": 1,
+    "sw": {
+      "script": "https://apk-provenance-locker.sociobot.in/sw.js",
+      "caches": [
+        "apk-locker-v8"
+      ]
+    }
+  },
+  "twentyRecordKit": {
+    "verifiedCards": 20,
+    "kitBytes": 633802,
+    "heading": "20 APKs match",
+    "matches": 20
+  },
+  "failures": []
+}

@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-08-29T13:25:00Z",
+  "candidate": "7390b1f5f1ffe20053e37005b5c9f254df212d2c",
+  "live_build_commit": "7390b1f5f1ffe20053e37005b5c9f254df212d2c",
+  "release": {
+    "tag": "v0.4.0",
+    "tag_commit": "152ed6e25a66eb5ddae98d583c997d535bb736de",
+    "embedded_build_commit": "152ed6e25a66eb5ddae98d583c997d535bb736de",
+    "apk_bytes": 5585535,
+    "aab_bytes": 5406182,
+    "apk_sha256": "05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0",
+    "aab_sha256": "c7bc0408d79a894c9c47ddd3abe5a354fa09d56b8b251c557ad7a5299d513ca3",
+    "embedded_js": "assets/index-DMh9mDqA.js",
+    "service_worker_cache": "apk-locker-v7",
+    "remove_behavior": "immediate metadata and saved-copy deletion"
+  },
+  "candidate_build": {
+    "js": "assets/index-CQGhKtuq.js",
+    "service_worker_cache": "apk-locker-v8",
+    "remove_behavior": "explicit Keep record / Remove record confirmation"
+  },
+  "rate_limit_observation": {
+    "endpoint": "https://api.sociobot.in/api/v1/products/apk-provenance-locker/verify",
+    "requests": 100,
+    "http_200": 30,
+    "http_429": 70,
+    "retry_after_seconds": 4
+  }
+}

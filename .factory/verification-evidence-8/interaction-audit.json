@@ -1,0 +1,871 @@
+{
+  "states": [
+    {
+      "label": "demo",
+      "targets": [
+        {
+          "label": "Skip to content",
+          "tag": "A",
+          "width": 146,
+          "height": 44,
+          "effectiveWidth": 146,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "◆ APK Provenance Locker",
+          "tag": "A",
+          "width": 196,
+          "height": 44,
+          "effectiveWidth": 196,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Demo",
+          "tag": "A",
+          "width": 51,
+          "height": 44,
+          "effectiveWidth": 51,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Locker",
+          "tag": "A",
+          "width": 55,
+          "height": 44,
+          "effectiveWidth": 55,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Privacy",
+          "tag": "A",
+          "width": 59,
+          "height": 44,
+          "effectiveWidth": 59,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Reset demo",
+          "tag": "BUTTON",
+          "width": 98,
+          "height": 44,
+          "effectiveWidth": 98,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Start for real",
+          "tag": "A",
+          "width": 118,
+          "height": 44,
+          "effectiveWidth": 118,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Try it with sample data",
+          "tag": "A",
+          "width": 242,
+          "height": 46,
+          "effectiveWidth": 242,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Verify an APK",
+          "tag": "BUTTON",
+          "width": 157,
+          "height": 46,
+          "effectiveWidth": 157,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Verify an APK",
+          "tag": "BUTTON",
+          "width": 157,
+          "height": 46,
+          "effectiveWidth": 157,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Export restore kit",
+          "tag": "BUTTON",
+          "width": 194,
+          "height": 46,
+          "effectiveWidth": 194,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "View full evidence",
+          "tag": "BUTTON",
+          "width": 161,
+          "height": 44,
+          "effectiveWidth": 161,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Remove org.fdroid.fdroid",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "View full evidence",
+          "tag": "BUTTON",
+          "width": 161,
+          "height": 44,
+          "effectiveWidth": 161,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Remove com.kunzisoft.keepass.free",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Validate a restore kit",
+          "tag": "BUTTON",
+          "width": 225,
+          "height": 46,
+          "effectiveWidth": 225,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Buy Locker Plus — $12",
+          "tag": "A",
+          "width": 354,
+          "height": 46,
+          "effectiveWidth": 354,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Have a license? Paste it",
+          "tag": "BUTTON",
+          "width": 354,
+          "height": 46,
+          "effectiveWidth": 354,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Download APK from GitHub",
+          "tag": "A",
+          "width": 283,
+          "height": 52,
+          "effectiveWidth": 283,
+          "effectiveHeight": 52
+        },
+        {
+          "label": "Download AAB from GitHub",
+          "tag": "A",
+          "width": 221,
+          "height": 44,
+          "effectiveWidth": 221,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Download SHA256SUMS from GitHub",
+          "tag": "A",
+          "width": 297,
+          "height": 44,
+          "effectiveWidth": 297,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Privacy",
+          "tag": "A",
+          "width": 47,
+          "height": 44,
+          "effectiveWidth": 47,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Terms",
+          "tag": "A",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        }
+      ]
+    },
+    {
+      "label": "verify dialog",
+      "targets": [
+        {
+          "label": "Skip to content",
+          "tag": "A",
+          "width": 146,
+          "height": 44,
+          "effectiveWidth": 146,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "◆ APK Provenance Locker",
+          "tag": "A",
+          "width": 196,
+          "height": 44,
+          "effectiveWidth": 196,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Demo",
+          "tag": "A",
+          "width": 51,
+          "height": 44,
+          "effectiveWidth": 51,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Locker",
+          "tag": "A",
+          "width": 55,
+          "height": 44,
+          "effectiveWidth": 55,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Privacy",
+          "tag": "A",
+          "width": 59,
+          "height": 44,
+          "effectiveWidth": 59,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Reset demo",
+          "tag": "BUTTON",
+          "width": 98,
+          "height": 44,
+          "effectiveWidth": 98,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Start for real",
+          "tag": "A",
+          "width": 118,
+          "height": 44,
+          "effectiveWidth": 118,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Try it with sample data",
+          "tag": "A",
+          "width": 242,
+          "height": 46,
+          "effectiveWidth": 242,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Verify an APK",
+          "tag": "BUTTON",
+          "width": 157,
+          "height": 46,
+          "effectiveWidth": 157,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Verify an APK",
+          "tag": "BUTTON",
+          "width": 157,
+          "height": 46,
+          "effectiveWidth": 157,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Export restore kit",
+          "tag": "BUTTON",
+          "width": 194,
+          "height": 46,
+          "effectiveWidth": 194,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "View full evidence",
+          "tag": "BUTTON",
+          "width": 161,
+          "height": 44,
+          "effectiveWidth": 161,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Remove org.fdroid.fdroid",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "View full evidence",
+          "tag": "BUTTON",
+          "width": 161,
+          "height": 44,
+          "effectiveWidth": 161,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Remove com.kunzisoft.keepass.free",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Validate a restore kit",
+          "tag": "BUTTON",
+          "width": 225,
+          "height": 46,
+          "effectiveWidth": 225,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Buy Locker Plus — $12",
+          "tag": "A",
+          "width": 354,
+          "height": 46,
+          "effectiveWidth": 354,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Have a license? Paste it",
+          "tag": "BUTTON",
+          "width": 354,
+          "height": 46,
+          "effectiveWidth": 354,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Download APK from GitHub",
+          "tag": "A",
+          "width": 283,
+          "height": 52,
+          "effectiveWidth": 283,
+          "effectiveHeight": 52
+        },
+        {
+          "label": "Download AAB from GitHub",
+          "tag": "A",
+          "width": 221,
+          "height": 44,
+          "effectiveWidth": 221,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Download SHA256SUMS from GitHub",
+          "tag": "A",
+          "width": 297,
+          "height": 44,
+          "effectiveWidth": 297,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Privacy",
+          "tag": "A",
+          "width": 47,
+          "height": 44,
+          "effectiveWidth": 47,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Terms",
+          "tag": "A",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Close",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "file",
+          "tag": "INPUT",
+          "width": 397,
+          "height": 44,
+          "effectiveWidth": 397,
+          "effectiveHeight": 74
+        },
+        {
+          "label": "source",
+          "tag": "INPUT",
+          "width": 397,
+          "height": 44,
+          "effectiveWidth": 397,
+          "effectiveHeight": 74
+        },
+        {
+          "label": "backup",
+          "tag": "INPUT",
+          "width": 13,
+          "height": 13,
+          "effectiveWidth": 397,
+          "effectiveHeight": 22
+        },
+        {
+          "label": "Verify and record APK",
+          "tag": "BUTTON",
+          "width": 397,
+          "height": 46,
+          "effectiveWidth": 397,
+          "effectiveHeight": 46
+        }
+      ]
+    },
+    {
+      "label": "license dialog",
+      "targets": [
+        {
+          "label": "Skip to content",
+          "tag": "A",
+          "width": 146,
+          "height": 44,
+          "effectiveWidth": 146,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "◆ APK Provenance Locker",
+          "tag": "A",
+          "width": 196,
+          "height": 44,
+          "effectiveWidth": 196,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Demo",
+          "tag": "A",
+          "width": 51,
+          "height": 44,
+          "effectiveWidth": 51,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Locker",
+          "tag": "A",
+          "width": 55,
+          "height": 44,
+          "effectiveWidth": 55,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Privacy",
+          "tag": "A",
+          "width": 59,
+          "height": 44,
+          "effectiveWidth": 59,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Reset demo",
+          "tag": "BUTTON",
+          "width": 98,
+          "height": 44,
+          "effectiveWidth": 98,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Start for real",
+          "tag": "A",
+          "width": 118,
+          "height": 44,
+          "effectiveWidth": 118,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Try it with sample data",
+          "tag": "A",
+          "width": 242,
+          "height": 46,
+          "effectiveWidth": 242,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Verify an APK",
+          "tag": "BUTTON",
+          "width": 157,
+          "height": 46,
+          "effectiveWidth": 157,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Verify an APK",
+          "tag": "BUTTON",
+          "width": 157,
+          "height": 46,
+          "effectiveWidth": 157,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Export restore kit",
+          "tag": "BUTTON",
+          "width": 194,
+          "height": 46,
+          "effectiveWidth": 194,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "View full evidence",
+          "tag": "BUTTON",
+          "width": 161,
+          "height": 44,
+          "effectiveWidth": 161,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Remove org.fdroid.fdroid",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "View full evidence",
+          "tag": "BUTTON",
+          "width": 161,
+          "height": 44,
+          "effectiveWidth": 161,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Remove com.kunzisoft.keepass.free",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Validate a restore kit",
+          "tag": "BUTTON",
+          "width": 225,
+          "height": 46,
+          "effectiveWidth": 225,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Buy Locker Plus — $12",
+          "tag": "A",
+          "width": 354,
+          "height": 46,
+          "effectiveWidth": 354,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Have a license? Paste it",
+          "tag": "BUTTON",
+          "width": 354,
+          "height": 46,
+          "effectiveWidth": 354,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Download APK from GitHub",
+          "tag": "A",
+          "width": 283,
+          "height": 52,
+          "effectiveWidth": 283,
+          "effectiveHeight": 52
+        },
+        {
+          "label": "Download AAB from GitHub",
+          "tag": "A",
+          "width": 221,
+          "height": 44,
+          "effectiveWidth": 221,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Download SHA256SUMS from GitHub",
+          "tag": "A",
+          "width": 297,
+          "height": 44,
+          "effectiveWidth": 297,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Privacy",
+          "tag": "A",
+          "width": 47,
+          "height": 44,
+          "effectiveWidth": 47,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Terms",
+          "tag": "A",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Close",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "license",
+          "tag": "INPUT",
+          "width": 325,
+          "height": 44,
+          "effectiveWidth": 325,
+          "effectiveHeight": 74
+        },
+        {
+          "label": "Verify license",
+          "tag": "BUTTON",
+          "width": 325,
+          "height": 46,
+          "effectiveWidth": 325,
+          "effectiveHeight": 46
+        }
+      ]
+    },
+    {
+      "label": "removal dialog",
+      "targets": [
+        {
+          "label": "Skip to content",
+          "tag": "A",
+          "width": 146,
+          "height": 44,
+          "effectiveWidth": 146,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "◆ APK Provenance Locker",
+          "tag": "A",
+          "width": 196,
+          "height": 44,
+          "effectiveWidth": 196,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Demo",
+          "tag": "A",
+          "width": 51,
+          "height": 44,
+          "effectiveWidth": 51,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Locker",
+          "tag": "A",
+          "width": 55,
+          "height": 44,
+          "effectiveWidth": 55,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Privacy",
+          "tag": "A",
+          "width": 59,
+          "height": 44,
+          "effectiveWidth": 59,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Reset demo",
+          "tag": "BUTTON",
+          "width": 98,
+          "height": 44,
+          "effectiveWidth": 98,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Start for real",
+          "tag": "A",
+          "width": 118,
+          "height": 44,
+          "effectiveWidth": 118,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Try it with sample data",
+          "tag": "A",
+          "width": 242,
+          "height": 46,
+          "effectiveWidth": 242,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Verify an APK",
+          "tag": "BUTTON",
+          "width": 157,
+          "height": 46,
+          "effectiveWidth": 157,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Verify an APK",
+          "tag": "BUTTON",
+          "width": 157,
+          "height": 46,
+          "effectiveWidth": 157,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Export restore kit",
+          "tag": "BUTTON",
+          "width": 194,
+          "height": 46,
+          "effectiveWidth": 194,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "View full evidence",
+          "tag": "BUTTON",
+          "width": 161,
+          "height": 44,
+          "effectiveWidth": 161,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Remove org.fdroid.fdroid",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "View full evidence",
+          "tag": "BUTTON",
+          "width": 161,
+          "height": 44,
+          "effectiveWidth": 161,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Remove com.kunzisoft.keepass.free",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Validate a restore kit",
+          "tag": "BUTTON",
+          "width": 225,
+          "height": 46,
+          "effectiveWidth": 225,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Buy Locker Plus — $12",
+          "tag": "A",
+          "width": 354,
+          "height": 46,
+          "effectiveWidth": 354,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Have a license? Paste it",
+          "tag": "BUTTON",
+          "width": 354,
+          "height": 46,
+          "effectiveWidth": 354,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Download APK from GitHub",
+          "tag": "A",
+          "width": 283,
+          "height": 52,
+          "effectiveWidth": 283,
+          "effectiveHeight": 52
+        },
+        {
+          "label": "Download AAB from GitHub",
+          "tag": "A",
+          "width": 221,
+          "height": 44,
+          "effectiveWidth": 221,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Download SHA256SUMS from GitHub",
+          "tag": "A",
+          "width": 297,
+          "height": 44,
+          "effectiveWidth": 297,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Privacy",
+          "tag": "A",
+          "width": 47,
+          "height": 44,
+          "effectiveWidth": 47,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Terms",
+          "tag": "A",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Close",
+          "tag": "BUTTON",
+          "width": 44,
+          "height": 44,
+          "effectiveWidth": 44,
+          "effectiveHeight": 44
+        },
+        {
+          "label": "Keep record",
+          "tag": "BUTTON",
+          "width": 143,
+          "height": 46,
+          "effectiveWidth": 143,
+          "effectiveHeight": 46
+        },
+        {
+          "label": "Remove record",
+          "tag": "BUTTON",
+          "width": 170,
+          "height": 46,
+          "effectiveWidth": 170,
+          "effectiveHeight": 46
+        }
+      ]
+    }
+  ],
+  "undersized": [
+    {
+      "state": "verify dialog",
+      "label": "backup",
+      "tag": "INPUT",
+      "width": 13,
+      "height": 13,
+      "effectiveWidth": 397,
+      "effectiveHeight": 22
+    }
+  ],
+  "hrefs": [
+    "https://apk-provenance-locker.sociobot.in/demo#main",
+    "https://apk-provenance-locker.sociobot.in/",
+    "https://apk-provenance-locker.sociobot.in/demo",
+    "https://apk-provenance-locker.sociobot.in/#locker",
+    "https://apk-provenance-locker.sociobot.in/privacy",
+    "https://api.sociobot.in/api/v1/products/apk-provenance-locker/checkout",
+    "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/app-release.apk",
+    "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/app-release.aab",
+    "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.4.0/SHA256SUMS",
+    "https://apk-provenance-locker.sociobot.in/terms"
+  ]
+}

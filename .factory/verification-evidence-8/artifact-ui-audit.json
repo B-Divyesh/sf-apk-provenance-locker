@@ -1,0 +1,5 @@
+{
+  "card": "▣\nin.sociobot.apk_provenance_locker 0.4.0 (4)\n\napp-release.apk · 5.3 MB · copy saved\n\nSHA-256 05977905b4b8…c9470ba0\n\nView full evidence\n● Signature verified · v1 + v2\nac048775ff6c…5893a972\n×",
+  "evidence": "×\n\nRECORDED EVIDENCE\n\nin.sociobot.apk_provenance_locker\nPackage from APK\nin.sociobot.apk_provenance_locker\nVersion from APK\n0.4.0 · code 4\nFile\napp-release.apk\nSource\nhttps://github.com/B-Divyesh/sf-apk-provenance-locker/releases/tag/v0.4.0\nSHA-256\n05977905b4b82239ff8d28338bf711d6cd012b5d5bbb1ecbcb1a9374c9470ba0\nCurrent signer certificate\nac048775ff6c96d407874010b75571e9433b4548f19cd7acd9399ed75893a972\nVerified signature schemes\nv1 + v2\nVerified signer lineage\nNo rotation lineage in this APK\nDevice label\nNo device label\n\nLocker Plus adds private device labels. Verification and exports stay free.\n\nThe APK signature, signed identity, and any included rotation lineage were verified locally.\n\nClose evidence",
+  "errors": []
+}

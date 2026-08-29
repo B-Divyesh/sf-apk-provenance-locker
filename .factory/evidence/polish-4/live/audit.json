@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-08-29T21:08:27Z",
+  "url": "https://apk-provenance-locker.sociobot.in",
+  "deployment_id": "f04cc380-48f6-492f-923a-79b6ebaf92fd",
+  "build": {
+    "product": "apk-provenance-locker",
+    "version": "0.5.5",
+    "commit": "0809df82645dfecf73c1d9f592cc79728b2495e3"
+  },
+  "routes": {
+    "/": 200,
+    "/?demo=1": 200,
+    "/demo": 200,
+    "/privacy": 200,
+    "/terms": 200,
+    "/not-a-real-route": 404
+  },
+  "route_checks": {
+    "titles_descriptions_canonicals_open_graph_twitter": "pass",
+    "one_h1_one_main_lang_en": "pass",
+    "privacy_terms_links": "pass",
+    "client_navigation_and_back_focus": "pass",
+    "axe_violations": 0,
+    "horizontal_overflow_px": 0,
+    "console_or_page_errors": 0
+  },
+  "first_screen": {
+    "facts_bottom_y": 763.765625,
+    "viewport_height": 844,
+    "demo_entry": "/?demo=1",
+    "first_demo_record_y": 638.390625,
+    "sample_records": 2,
+    "banner_reset_and_start_for_real": "visible"
+  },
+  "demo_exits": {
+    "Start for real": "demo erased; real storage preserved; samples reseeded",
+    "Locker": "demo erased; real storage preserved; samples reseeded",
+    "wordmark": "demo erased; real storage preserved; samples reseeded"
+  },
+  "free_core_features": {
+    "license_before": null,
+    "signature_verification": "v1 + v2 + v3",
+    "downgrade_warning": true,
+    "signer_warning": true,
+    "encrypted_plaintext_hidden": true,
+    "decrypted_report": "1 APK matches",
+    "license_after": null
+  },
+  "request_privacy": "desktop and mobile each made five same-origin GET requests with no request body and zero errors",
+  "lighthouse": {
+    "performance": 100,
+    "accessibility": 100,
+    "best_practices": 100,
+    "seo": 100,
+    "lcp": "1.0 s",
+    "cls": 0,
+    "total_blocking_time": "40 ms"
+  }
+}

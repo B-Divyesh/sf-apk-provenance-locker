@@ -1,0 +1,30 @@
+{
+  "commit": "0809df82645dfecf73c1d9f592cc79728b2495e3",
+  "clone": "/tmp/apk-polish4-final-VLaNjX/repo",
+  "npm_ci": "pass; 190 packages audited; 0 vulnerabilities",
+  "claims": {
+    "count": 26,
+    "execution": "Each .factory/claims.json test command ran independently",
+    "result": "26 passed, 0 failed"
+  },
+  "lint": "pass",
+  "unit_config": "18 passed",
+  "browser": "39 passed",
+  "build": {
+    "result": "pass",
+    "javascript_raw_bytes": 42970,
+    "javascript_gzip_bytes": 14790,
+    "css_raw_bytes": 11080,
+    "css_gzip_bytes": 3290
+  },
+  "capacitor_sync": "pass",
+  "lighthouse_local": {
+    "performance": 100,
+    "accessibility": 100,
+    "best_practices": 100,
+    "seo": 100,
+    "lcp": "1.1 s",
+    "cls": 0,
+    "total_blocking_time": "20 ms"
+  }
+}

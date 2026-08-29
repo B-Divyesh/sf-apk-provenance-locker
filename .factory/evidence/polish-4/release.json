@@ -1,0 +1,19 @@
+{
+  "tag": "v0.5.5",
+  "commit": "0809df82645dfecf73c1d9f592cc79728b2495e3",
+  "workflow_run": "https://github.com/B-Divyesh/sf-apk-provenance-locker/actions/runs/33274942368",
+  "workflow_conclusion": "success",
+  "release": "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/tag/v0.5.5",
+  "apk": {
+    "bytes": 5588369,
+    "sha256": "fe55641767ae4b33244c93b5df4ae36989562bb23adefd304aefa69144b786d9"
+  },
+  "aab": {
+    "bytes": 5408878,
+    "sha256": "d7f96119a0dbfbc42cd6961d4737d8495548a7faf8de1b18f2e49c919ed8a2e6"
+  },
+  "package": "in.sociobot.apk_provenance_locker",
+  "version_code": 10,
+  "version_name": "0.5.5",
+  "published_artifact_test": "npm run test:release passed source identity, checksums, APK/AAB size, and all three packaged demo exits"
+}

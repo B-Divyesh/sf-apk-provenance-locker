@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-08-30T00:14:30.700Z",
+  "invalidApkError": "This file is too short to be an APK.",
+  "invalidSource": {
+    "valid": false,
+    "message": "Please enter a URL."
+  },
+  "normal": {
+    "expectedHash": "9c6947bf9398a15e85a52bf83b07cfae6686ff49e03034d09cbea45a19bdaa15",
+    "package": true,
+    "version": true,
+    "fingerprint": true,
+    "signatures": true,
+    "history": true
+  },
+  "passwordBoundary": {
+    "valid": false,
+    "message": "Please lengthen this text to 12 characters or more (you are currently using 11 characters)."
+  },
+  "mismatchError": "The two passwords do not match.",
+  "wrongPasswordError": "That password did not open this restore kit.",
+  "validation": {
+    "oneMatch": true,
+    "missingSampleCopies": 2,
+    "verifiedCopyDownload": true,
+    "importAvailable": true
+  },
+  "bulk": {
+    "records": 20,
+    "report": "20 APKs match"
+  },
+  "requests": {
+    "total": 10,
+    "thirdParty": [],
+    "withBody": []
+  },
+  "errors": []
+}

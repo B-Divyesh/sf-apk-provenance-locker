@@ -1,0 +1,25 @@
+{
+  "candidate": "20f18f0c906cab75a91250e494168f915375fd1f",
+  "liveWebBuild": {
+    "product": "apk-provenance-locker",
+    "version": "0.5.10",
+    "commit": "20f18f0c906cab75a91250e494168f915375fd1f"
+  },
+  "publishedRelease": {
+    "tag": "v0.5.10",
+    "tagCommit": "ab3eb699bcd49051f663dc3d5a077299313e83a3",
+    "releaseNotesCommit": "ab3eb699bcd49051f663dc3d5a077299313e83a3",
+    "provenanceCommit": "ab3eb699bcd49051f663dc3d5a077299313e83a3",
+    "apkEmbeddedCommit": "ab3eb699bcd49051f663dc3d5a077299313e83a3",
+    "aabEmbeddedCommit": "ab3eb699bcd49051f663dc3d5a077299313e83a3",
+    "apkBytes": 5589014,
+    "apkSha256": "31fcaf37e75fee233cf18bd85dc32486e27150a1ea463d460fce93a0cde28e4b",
+    "aabBytes": 5409555,
+    "aabSha256": "5f7a45fe029e262cd03ecf029b956c94635b3bb2137590a485ce45c6a701fcf4"
+  },
+  "candidateCheck": {
+    "command": "npm run test:release -- --expected-commit 20f18f0c906cab75a91250e494168f915375fd1f",
+    "exitCode": 1,
+    "error": "Release notes do not bind the immutable source commit"
+  }
+}

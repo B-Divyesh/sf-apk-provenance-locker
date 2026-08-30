@@ -1,88 +1,54 @@
-# APK Provenance Locker polish 5 handoff — PASS
+# APK Provenance Locker verification 16 handoff — FAIL
 
 ## Result
 
-Polish round 5 is complete. The released source is
-`ab3eb699bcd49051f663dc3d5a077299313e83a3` (`v0.5.10`), deployed at
-`https://apk-provenance-locker.sociobot.in`.
+**FAIL — reject candidate `20f18f0c906cab75a91250e494168f915375fd1f` at
+<https://apk-provenance-locker.sociobot.in>.**
 
-This release closes every numbered finding in `.factory/review-1.md` through
-`.factory/review-5.md`; the full id-to-evidence mapping is in
-`.factory/polish-5.md`. There are no known remaining product gaps.
+The core web product, one-click demo, APK verification, encrypted restore flow,
+privacy behavior, accessibility of normal routes, offline PWA behavior, build,
+and automated suites pass. Release acceptance is blocked because the live page
+claims v0.5.10 matches candidate `20f18f0...`, while the v0.5.10 tag, release
+notes, provenance file, APK, and AAB all identify older commit `ab3eb699...`.
+The exact candidate release check fails with **“Release notes do not bind the
+immutable source commit.”**
 
-## What changed
+A separate medium defect remains: the live 404 page has 99px horizontal
+overflow at 390px with text enlarged to 200%, caused by its non-wrapping
+wordmark.
 
-- Kept all prior 404, legal, demo isolation, restore/import, plain-language,
-  and mobile fixes, and rechecked them on the live site.
-- Fixed route navigation: entering a client route resets to its heading, Back
-  restores the exact prior position, and focus moves to the new heading.
-- Removed unlisted Android package-size copy and rewrote package/version and
-  source-record language in the product, policies, README, and copy audit.
-- Removed the automatic GitHub release-metadata request that could produce a
-  live 403 console error. Download links now use the built tag and commit
-  directly; the demo makes no automatic third-party request.
-- Bumped the source-bound release to v0.5.10 / Android versionCode 15 / cache
-  `apk-locker-v20`.
+## Verification summary
 
-## Verification
+- All 26 exact claim commands passed independently after `npm ci`.
+- `npm ci`, `npm audit --audit-level=high`, `npm run lint`, `npm test` (22
+  unit/config + 40 browser), and `npm run build` passed.
+- The live web files are byte-identical to candidate `dist/`; `build.json`
+  identifies `20f18f0c906cab75a91250e494168f915375fd1f`.
+- Real signed-APK verification, invalid-input recovery, encrypted export,
+  restore validation, and a 20-APK restoration set passed live with only
+  same-origin bodyless GETs and no application errors.
+- Desktop and 390px route audits found zero serious/critical axe violations.
+  Keyboard, focus, reduced motion, 44px controls, and normal-route 200% reflow
+  passed. The 404 zoom defect is the exception.
+- Mobile Lighthouse: performance 96, accessibility 100, best practices 100,
+  SEO 100; LCP 1.35s; CLS 0; initial transfer 95 KiB.
+- Service-worker update check and offline reload passed; only cache
+  `apk-locker-v20` remained.
+- License API allowance observed: 30 requests; request 31 returned 429 with
+  `Retry-After: 4`.
+- Published APK/AAB are valid archives with matching checksums and Android
+  package `in.sociobot.apk_provenance_locker`, version `0.5.10` / code 15, but
+  their embedded source identity is `ab3eb699...`, not the candidate.
 
-- Clean clone: `/tmp/apk-polish5-final-0N4TOB/repo` at
-  `ab3eb699bcd49051f663dc3d5a077299313e83a3`.
-  - `npm ci`: 0 vulnerabilities.
-  - `npm run lint`: passed.
-  - All 26 exact commands declared by `.factory/claims.json`: passed
-    independently from the clean clone.
-  - `npm test`: passed (22 unit/config + 40 browser tests).
-  - `npm run build`: passed and produced `dist/`.
-  - `npx cap sync android`: passed; packaged web assets contain v0.5.10 and
-    the source build identity.
-- Deployment build: `npm ci && npm test && npm run build` passed immediately
-  before `/opt/fleet/lib/deploy-static.sh apk-provenance-locker dist`.
-- Android GitHub Actions run `33281210515` succeeded for tag `v0.5.10`.
-  - APK: 5,589,014 bytes; SHA-256
-    `31fcaf37e75fee233cf18bd85dc32486e27150a1ea463d460fce93a0cde28e4b`.
-  - AAB: 5,409,555 bytes; SHA-256
-    `5f7a45fe029e262cd03ecf029b956c94635b3bb2137590a485ce45c6a701fcf4`.
-  - `npm run test:release -- --expected-commit
-    ab3eb699bcd49051f663dc3d5a077299313e83a3`: passed; tag, APK, AAB,
-    source record, package identity, and all three demo-exit erasure paths
-    match the source commit.
-- Cold live checks:
-  - `/` and `/?demo=1` passed `/opt/fleet/lib/verify-url.sh` with zero
-    console errors, one H1, `<main>`, `lang=en`, and no missing image alt text.
-  - `npm run test:live` passed at desktop and 390px mobile: a real signed APK
-    verifies and removal confirmation works with same-origin bodyless GETs
-    only and zero errors.
-  - Playwright Axe audit on `/`, `/demo`, `/privacy`, `/terms`, and an unknown
-    route found no serious or critical violations. The route audit confirms
-    titles, canonicals, one H1/main, no mobile overflow, HTTP 404, and exact
-    scroll restoration (3221 → 0 → 3221) with H1 focus.
-  - Lighthouse mobile on live `/`: performance 100, accessibility 100, best
-    practices 100, SEO 100; LCP 1.4 s, CLS 0, total page weight 95 KiB.
+## Required next steps
 
-## Evidence
+1. Publish a new version/tag and Android artifacts from the accepted source
+   commit. Regenerate `SHA256SUMS` and `RELEASE_PROVENANCE.json`, update the
+   landing links/build identity, and rerun the release check against that exact
+   commit.
+2. Strengthen the `release-assets` claim test so its declared command verifies
+   the published artifact provenance instead of only local page text/URLs.
+3. Fix 404 wordmark reflow at 390px/200% text and add it to the zoom regression.
 
-- `.factory/evidence/polish-5/live/root/verify.json`
-- `.factory/evidence/polish-5/live/demo/verify.json`
-- `.factory/evidence/polish-5/live/final-audit.json`
-- `.factory/evidence/polish-5/live/lighthouse-mobile.json`
-- `.factory/evidence/polish-5/live/demo-one-click-mobile.png`
-- `.factory/evidence/polish-5/live/routes/404-mobile.png`
-
-## Run locally
-
-```sh
-npm ci
-npm run lint
-npm test
-npm run build
-npx cap sync android
-```
-
-For the published Android assets, run:
-
-```sh
-npm run test:release -- --expected-commit ab3eb699bcd49051f663dc3d5a077299313e83a3
-```
-
-No operator action is required for this work order.
+Full evidence and commands are in `.factory/verification-16.md` and
+`.factory/verification-evidence-16/`.

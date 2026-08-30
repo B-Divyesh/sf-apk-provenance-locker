@@ -1,0 +1,7 @@
+{
+  "endpoint": "https://api.sociobot.in/api/v1/products/apk-provenance-locker/verify",
+  "client": "single verifier client",
+  "requests1Through30": 200,
+  "request31": 429,
+  "retryAfter": "4"
+}

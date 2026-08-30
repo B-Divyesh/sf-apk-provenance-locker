@@ -1,0 +1,245 @@
+{
+  "base": "https://apk-provenance-locker.sociobot.in",
+  "checkedAt": "2026-08-30T00:18:40.432Z",
+  "routes": [
+    {
+      "viewport": "desktop",
+      "route": "/",
+      "status": 200,
+      "title": "APK Provenance Locker — Verify APK restore evidence",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "Verify APK signatures, package names, versions, signing history, and SHA-256 file fingerprints on your device.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 0,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [],
+      "thirdParty": []
+    },
+    {
+      "viewport": "desktop",
+      "route": "/demo",
+      "status": 200,
+      "title": "Demo — APK Provenance Locker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "Try two sample APK records in an isolated locker.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/demo",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 0,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [],
+      "thirdParty": []
+    },
+    {
+      "viewport": "desktop",
+      "route": "/privacy",
+      "status": 200,
+      "title": "Privacy — APK Provenance Locker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "How local APK verification and encrypted restore kits work.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/privacy",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 0,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [],
+      "thirdParty": []
+    },
+    {
+      "viewport": "desktop",
+      "route": "/terms",
+      "status": 200,
+      "title": "Terms — APK Provenance Locker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "Terms for APK Provenance Locker.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/terms",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 0,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [],
+      "thirdParty": []
+    },
+    {
+      "viewport": "desktop",
+      "route": "/verification-16-missing",
+      "status": 404,
+      "title": "Page not found — APK Provenance Locker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "Return to APK Provenance Locker to verify and record APK evidence on your device.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/404",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 0,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [
+        "console: Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "thirdParty": []
+    },
+    {
+      "viewport": "mobile",
+      "route": "/",
+      "status": 200,
+      "title": "APK Provenance Locker — Verify APK restore evidence",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "Verify APK signatures, package names, versions, signing history, and SHA-256 file fingerprints on your device.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 0,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [],
+      "thirdParty": []
+    },
+    {
+      "viewport": "mobile",
+      "route": "/demo",
+      "status": 200,
+      "title": "Demo — APK Provenance Locker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "Try two sample APK records in an isolated locker.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/demo",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 0,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [],
+      "thirdParty": []
+    },
+    {
+      "viewport": "mobile",
+      "route": "/privacy",
+      "status": 200,
+      "title": "Privacy — APK Provenance Locker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "How local APK verification and encrypted restore kits work.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/privacy",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 0,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [],
+      "thirdParty": []
+    },
+    {
+      "viewport": "mobile",
+      "route": "/terms",
+      "status": 200,
+      "title": "Terms — APK Provenance Locker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "Terms for APK Provenance Locker.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/terms",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 0,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [],
+      "thirdParty": []
+    },
+    {
+      "viewport": "mobile",
+      "route": "/verification-16-missing",
+      "status": 404,
+      "title": "Page not found — APK Provenance Locker",
+      "lang": "en",
+      "h1": 1,
+      "main": 1,
+      "description": "Return to APK Provenance Locker to verify and record APK evidence on your device.",
+      "canonical": "https://apk-provenance-locker.sociobot.in/404",
+      "overflow": 0,
+      "smallTargets": [],
+      "zoomOverflow": 99,
+      "zoomSeriousCritical": [],
+      "seriousCritical": [],
+      "errors": [
+        "console: Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "thirdParty": []
+    }
+  ],
+  "firstRead": {
+    "heading": "Verify APKs before restoring",
+    "audience": "For Android users keeping APK files, this checks each app, version, signing history, and SHA-256 file fingerprint before a reinstall.",
+    "action": "Try it with sample data",
+    "actionVisible": true,
+    "afterClick": {
+      "url": "https://apk-provenance-locker.sociobot.in/?demo=1",
+      "banner": true,
+      "records": 2,
+      "firstRecordTop": 638.390625,
+      "resetVisible": true,
+      "startRealVisible": true
+    }
+  },
+  "keyboard": {
+    "firstFocus": {
+      "text": "Skip to content",
+      "href": "#main"
+    },
+    "focusStyle": {
+      "outline": "rgb(255, 253, 246) solid 3px",
+      "boxShadow": "rgb(20, 34, 30) 0px 0px 0px 7px"
+    },
+    "skipTarget": {
+      "hash": "#main",
+      "activeText": "Local APK verificationVerify APKs before restoringFor Android users keeping APK files, this checks each app, version, signing history, and SHA-256 file fingerprint before a reinstall.Try it with sample dataOpen two sample APK records.Verify an APKVerified on this devicePassword-encrypted exportsNo sign-in or accountYour APK files are never uploaded.Your verified APK recordsKeep verified APK evidenceVerify an APKExport restore kit⌁No APK evidence yetVerified APKs will appear here. Choose a file to check its signature, package name, and version.Verify your first APKHow the locker verifies evidenceChoose an APK.The locker checks Android's v1, v2, and v3 signatures and creates a SHA-256 file fingerprint on this device.Read the package and version.It reads the package name and version from the APK.Check signer and downgrade risks.Verified signing history and version codes reveal new certificates and incompatible downgrade risk.Optional one-time purchaseGroup APKs by deviceLocker Plus costs $12 once. It adds private device labels for sorting a large locker. Verification, signer and downgrade warnings, and restore-kit export stay free.The free locker is active.Buy Locker Plus — $12Restore Locker Plus licenseSociobot hosted checkout.Android downloadAPK checks run on this device using Android's signature rules. Android still makes the final install decision.v0.5.10 matches source 20f18f0c906c.Download APK from GitHubDownload AAB from GitHubDownload SHA256SUMS from GitHubDownload source record from GitHubUse SHA256SUMS to check the files. Use the source record to confirm which repository commit built them.Download the APK, SHA256SUMS, and source record.Compare the APK's SHA-256 file fingerprint with the matching line in SHA256SUMS.Open RELEASE_PROVENANCE.json. Confirm it names the repository commit shown above.Allow installs from your browser or file manager when Android asks.Open the APK. Android shows the final install decision."
+    },
+    "dialogOpened": true,
+    "openFocus": {
+      "tag": "INPUT",
+      "name": ""
+    },
+    "dialogClosed": true,
+    "returnedToTrigger": true
+  },
+  "reducedMotion": {
+    "activeAnimations": 0,
+    "reduced": true
+  },
+  "pwa": {
+    "controlled": true,
+    "update": {
+      "active": "https://apk-provenance-locker.sociobot.in/sw.js",
+      "waiting": null
+    },
+    "cacheNames": [
+      "apk-locker-v20"
+    ],
+    "offlineRecords": 2,
+    "offlineBanner": true
+  },
+  "interaction": {
+    "events": [],
+    "maxDuration": 0
+  }
+}

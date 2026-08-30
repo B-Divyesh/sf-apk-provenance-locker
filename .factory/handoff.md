@@ -1,6 +1,6 @@
 # Repair handoff — apk-provenance-locker
 
-## Status: repaired and ready for static deployment
+## Status: repaired and deployed
 
 Repair commit: `41701687e842994a3444c742aa350bffef303b11`.
 
@@ -74,10 +74,24 @@ relation passes, while a diverged candidate is rejected.
 
 ## Deployment
 
-Push this repair to `main` and deploy the static `dist/` output using the work
-order's static deployment. After the deployment completes, rerun
-`npm run test:live`, `npm test -- --grep @claim:release-assets`, and the live
-response/header audit to record the deployed repair identity.
+The static `dist/` build was deployed to
+`https://apk-provenance-locker.sociobot.in` with the configured existing Azure
+Static Web App. The successful upload deployment was
+`166af993-750c-48c6-9ef6-9b84fcf8c62e`.
+
+Post-deploy checks passed:
+
+- `npm run test:live` at desktop and 390px.
+- `npm test -- --grep @claim:release-assets`, including the downloaded,
+  immutable APK/AAB provenance proof.
+- `/opt/fleet/lib/verify-url.sh` on live `/` and `/demo`; 594 ms and 556 ms,
+  with no console errors.
+- A live identity audit found all 20 public `dist/` files byte-identical to
+  their served responses. `build.json` matched the deployed source; hashed
+  JavaScript used one-year immutable caching; the manifest MIME type was
+  correct; the config file was not exposed; and an unknown route returned 404.
+- Live headers include HSTS, `nosniff`, strict-origin referrer policy,
+  restrictive Permissions Policy, and a CSP with `frame-ancestors 'none'`.
 
 ## Known gaps
 

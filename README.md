@@ -41,7 +41,8 @@ the published APK, AAB, checksums, source record, tag, and release notes. The
 production static site is written to `dist/`.
 After a release is published, run `npm run test:release`. It downloads the
 APK, AAB, checksums, and source record from GitHub. It checks that the tag,
-release notes, source record, and both packages name this repository commit.
+release notes, source record, and both packages name the release's immutable
+source commit.
 It also checks that **Start for real**, **Locker**, and the wordmark erase demo
 data.
 
@@ -50,8 +51,9 @@ data.
 The factory deploys `dist/` with the configured static work order. Push the
 final candidate to `origin/main` before tagging it. Run
 `npm run test:candidate -- --expected-commit "$(git rev-parse HEAD)"` to prove
-GitHub can obtain that exact commit. Pushing the matching `v<version>` tag then
-runs the Android workflow and publishes APK, AAB, checksums, and source record.
+GitHub can obtain that exact commit and `main` retains it. Later QA documents
+may advance `main`. Pushing the matching `v<version>` tag then runs the Android
+workflow and publishes APK, AAB, checksums, and source record.
 
 APK checks run in the browser. Developers can inspect the pinned `apksig-go`
 v1.1.0 WebAssembly adapter in `tools/apksig-wasm`. Android fixtures and their

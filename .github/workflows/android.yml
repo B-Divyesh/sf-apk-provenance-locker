@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Confirm final candidate is obtainable from origin/main
+      - name: Confirm tagged candidate is obtainable and retained by origin/main
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/verify-release-candidate.mjs --expected-commit "$GITHUB_SHA"

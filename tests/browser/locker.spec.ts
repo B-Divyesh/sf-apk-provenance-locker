@@ -23,7 +23,7 @@ const invalidLineageFixture=resolve('tests/fixtures/v1v2v3-invalid-lineage.apk')
 const fixturePackage='android.appsecurity.cts.tinyapp';
 const releaseVersion='0.5.12';
 const releaseTag=`v${releaseVersion}`;
-const releaseCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const releaseCommit=(()=>{try{return execFileSync('git',['rev-parse',`${releaseTag}^{commit}`],{encoding:'utf8'}).trim()}catch{return execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim()}})();
 
 async function chooseApk(page:any,file:string|Uint8Array=lineageFixture){
   await page.getByRole('button',{name:/verify an apk/i}).first().click();

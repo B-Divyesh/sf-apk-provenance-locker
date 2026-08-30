@@ -15,9 +15,10 @@ export function assertCandidateResponse(expectedCommit,status,record){
   invariant(record&&record.sha===expectedCommit,`GitHub resolved candidate ${expectedCommit} to ${record?.sha||'no commit'}`);
 }
 
-export function assertMainResponse(expectedCommit,status,record){
-  invariant(status>=200&&status<300,`GitHub origin/main lookup returned HTTP ${status}`);
-  invariant(record&&record.sha===expectedCommit,`origin/main is ${record?.sha||'unavailable'}; push final candidate ${expectedCommit} before release`);
+export function assertMainContainsCandidate(expectedCommit,status,record){
+  invariant(status>=200&&status<300,`GitHub origin/main comparison returned HTTP ${status}`);
+  invariant(record&&['ahead','identical'].includes(record.status),`origin/main does not contain candidate ${expectedCommit}; comparison status is ${record?.status||'unavailable'}`);
+  invariant(record.merge_base_commit?.sha===expectedCommit,`origin/main comparison does not retain candidate ${expectedCommit} as its merge base`);
 }
 
 export async function verifyReleaseCandidate({
@@ -31,23 +32,25 @@ export async function verifyReleaseCandidate({
   const candidateResponse=await request(`/commits/${expectedCommit}`);
   const candidateRecord=await candidateResponse.json().catch(()=>null);
   assertCandidateResponse(expectedCommit,candidateResponse.status,candidateRecord);
-  const mainResponse=await request('/commits/main');
+  const mainResponse=await request(`/compare/${expectedCommit}...main`);
   const mainRecord=await mainResponse.json().catch(()=>null);
-  assertMainResponse(expectedCommit,mainResponse.status,mainRecord);
-  return {repository,branch:'main',expectedCommit,remoteCommit:mainRecord.sha,obtainable:true};
+  assertMainContainsCandidate(expectedCommit,mainResponse.status,mainRecord);
+  return {repository,branch:'main',expectedCommit,branchRelation:mainRecord.status,obtainable:true,containedByMain:true};
 }
 
 async function runRegression(){
   const missing='d7186184975c193d520d40a14b27fb552067e8ce';
-  const available='d71861d6633f0e1d5c1d67e2ab1845a7f12e115f';
+  const candidate='058fe2ce981fead74ea63fd612da05baaadaecfe';
+  const advancedMain='c6a968c31dc97443b743a932f09c335070aa70dd';
   let message='';
   try{assertCandidateResponse(missing,422,{message:'No commit found for SHA'})}catch(error){message=error instanceof Error?error.message:String(error)}
   invariant(message===`Candidate ${missing} is not obtainable from origin. Push the final candidate before building or publishing release artifacts.`,'The nonexistent-candidate regression did not fail closed');
-  assertCandidateResponse(available,200,{sha:available});
-  let mainMessage='';
-  try{assertMainResponse(missing,200,{sha:available})}catch(error){mainMessage=error instanceof Error?error.message:String(error)}
-  invariant(mainMessage===`origin/main is ${available}; push final candidate ${missing} before release`,'The unpushed-candidate regression did not fail closed');
-  console.log(JSON.stringify({regression:'verifier-17-nonexistent-candidate',missing,status:422,available,rejected:true}));
+  assertCandidateResponse(candidate,200,{sha:candidate});
+  assertMainContainsCandidate(candidate,200,{status:'ahead',merge_base_commit:{sha:candidate},head_commit:{sha:advancedMain}});
+  let ancestryMessage='';
+  try{assertMainContainsCandidate(candidate,200,{status:'diverged',merge_base_commit:{sha:'d71861d6633f0e1d5c1d67e2ab1845a7f12e115f'},head_commit:{sha:advancedMain}})}catch(error){ancestryMessage=error instanceof Error?error.message:String(error)}
+  invariant(ancestryMessage===`origin/main does not contain candidate ${candidate}; comparison status is diverged`,'The non-ancestor candidate regression did not fail closed');
+  console.log(JSON.stringify({regression:'verifier-19-advanced-main-ancestor',missing,candidate,advancedMain,relation:'ahead',accepted:true}));
 }
 
 async function main(){

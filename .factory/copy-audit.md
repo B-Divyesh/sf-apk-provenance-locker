@@ -47,7 +47,7 @@ term for certificate changes. **Source record** is the user-facing name for
 | Android download | 2 | Pass |
 | APK checks run on this device using Android's signature rules. | 10 | Declared claim: signature-verification |
 | Android still makes the final install decision. | 7 | Limitation |
-| v0.5.12 matches source `<commit>`. | 4 | Declared claim: release-assets |
+| v0.5.12 matches source `<release commit>`. | 4 | Declared claim: release-assets |
 | Download APK from GitHub | 4 | Declared claim: release-assets |
 | Download AAB from GitHub | 4 | Declared claim: release-assets |
 | Download SHA256SUMS from GitHub | 4 | Declared claim: release-assets |
@@ -91,11 +91,12 @@ term for certificate changes. **Source record** is the user-facing name for
 | The production static site is written to dist/. | 8 | Build instruction |
 | After a release is published, run npm run test:release. | 8 | Release verification instruction |
 | It downloads the APK, AAB, checksums, and source record from GitHub. | 11 | Release verification instruction |
-| It checks that the tag, release notes, source record, and both packages name this repository commit. | 16 | Release verification instruction |
+| It checks that the tag, release notes, source record, and both packages name the release's immutable source commit. | 18 | Release verification instruction |
 | It also checks that Start for real, Locker, and the wordmark erase demo data. | 14 | Declared claim: demo-sandbox |
 | Deploy APK Provenance Locker | 4 | Heading |
 | Push the final candidate to origin/main before tagging it. | 9 | Release instruction |
-| Run npm run test:candidate to prove GitHub can obtain that exact commit. | 12 | Release instruction |
+| Run npm run test:candidate to prove GitHub can obtain that exact commit and main retains it. | 16 | Release instruction |
+| Later QA documents may advance main. | 6 | Release instruction |
 | Pushing the matching version tag runs the Android workflow. | 9 | Release instruction |
 | It publishes APK, AAB, checksums, and source record. | 8 | Release instruction |
 | These links use the fixed v0.5.12 release. | 7 | Declared claim: release-assets |

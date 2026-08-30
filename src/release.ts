@@ -1,9 +1,9 @@
 declare const __APP_VERSION__: string;
-declare const __BUILD_COMMIT__: string;
+declare const __RELEASE_COMMIT__: string;
 
 export const releaseRepository='B-Divyesh/sf-apk-provenance-locker';
 export const releaseTag=`v${__APP_VERSION__}`;
-export const releaseCommit=__BUILD_COMMIT__;
+export const releaseCommit=__RELEASE_COMMIT__;
 
 const assetNames=['app-release.apk','app-release.aab','SHA256SUMS','RELEASE_PROVENANCE.json'] as const;
 type AssetName=typeof assetNames[number];

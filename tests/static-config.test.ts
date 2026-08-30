@@ -64,19 +64,20 @@ describe('deployment and Android release configuration',()=>{
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
 
-  it('rejects verifier 17\'s exact nonexistent and unpushed candidate conditions',()=>{
+  it('keeps verifier 19\'s immutable tagged candidate valid after QA documents advance main',()=>{
     const result=spawnSync(process.execPath,['scripts/verify-release-candidate.mjs','--self-test'],{encoding:'utf8'});
     expect(result.status,result.stderr).toBe(0);
     expect(JSON.parse(result.stdout)).toEqual(expect.objectContaining({
-      regression:'verifier-17-nonexistent-candidate',
+      regression:'verifier-19-advanced-main-ancestor',
       missing:'d7186184975c193d520d40a14b27fb552067e8ce',
-      status:422,
-      available:'d71861d6633f0e1d5c1d67e2ab1845a7f12e115f',
-      rejected:true,
+      candidate:'058fe2ce981fead74ea63fd612da05baaadaecfe',
+      advancedMain:'c6a968c31dc97443b743a932f09c335070aa70dd',
+      relation:'ahead',
+      accepted:true,
     }));
   });
 
-  it('builds v0.5.12 packages only after origin/main has the matching tag commit',()=>{
+  it('builds v0.5.12 packages only after origin/main retains the tagged candidate',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
     const manifest=readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
     const backupRules=readFileSync('android/app/src/main/res/xml/backup_rules.xml','utf8');
@@ -112,6 +113,7 @@ describe('deployment and Android release configuration',()=>{
     expect(readFileSync('vite.config.ts','utf8')).toContain("fileName:'build.json'");
     const verifier=readFileSync('scripts/verify-android-release.mjs','utf8');
     expect(verifier).toContain('await verifyReleaseCandidate({expectedCommit})');
+    expect(verifier).toContain("taggedCommit()||execFileSync('git',['rev-parse','HEAD']");
     expect(verifier).toContain("zipText(apk,'assets/public/build.json')");
     expect(verifier).toContain("zipText(aab,'base/assets/public/build.json')");
     expect(verifier).toContain('Release notes do not bind the immutable source commit');

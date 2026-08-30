@@ -14,7 +14,8 @@ const has=name=>args.includes(name);
 const packageInfo=JSON.parse(readFileSync('package.json','utf8'));
 const version=packageInfo.version;
 const tag=`v${version}`;
-const expectedCommit=(option('--expected-commit')||process.env.GITHUB_SHA||execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'})).trim();
+function taggedCommit(){try{return execFileSync('git',['rev-parse',`${tag}^{commit}`],{encoding:'utf8'}).trim()}catch{return undefined}}
+const expectedCommit=(option('--expected-commit')||process.env.GITHUB_SHA||taggedCommit()||execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'})).trim();
 const repository='B-Divyesh/sf-apk-provenance-locker';
 const apiBase=`https://api.github.com/repos/${repository}`;
 const temporary=await mkdtemp(join(tmpdir(),'apk-locker-release-'));

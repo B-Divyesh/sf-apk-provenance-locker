@@ -1,0 +1,40 @@
+{
+  "endpoint": "https://api.sociobot.in/api/v1/products/apk-provenance-locker/verify?license=[redacted]",
+  "first30": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+  ],
+  "last": {
+    "n": 31,
+    "status": 429,
+    "retryAfter": "4"
+  }
+}

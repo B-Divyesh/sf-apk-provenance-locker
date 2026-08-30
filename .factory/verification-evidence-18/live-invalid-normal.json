@@ -1,0 +1,18 @@
+{
+  "invalidApk": "",
+  "invalidUrl": {
+    "valid": false,
+    "message": "Please enter a URL."
+  },
+  "normal": {
+    "package": true,
+    "version": true,
+    "sha256": true,
+    "signingHistory": true
+  },
+  "requests": {
+    "thirdParty": [],
+    "withBody": []
+  },
+  "errors": []
+}

@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-29 for polish round 5. Counts use whitespace-delimited words;
+Checked 2026-08-30 for repair work order 11. Counts use whitespace-delimited words;
 hyphenated terms, URLs, paths, and filenames count as one word. No audited
 sentence exceeds 22 words or uses a banned marketing word. **File fingerprint**
 is the product term for the SHA-256 digest. **Signing history** is the product
@@ -47,7 +47,7 @@ term for certificate changes. **Source record** is the user-facing name for
 | Android download | 2 | Pass |
 | APK checks run on this device using Android's signature rules. | 10 | Declared claim: signature-verification |
 | Android still makes the final install decision. | 7 | Limitation |
-| v0.5.10 matches source `<commit>`. | 4 | Declared claim: release-assets |
+| v0.5.11 matches source `<commit>`. | 4 | Declared claim: release-assets |
 | Download APK from GitHub | 4 | Declared claim: release-assets |
 | Download AAB from GitHub | 4 | Declared claim: release-assets |
 | Download SHA256SUMS from GitHub | 4 | Declared claim: release-assets |
@@ -87,12 +87,14 @@ term for certificate changes. **Source record** is the user-facing name for
 | The demo keeps its records and files separate from your real locker. | 12 | Declared claim: demo-sandbox |
 | Leaving, Reset demo, and Start for real erase demo data. | 10 | Declared claim: demo-sandbox |
 | Develop and verify APK Provenance Locker | 6 | Heading |
+| The release-assets command also downloads and checks the published APK, AAB, checksums, source record, tag, and release notes. | 18 | Release verification instruction |
+| The production static site is written to dist/. | 8 | Build instruction |
 | After a release is published, run npm run test:release. | 8 | Release verification instruction |
 | It downloads the APK, AAB, checksums, and source record from GitHub. | 11 | Release verification instruction |
 | It checks that the tag, release notes, source record, and both packages name this repository commit. | 16 | Release verification instruction |
 | It also checks that Start for real, Locker, and the wordmark erase demo data. | 14 | Declared claim: demo-sandbox |
 | Deploy APK Provenance Locker | 4 | Heading |
-| These links use the fixed v0.5.10 release. | 7 | Declared claim: release-assets |
+| These links use the fixed v0.5.11 release. | 7 | Declared claim: release-assets |
 | Compare each file fingerprint with SHA256SUMS. | 6 | Declared claim: release-assets |
 | Then use RELEASE_PROVENANCE.json, the source record, to confirm which repository commit built the files. | 13 | Declared claim: release-assets |
 | Verification, signer and downgrade warnings, and restore-kit export stay free. | 10 | Declared claim: free-core-features |

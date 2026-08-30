@@ -1,0 +1,9 @@
+{
+  "invalid": {
+    "error": "This file is too short to be an APK."
+  },
+  "valid": {
+    "verified": 1,
+    "identity": 1
+  }
+}

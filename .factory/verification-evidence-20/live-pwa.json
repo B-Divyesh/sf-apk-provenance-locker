@@ -1,0 +1,16 @@
+{
+  "sw": {
+    "controller": true,
+    "active": "https://apk-provenance-locker.sociobot.in/sw.js",
+    "caches": [
+      "apk-locker-v22"
+    ],
+    "waiting": false
+  },
+  "offline": {
+    "h1": "Check sample APK records",
+    "banner": 1,
+    "records": 2
+  },
+  "errors": []
+}

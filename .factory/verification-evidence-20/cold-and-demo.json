@@ -1,0 +1,156 @@
+{
+  "desktop": {
+    "initial": {
+      "title": "APK Provenance Locker — Verify APK restore evidence",
+      "h1": [
+        "Verify APKs before restoring"
+      ],
+      "main": "LOCAL APK VERIFICATION\n\nVerify APKs before restoring\n\nFor Android users keeping APK files, this checks each app, version, signing history, and SHA-256 file fingerprint before a reinstall.\n\nTry it with sample data\nOpen two sample APK records.\nVerify an APK\nVerified on this device\nPassword-encrypted exports\nNo sign-in or account\nYour APK files are never uploaded.\n\nYOUR VERIFIED APK RECORDS\n\nKeep verified APK evidence\nVerify an APK\nExport restore kit\n⌁\nNo APK evidence yet\n\nVerified APKs will appear here. Choose a file to check its signature, package name, and version.\n\nVerify your first APK\nHow the locker verifies evidence\nChoose an APK.\nThe locker checks Android's v1, v2, and v3 signatures and creates a SHA-256 file fingerprint on this device.\nRead the package and version.\nIt reads the package name and version from the APK.\nCheck signer and downgrade risks.\nVerified signing history and version codes reveal new certificates and incompatible downgrade risk.\n\nOPTIONAL ONE-TIME PURCHASE\n\nGroup APKs by device\n\nLocker Plus costs $12 once. It adds private device labels for sorting a large locker. Verification, signer and downgrade warnings, and restore-kit export stay free.\n\nThe free locker is active.\n\nBuy Locker Plus — $12\nRestore Locker Plus license\nSociobot hosted checkout.\nAndroid download\n\nAPK checks run on this device using Android's signature rules. Android still makes the final install decision.\n\nv0.5.12 matches source 058fe2ce981f.\n\nDownload APK from GitHub\nDownload AAB from GitHub\nDownload SHA256SUMS from GitHub\nDownload source record from GitHub\n\nUse SHA256SUMS to check the files. Use the source record to confirm which repository commit built them.\n\nDownload the APK, SHA256SUMS, and source record.\nCompare the APK's SHA-256 file fingerprint with the matching line in SH",
+      "status": 200,
+      "links": [
+        "Skip to content",
+        "◆ APK Provenance Locker",
+        "Demo",
+        "Locker",
+        "Privacy",
+        "Try it with sample data",
+        "Buy Locker Plus — $12",
+        "Download APK from GitHub",
+        "Download AAB from GitHub",
+        "Download SHA256SUMS from GitHub",
+        "Download source record from GitHub",
+        "Privacy",
+        "Terms"
+      ],
+      "buttons": [
+        "Verify an APK",
+        "Verify an APK",
+        "Export restore kit",
+        "Verify your first APK",
+        "Restore Locker Plus license"
+      ]
+    },
+    "demo": {
+      "url": "https://apk-provenance-locker.sociobot.in/?demo=1",
+      "records": 2,
+      "banner": 1,
+      "reset": 1,
+      "startReal": 1
+    },
+    "requests": [
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/index-Ddc1b4dc.js",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/style-BQGQnk5n.css",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/archive-locker.webp",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/?demo=1",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/index-Ddc1b4dc.js",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/style-BQGQnk5n.css",
+        "method": "GET",
+        "hasBody": false
+      }
+    ],
+    "errors": []
+  },
+  "mobile": {
+    "initial": {
+      "title": "APK Provenance Locker — Verify APK restore evidence",
+      "h1": [
+        "Verify APKs before restoring"
+      ],
+      "main": "LOCAL APK VERIFICATION\n\nVerify APKs before restoring\n\nFor Android users keeping APK files, this checks each app, version, signing history, and SHA-256 file fingerprint before a reinstall.\n\nTry it with sample data\nOpen two sample APK records.\nVerify an APK\nVerified on this device\nPassword-encrypted exports\nNo sign-in or account\nYour APK files are never uploaded.\n\nYOUR VERIFIED APK RECORDS\n\nKeep verified APK evidence\nVerify an APK\nExport restore kit\n⌁\nNo APK evidence yet\n\nVerified APKs will appear here. Choose a file to check its signature, package name, and version.\n\nVerify your first APK\nHow the locker verifies evidence\nChoose an APK.\nThe locker checks Android's v1, v2, and v3 signatures and creates a SHA-256 file fingerprint on this device.\nRead the package and version.\nIt reads the package name and version from the APK.\nCheck signer and downgrade risks.\nVerified signing history and version codes reveal new certificates and incompatible downgrade risk.\n\nOPTIONAL ONE-TIME PURCHASE\n\nGroup APKs by device\n\nLocker Plus costs $12 once. It adds private device labels for sorting a large locker. Verification, signer and downgrade warnings, and restore-kit export stay free.\n\nThe free locker is active.\n\nBuy Locker Plus — $12\nRestore Locker Plus license\nSociobot hosted checkout.\nAndroid download\n\nAPK checks run on this device using Android's signature rules. Android still makes the final install decision.\n\nv0.5.12 matches source 058fe2ce981f.\n\nDownload APK from GitHub\nDownload AAB from GitHub\nDownload SHA256SUMS from GitHub\nDownload source record from GitHub\n\nUse SHA256SUMS to check the files. Use the source record to confirm which repository commit built them.\n\nDownload the APK, SHA256SUMS, and source record.\nCompare the APK's SHA-256 file fingerprint with the matching line in SH",
+      "status": 200,
+      "links": [
+        "Skip to content",
+        "◆ APK Provenance Locker",
+        "Demo",
+        "Locker",
+        "Privacy",
+        "Try it with sample data",
+        "Buy Locker Plus — $12",
+        "Download APK from GitHub",
+        "Download AAB from GitHub",
+        "Download SHA256SUMS from GitHub",
+        "Download source record from GitHub",
+        "Privacy",
+        "Terms"
+      ],
+      "buttons": [
+        "Verify an APK",
+        "Verify an APK",
+        "Export restore kit",
+        "Verify your first APK",
+        "Restore Locker Plus license"
+      ]
+    },
+    "demo": {
+      "url": "https://apk-provenance-locker.sociobot.in/?demo=1",
+      "records": 2,
+      "banner": 1,
+      "reset": 1,
+      "startReal": 1
+    },
+    "requests": [
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/index-Ddc1b4dc.js",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/style-BQGQnk5n.css",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/archive-locker.webp",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/?demo=1",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/index-Ddc1b4dc.js",
+        "method": "GET",
+        "hasBody": false
+      },
+      {
+        "url": "https://apk-provenance-locker.sociobot.in/assets/style-BQGQnk5n.css",
+        "method": "GET",
+        "hasBody": false
+      }
+    ],
+    "errors": []
+  }
+}

@@ -1,0 +1,50 @@
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  5 passed (5)
+      Tests  24 passed (24)
+   Start at  04:34:31
+   Duration  9.97s (transform 636ms, setup 0ms, import 815ms, tests 5.06s, environment 19.18s)
+
+[WebServer] (node:7206) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7239) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 40 tests using 1 worker
+(node:7259) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7259) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·························F(node:7639) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7639) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+··············
+
+  1) tests/browser/locker.spec.ts:444:1 › @claim:hosted-checkout shows the one-time price and reaches Sociobot hosted checkout 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m303[39m
+    Received: [31m500[39m
+
+      448 |   await expect(buy).toHaveAttribute('href','https://api.sociobot.in/api/v1/products/apk-provenance-locker/checkout');
+      449 |   const response=await request.get(await buy.getAttribute('href') as string,{maxRedirects:0});
+    > 450 |   expect(response.status()).toBe(303);
+          |                             ^
+      451 |   expect(response.headers().location).toMatch(/^https:\/\/checkout\.dodopayments\.com\/session\//);
+      452 | });
+      453 |
+        at /work/repo/tests/browser/locker.spec.ts:450:29
+
+    Error Context: test-results/locker--claim-hosted-check-ee3c6-es-Sociobot-hosted-checkout/error-context.md
+
+  1 failed
+    tests/browser/locker.spec.ts:444:1 › @claim:hosted-checkout shows the one-time price and reaches Sociobot hosted checkout 
+  39 passed (1.1m)

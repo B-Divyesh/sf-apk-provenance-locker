@@ -1,0 +1,11 @@
+{
+  "categories": {
+    "performance": 87
+  },
+  "audits": {
+    "fcp": "1.0 s",
+    "lcp": "1.5 s",
+    "cls": "0",
+    "totalBytes": "Total size was 95 KiB"
+  }
+}

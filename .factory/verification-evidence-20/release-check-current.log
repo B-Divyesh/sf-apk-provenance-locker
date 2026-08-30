@@ -1,0 +1,15 @@
+
+> apk-provenance-locker@0.5.12 test:release
+> node scripts/verify-android-release.mjs --expected-commit a880c5790be7699a06a3d6de58649f738a444675
+
+file:///work/repo/scripts/verify-android-release.mjs:32
+function invariant(condition,message){if(!condition)throw new Error(message)}
+                                                          ^
+
+Error: Release notes do not bind the immutable source commit
+    at invariant (file:///work/repo/scripts/verify-android-release.mjs:32:59)
+    at inspectPublishedRelease (file:///work/repo/scripts/verify-android-release.mjs:43:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async file:///work/repo/scripts/verify-android-release.mjs:162:22
+
+Node.js v22.23.2

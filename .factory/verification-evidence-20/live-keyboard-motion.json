@@ -1,0 +1,12 @@
+{
+  "skipFocused": true,
+  "focusStyle": {
+    "outline": "rgb(255, 253, 246) solid 3px",
+    "width": "3px",
+    "boxShadow": "rgb(20, 34, 30) 0px 0px 0px 7px"
+  },
+  "mainFocused": false,
+  "inputFocused": true,
+  "dialogClosed": 0,
+  "animations": 0
+}

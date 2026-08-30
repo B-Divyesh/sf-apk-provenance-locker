@@ -1,0 +1,162 @@
+[
+  {
+    "file": "dist/404.css",
+    "status": 200,
+    "match": true,
+    "localSha256": "2ee280412dff7ae503299e473544645cb55cab8b9c472673a9514e838a7669dc",
+    "liveSha256": "2ee280412dff7ae503299e473544645cb55cab8b9c472673a9514e838a7669dc",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/404.html",
+    "status": 200,
+    "match": true,
+    "localSha256": "41196fc71c05c5531fb97344141019ba410f57b297098a12cbb326324f58a1fa",
+    "liveSha256": "41196fc71c05c5531fb97344141019ba410f57b297098a12cbb326324f58a1fa",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/archive-locker.webp",
+    "status": 200,
+    "match": true,
+    "localSha256": "9ca030a9317188d7b2fcb2e26a3c43edd1ad1a38f03a0f4ec8b9f018376a0aa9",
+    "liveSha256": "9ca030a9317188d7b2fcb2e26a3c43edd1ad1a38f03a0f4ec8b9f018376a0aa9",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/assets/index-Ddc1b4dc.js",
+    "status": 200,
+    "match": true,
+    "localSha256": "ff205b9c06fecabba2078b356bdf30e7250fd147e2ac4ee8022a64fbdef8f2c2",
+    "liveSha256": "ff205b9c06fecabba2078b356bdf30e7250fd147e2ac4ee8022a64fbdef8f2c2",
+    "cacheControl": "public, max-age=31536000, immutable"
+  },
+  {
+    "file": "dist/assets/style-BQGQnk5n.css",
+    "status": 200,
+    "match": true,
+    "localSha256": "bc98e89e522daa1ca746ef0ad4bab6a67e0da36e1a00d3c7e158427c9d63ef00",
+    "liveSha256": "bc98e89e522daa1ca746ef0ad4bab6a67e0da36e1a00d3c7e158427c9d63ef00",
+    "cacheControl": "public, max-age=31536000, immutable"
+  },
+  {
+    "file": "dist/build.json",
+    "status": 200,
+    "match": true,
+    "localSha256": "ab36f775f1cd6350222669f4a4d8a567f2663d312c1c92f7309b7b6d47558efb",
+    "liveSha256": "ab36f775f1cd6350222669f4a4d8a567f2663d312c1c92f7309b7b6d47558efb",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/icons/favicon.svg",
+    "status": 200,
+    "match": true,
+    "localSha256": "9c6b22617b7b8e4019cf1002d7cc98e310b670523dd40ac77d004f084e6dea50",
+    "liveSha256": "9c6b22617b7b8e4019cf1002d7cc98e310b670523dd40ac77d004f084e6dea50",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/icons/icon-180.png",
+    "status": 200,
+    "match": true,
+    "localSha256": "67c25385db8ee0832a3fd5968c34e3dbd93e65e945b91f975067e444ae83000b",
+    "liveSha256": "67c25385db8ee0832a3fd5968c34e3dbd93e65e945b91f975067e444ae83000b",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/icons/icon-192.png",
+    "status": 200,
+    "match": true,
+    "localSha256": "60a029cb4bdf3d11130f02655b726fd545d993321373ee4e8831d790b0cd9143",
+    "liveSha256": "60a029cb4bdf3d11130f02655b726fd545d993321373ee4e8831d790b0cd9143",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/icons/icon-512.png",
+    "status": 200,
+    "match": true,
+    "localSha256": "e41258b66f76537a4b77dc273bf0c5d8d95ee2a9dc6cefd6bf8453737c3d876b",
+    "liveSha256": "e41258b66f76537a4b77dc273bf0c5d8d95ee2a9dc6cefd6bf8453737c3d876b",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/index.html",
+    "status": 200,
+    "match": true,
+    "localSha256": "00dc887ee77e03429e78d9cfdfb27f8bd5a990a5c9d7080d10c35bc13f59ff5b",
+    "liveSha256": "00dc887ee77e03429e78d9cfdfb27f8bd5a990a5c9d7080d10c35bc13f59ff5b",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/manifest.webmanifest",
+    "status": 200,
+    "match": true,
+    "localSha256": "d7f239f1d8931415fea0eb301af0941cc3820de85b78ee012b18ad3feb96f13f",
+    "liveSha256": "d7f239f1d8931415fea0eb301af0941cc3820de85b78ee012b18ad3feb96f13f",
+    "cacheControl": "public, max-age=86400"
+  },
+  {
+    "file": "dist/robots.txt",
+    "status": 200,
+    "match": true,
+    "localSha256": "19f6742f31a5a6e9100eae7d04fb6fd174d21425db3fd68883eb85aff0f8f119",
+    "liveSha256": "19f6742f31a5a6e9100eae7d04fb6fd174d21425db3fd68883eb85aff0f8f119",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/sitemap.xml",
+    "status": 200,
+    "match": true,
+    "localSha256": "737c5e5486c45a97d6d255ae6f86ed338ca64924df82f73870c40b0bafb8453e",
+    "liveSha256": "737c5e5486c45a97d6d255ae6f86ed338ca64924df82f73870c40b0bafb8453e",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/social.webp",
+    "status": 200,
+    "match": true,
+    "localSha256": "38e5d05c90d8b9a8b53b017ec8eb70f4c0c89f2aeae13e6d89d19a759207d370",
+    "liveSha256": "38e5d05c90d8b9a8b53b017ec8eb70f4c0c89f2aeae13e6d89d19a759207d370",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/sw.js",
+    "status": 200,
+    "match": true,
+    "localSha256": "2ccf4c5bff49ce6f2372fcb6aad798cc79b45643a46fa7eafc5fe88b6b5c4f3e",
+    "liveSha256": "2ccf4c5bff49ce6f2372fcb6aad798cc79b45643a46fa7eafc5fe88b6b5c4f3e",
+    "cacheControl": "public, must-revalidate, max-age=30"
+  },
+  {
+    "file": "dist/vendor/apksig/LICENSE",
+    "status": 200,
+    "match": true,
+    "localSha256": "3faa7711164436f662cad842ddbef3cc5f86bddf45960f8713a8344fa49087e6",
+    "liveSha256": "3faa7711164436f662cad842ddbef3cc5f86bddf45960f8713a8344fa49087e6",
+    "cacheControl": "public, max-age=31536000, immutable"
+  },
+  {
+    "file": "dist/vendor/apksig/NOTICE",
+    "status": 200,
+    "match": true,
+    "localSha256": "4e0b59b34cd912e2da62d1e22d6580859c248d7a233c89df57017de2bd739b1f",
+    "liveSha256": "4e0b59b34cd912e2da62d1e22d6580859c248d7a233c89df57017de2bd739b1f",
+    "cacheControl": "public, max-age=31536000, immutable"
+  },
+  {
+    "file": "dist/vendor/apksig/apksig.wasm",
+    "status": 200,
+    "match": true,
+    "localSha256": "c5e629011c528bbc20c1eb6e366c54c5a1ec4e54955829b76dc3d0610b052381",
+    "liveSha256": "c5e629011c528bbc20c1eb6e366c54c5a1ec4e54955829b76dc3d0610b052381",
+    "cacheControl": "public, max-age=31536000, immutable"
+  },
+  {
+    "file": "dist/vendor/apksig/wasm_exec.js",
+    "status": 200,
+    "match": true,
+    "localSha256": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14",
+    "liveSha256": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14",
+    "cacheControl": "public, max-age=31536000, immutable"
+  }
+]

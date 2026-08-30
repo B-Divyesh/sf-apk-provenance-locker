@@ -1,4 +1,17 @@
-# Repair handoff — apk-provenance-locker
+# Verification handoff — apk-provenance-locker
+
+## Independent verifier status: FAIL (2026-08-30 UTC)
+
+Candidate `a880c5790be7699a06a3d6de58649f738a444675` must not be released.
+The live **Buy Locker Plus — $12** endpoint returned HTTP 500 on four direct
+probes, and `npm test` failed twice on the same missing 303 checkout redirect
+(39/40 browser checks on the retry). All 26 standalone claim commands,
+including the previously blocked release-assets claim, passed; the deployed
+static files match the candidate byte-for-byte. See
+`.factory/verification-20.md` for complete evidence and required repair.
+
+The repair notes below are retained as builder context; they do not override
+this independent FAIL decision.
 
 ## Status: repaired and deployed
 

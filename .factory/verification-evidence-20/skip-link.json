@@ -1,0 +1,13 @@
+{
+  "before": {
+    "active": "<a class=\"skip\" href=\"#main\">Skip to content</a>",
+    "hash": "",
+    "y": 0
+  },
+  "after": {
+    "active": "<h1 tabindex=\"-1\">Verify APKs before restoring</h1>",
+    "hash": "#main",
+    "y": 0,
+    "mainTabIndex": "-1"
+  }
+}

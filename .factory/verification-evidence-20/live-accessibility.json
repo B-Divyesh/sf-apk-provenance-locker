@@ -1,0 +1,112 @@
+[
+  {
+    "view": "desktop",
+    "path": "/",
+    "status": 200,
+    "title": "APK Provenance Locker — Verify APK restore evidence",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  },
+  {
+    "view": "desktop",
+    "path": "/demo",
+    "status": 200,
+    "title": "Demo — APK Provenance Locker",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  },
+  {
+    "view": "desktop",
+    "path": "/privacy",
+    "status": 200,
+    "title": "Privacy — APK Provenance Locker",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  },
+  {
+    "view": "desktop",
+    "path": "/terms",
+    "status": 200,
+    "title": "Terms — APK Provenance Locker",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  },
+  {
+    "view": "desktop",
+    "path": "/404.html",
+    "status": 200,
+    "title": "Page not found — APK Provenance Locker",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  },
+  {
+    "view": "mobile",
+    "path": "/",
+    "status": 200,
+    "title": "APK Provenance Locker — Verify APK restore evidence",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  },
+  {
+    "view": "mobile",
+    "path": "/demo",
+    "status": 200,
+    "title": "Demo — APK Provenance Locker",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  },
+  {
+    "view": "mobile",
+    "path": "/privacy",
+    "status": 200,
+    "title": "Privacy — APK Provenance Locker",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  },
+  {
+    "view": "mobile",
+    "path": "/terms",
+    "status": 200,
+    "title": "Terms — APK Provenance Locker",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  },
+  {
+    "view": "mobile",
+    "path": "/404.html",
+    "status": 200,
+    "title": "Page not found — APK Provenance Locker",
+    "h1": 1,
+    "main": 1,
+    "overflow": false,
+    "seriousCritical": [],
+    "errors": []
+  }
+]

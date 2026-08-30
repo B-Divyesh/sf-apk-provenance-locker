@@ -1,0 +1,12 @@
+
+> apk-provenance-locker@0.5.12 test:candidate
+> node scripts/verify-release-candidate.mjs --expected-commit a880c5790be7699a06a3d6de58649f738a444675
+
+{
+  "repository": "B-Divyesh/sf-apk-provenance-locker",
+  "branch": "main",
+  "expectedCommit": "a880c5790be7699a06a3d6de58649f738a444675",
+  "branchRelation": "identical",
+  "obtainable": true,
+  "containedByMain": true
+}

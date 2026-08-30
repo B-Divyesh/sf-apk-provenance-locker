@@ -1,0 +1,47 @@
+Candidate: 058fe2ce981fead74ea63fd612da05baaadaecfe
+Clean install: npm ci (PASS, 189 packages, 0 vulnerabilities)
+Required claim commands: 26
+Passed: 25
+Failed: 1
+
+PASS hash-check
+PASS signature-verification
+PASS v1-verification
+PASS tamper-rejection
+PASS lineage-integrity
+PASS apk-identity
+PASS downgrade-risk
+PASS signer-drift
+PASS apk-structure
+PASS encrypted-export
+PASS password-not-stored
+PASS local-storage
+PASS android-backup-disabled
+PASS saved-copy-erasure
+PASS demo-sandbox
+PASS no-account-network
+PASS apk-never-uploaded
+PASS offline-reload
+PASS offline-verification
+FAIL release-assets
+PASS paid-unlock
+PASS free-core-features
+PASS revoked-license
+PASS hosted-checkout
+PASS restore-import
+PASS saved-apk-download
+
+Failing command:
+npm test -- --grep @claim:release-assets
+
+Failure:
+The tagged Playwright assertion passed, then scripts/verify-android-release.mjs
+called scripts/verify-release-candidate.mjs. GitHub reported:
+
+origin/main is bca9bfc2975d65f1dc33f6bada36ab6fbd2ea08b; push final
+candidate 058fe2ce981fead74ea63fd612da05baaadaecfe before release
+
+Fresh git evidence shows candidate 058fe2c is obtainable, tagged v0.5.12, and
+is an ancestor of origin/main. Main is two later QA-only commits ahead:
+7f7708e docs: add verification 18 report
+bca9bfc docs: retain verification test logs

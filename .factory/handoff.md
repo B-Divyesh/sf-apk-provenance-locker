@@ -76,8 +76,9 @@ relation passes, while a diverged candidate is rejected.
 
 The static `dist/` build was deployed to
 `https://apk-provenance-locker.sociobot.in` with the configured existing Azure
-Static Web App. The successful upload deployment was
-`166af993-750c-48c6-9ef6-9b84fcf8c62e`.
+Static Web App. The final successful upload deployment was
+`78042ea8-b4ad-4eb2-ab8e-55d0dc024789`, built from
+`b485361c8c66435ca88a9e4ea175c2daa98c3e37`.
 
 Post-deploy checks passed:
 

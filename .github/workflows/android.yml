@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Confirm final candidate is obtainable from origin/main
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/verify-release-candidate.mjs --expected-commit "$GITHUB_SHA"
       - uses: actions/setup-node@v4
         with: {node-version: 22, cache: npm}
       - uses: actions/setup-java@v4
@@ -49,7 +53,7 @@ jobs:
           unzip -l app-release.aab | grep -q 'manifest/AndroidManifest.xml'
           AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)"
           APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -1)"
-          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='16' versionName='0.5.11'"
+          "$AAPT" dump badging app-release.apk | grep -q "package: name='in.sociobot.apk_provenance_locker' versionCode='17' versionName='0.5.12'"
           "$AAPT" dump xmltree app-release.apk AndroidManifest.xml > packaged-manifest.txt
           grep -q 'android:allowBackup.*0x0' packaged-manifest.txt
           grep -q 'android:fullBackupContent' packaged-manifest.txt

@@ -47,9 +47,11 @@ data.
 
 ## Deploy APK Provenance Locker
 
-The factory deploys `dist/` with the configured static work order. Pushing a
-matching `v<version>` tag runs the Android release workflow and publishes APK,
-AAB, and checksum assets.
+The factory deploys `dist/` with the configured static work order. Push the
+final candidate to `origin/main` before tagging it. Run
+`npm run test:candidate -- --expected-commit "$(git rev-parse HEAD)"` to prove
+GitHub can obtain that exact commit. Pushing the matching `v<version>` tag then
+runs the Android workflow and publishes APK, AAB, checksums, and source record.
 
 APK checks run in the browser. Developers can inspect the pinned `apksig-go`
 v1.1.0 WebAssembly adapter in `tools/apksig-wasm`. Android fixtures and their
@@ -57,12 +59,12 @@ exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.11/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.11/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.11/SHA256SUMS)
-- [Download source record](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.11/RELEASE_PROVENANCE.json)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.12/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.12/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.12/SHA256SUMS)
+- [Download source record](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.12/RELEASE_PROVENANCE.json)
 
-These links use the fixed `v0.5.11` release. Compare each file fingerprint with
+These links use the fixed `v0.5.12` release. Compare each file fingerprint with
 `SHA256SUMS`. Then use `RELEASE_PROVENANCE.json`, the source record, to confirm
 which repository commit built the files.
 

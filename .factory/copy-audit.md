@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-30 for repair work order 11. Counts use whitespace-delimited words;
+Checked 2026-08-30 for repair work order 12. Counts use whitespace-delimited words;
 hyphenated terms, URLs, paths, and filenames count as one word. No audited
 sentence exceeds 22 words or uses a banned marketing word. **File fingerprint**
 is the product term for the SHA-256 digest. **Signing history** is the product
@@ -47,7 +47,7 @@ term for certificate changes. **Source record** is the user-facing name for
 | Android download | 2 | Pass |
 | APK checks run on this device using Android's signature rules. | 10 | Declared claim: signature-verification |
 | Android still makes the final install decision. | 7 | Limitation |
-| v0.5.11 matches source `<commit>`. | 4 | Declared claim: release-assets |
+| v0.5.12 matches source `<commit>`. | 4 | Declared claim: release-assets |
 | Download APK from GitHub | 4 | Declared claim: release-assets |
 | Download AAB from GitHub | 4 | Declared claim: release-assets |
 | Download SHA256SUMS from GitHub | 4 | Declared claim: release-assets |
@@ -94,7 +94,11 @@ term for certificate changes. **Source record** is the user-facing name for
 | It checks that the tag, release notes, source record, and both packages name this repository commit. | 16 | Release verification instruction |
 | It also checks that Start for real, Locker, and the wordmark erase demo data. | 14 | Declared claim: demo-sandbox |
 | Deploy APK Provenance Locker | 4 | Heading |
-| These links use the fixed v0.5.11 release. | 7 | Declared claim: release-assets |
+| Push the final candidate to origin/main before tagging it. | 9 | Release instruction |
+| Run npm run test:candidate to prove GitHub can obtain that exact commit. | 12 | Release instruction |
+| Pushing the matching version tag runs the Android workflow. | 9 | Release instruction |
+| It publishes APK, AAB, checksums, and source record. | 8 | Release instruction |
+| These links use the fixed v0.5.12 release. | 7 | Declared claim: release-assets |
 | Compare each file fingerprint with SHA256SUMS. | 6 | Declared claim: release-assets |
 | Then use RELEASE_PROVENANCE.json, the source record, to confirm which repository commit built the files. | 13 | Declared claim: release-assets |
 | Verification, signer and downgrade warnings, and restore-kit export stay free. | 10 | Declared claim: free-core-features |

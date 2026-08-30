@@ -1,7 +1,7 @@
 {
   "name": "apk-provenance-locker",
   "private": true,
-  "version": "0.5.11",
+  "version": "0.5.12",
   "type": "module",
   "scripts": {
     "postinstall": "node scripts/fix-capacitor-cli.mjs",
@@ -13,6 +13,7 @@
     "test:unit": "vitest run",
     "test:browser": "playwright test",
     "test:live": "node scripts/verify-live.mjs",
+    "test:candidate": "node scripts/verify-release-candidate.mjs",
     "test:release": "node scripts/verify-android-release.mjs",
     "test:watch": "vitest"
   },

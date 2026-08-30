@@ -6,6 +6,7 @@ import {createServer} from 'node:http';
 import {tmpdir} from 'node:os';
 import {extname,join,normalize} from 'node:path';
 import {chromium} from 'playwright';
+import {verifyReleaseCandidate} from './verify-release-candidate.mjs';
 
 const args=process.argv.slice(2);
 const option=name=>{const index=args.indexOf(name);return index<0?undefined:args[index+1]};
@@ -155,7 +156,11 @@ async function verifyDemoErasure(baseUrl){
 }
 
 try{
-  if(!local){publishedRelease=await inspectPublishedRelease();await Promise.all([download('app-release.apk',apk),download('app-release.aab',aab),download('SHA256SUMS',checksums),download('RELEASE_PROVENANCE.json',provenance)])}
+  if(!local){
+    await verifyReleaseCandidate({expectedCommit});
+    publishedRelease=await inspectPublishedRelease();
+    await Promise.all([download('app-release.apk',apk),download('app-release.aab',aab),download('SHA256SUMS',checksums),download('RELEASE_PROVENANCE.json',provenance)]);
+  }
   for(const [label,path] of [['APK',apk],['AAB',aab],['SHA256SUMS',checksums],['release provenance',provenance]])invariant(existsSync(path),`${label} is missing: ${path}`);
   invariant(statSync(apk).size>1_000_000,`APK is too small: ${statSync(apk).size} bytes`);
   invariant(statSync(aab).size>1_000_000,`AAB is too small: ${statSync(aab).size} bytes`);

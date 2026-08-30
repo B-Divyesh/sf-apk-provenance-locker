@@ -1,3 +1,4 @@
+import {spawnSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
 import {describe,expect,it} from 'vitest';
 
@@ -58,23 +59,37 @@ describe('deployment and Android release configuration',()=>{
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v21'");
+    expect(worker).toContain("CACHE='apk-locker-v22'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });
 
-  it('builds v0.5.11 packages only from the matching tag and audits downloaded immutable provenance',()=>{
+  it('rejects verifier 17\'s exact nonexistent and unpushed candidate conditions',()=>{
+    const result=spawnSync(process.execPath,['scripts/verify-release-candidate.mjs','--self-test'],{encoding:'utf8'});
+    expect(result.status,result.stderr).toBe(0);
+    expect(JSON.parse(result.stdout)).toEqual(expect.objectContaining({
+      regression:'verifier-17-nonexistent-candidate',
+      missing:'d7186184975c193d520d40a14b27fb552067e8ce',
+      status:422,
+      available:'d71861d6633f0e1d5c1d67e2ab1845a7f12e115f',
+      rejected:true,
+    }));
+  });
+
+  it('builds v0.5.12 packages only after origin/main has the matching tag commit',()=>{
     const workflow=readFileSync('.github/workflows/android.yml','utf8');
     const manifest=readFileSync('android/app/src/main/AndroidManifest.xml','utf8');
     const backupRules=readFileSync('android/app/src/main/res/xml/backup_rules.xml','utf8');
     const extractionRules=readFileSync('android/app/src/main/res/xml/data_extraction_rules.xml','utf8');
     expect(workflow).toContain('npx cap sync android');
     expect(workflow).toContain('apksigner');
+    expect(workflow).toContain('node scripts/verify-release-candidate.mjs --expected-commit "$GITHUB_SHA"');
+    expect(workflow.indexOf('node scripts/verify-release-candidate.mjs')).toBeLessThan(workflow.indexOf('npm ci'));
     expect(workflow).toContain('test "$GITHUB_REF_NAME" = "$EXPECTED_TAG"');
     expect(workflow).toContain('test "$(git rev-parse HEAD)" = "$GITHUB_SHA"');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.apk "assets/public/${FILE#dist/}")');
     expect(workflow).toContain('cmp "$FILE" <(unzip -p app-release.aab "base/assets/public/${FILE#dist/}")');
-    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='16' versionName='0.5.11'");
+    expect(workflow).toContain("package: name='in.sociobot.apk_provenance_locker' versionCode='17' versionName='0.5.12'");
     expect(workflow).toContain("grep -q 'android:allowBackup.*0x0' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:fullBackupContent' packaged-manifest.txt");
     expect(workflow).toContain("grep -q 'android:dataExtractionRules' packaged-manifest.txt");
@@ -96,6 +111,7 @@ describe('deployment and Android release configuration',()=>{
     expect(workflow).toContain('SHA256SUMS');
     expect(readFileSync('vite.config.ts','utf8')).toContain("fileName:'build.json'");
     const verifier=readFileSync('scripts/verify-android-release.mjs','utf8');
+    expect(verifier).toContain('await verifyReleaseCandidate({expectedCommit})');
     expect(verifier).toContain("zipText(apk,'assets/public/build.json')");
     expect(verifier).toContain("zipText(aab,'base/assets/public/build.json')");
     expect(verifier).toContain('Release notes do not bind the immutable source commit');

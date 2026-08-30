@@ -7,5 +7,9 @@ const run=(command,commandArgs)=>{
   process.exitCode=result.status??1;
 };
 
-if(grep>=0)run('npx',['playwright','test','--grep',args[grep+1]??'']);
+if(grep>=0){
+  const filter=args[grep+1]??'';
+  run('npx',['playwright','test','--grep',filter]);
+  if(!process.exitCode&&filter==='@claim:release-assets')run('node',['scripts/verify-android-release.mjs']);
+}
 else { run('npx',['vitest','run']); if(!process.exitCode)run('npx',['playwright','test']); }

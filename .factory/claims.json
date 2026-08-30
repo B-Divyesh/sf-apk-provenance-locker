@@ -134,10 +134,10 @@
   },
   {
     "id": "release-assets",
-    "claim": "The landing page binds v0.5.10 APK, AAB, checksums, and source-record links to this source commit",
+    "claim": "The landing page binds v0.5.11 APK, AAB, checksums, and source-record links to this source commit",
     "where": "Landing download section, README",
     "test": "npm test -- --grep @claim:release-assets",
-    "sandbox": "From /demo, assert the built version and commit status plus all four versioned asset URLs without an automatic third-party request"
+    "sandbox": "From /demo, assert the built version and four URLs; then download the published assets and prove their hashes, embedded build identities, tag target, release notes, and source record match this commit"
   },
   {
     "id": "paid-unlock",

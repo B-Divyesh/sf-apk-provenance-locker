@@ -21,7 +21,7 @@ const lineageFixture=resolve('tests/fixtures/v1v2v3-lineage.apk');
 const v1Fixture=resolve('tests/fixtures/v1-only-rsa-2048.apk');
 const invalidLineageFixture=resolve('tests/fixtures/v1v2v3-invalid-lineage.apk');
 const fixturePackage='android.appsecurity.cts.tinyapp';
-const releaseVersion='0.5.10';
+const releaseVersion='0.5.11';
 const releaseTag=`v${releaseVersion}`;
 const releaseCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 
@@ -594,7 +594,7 @@ test('recorded evidence reflows long release identity and source at 390px and 20
     const key='demo:apk-locker:records';
     const records=JSON.parse(localStorage.getItem(key)!);
     records[0].packageName='in.sociobot.apk_provenance_locker';
-    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.10/in.sociobot.apk_provenance_locker/app-release.apk';
+    records[0].source='https://downloads.example.test/android/releases/apk-provenance-locker/v0.5.11/in.sociobot.apk_provenance_locker/app-release.apk';
     localStorage.setItem(key,JSON.stringify(records));
   });
   await page.reload();
@@ -615,6 +615,7 @@ test('recorded evidence reflows long release identity and source at 390px and 20
 });
 
 test('static 404 has complete route metadata and shared recovery navigation',async({page})=>{
+  await page.setViewportSize({width:390,height:844});
   const response=await page.goto('/404.html');
   expect(response?.ok()).toBe(true);
   await expect(page).toHaveTitle('Page not found — APK Provenance Locker');
@@ -626,6 +627,11 @@ test('static 404 has complete route metadata and shared recovery navigation',asy
   await expect(page.getByRole('navigation',{name:'Main navigation'})).toContainText('Demo');
   await expect(page.getByRole('contentinfo')).toContainText('Records and saved APK copies stay on this device.');
   await expect(page.getByRole('link',{name:'Terms'})).toHaveAttribute('href','/terms');
+  await page.evaluate(()=>document.documentElement.style.fontSize='200%');
+  expect((await new AxeBuilder({page}).analyze()).violations).toEqual([]);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+  const wordmark=page.locator('.wordmark');
+  expect(await wordmark.evaluate(node=>node.scrollWidth<=node.clientWidth)).toBe(true);
 });
 
 test('loads every route without console errors and removes motion when requested',async({page})=>{
@@ -667,6 +673,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v20');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v20']);
+  expect(state.caches).toContain('apk-locker-v21');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v21']);
 });

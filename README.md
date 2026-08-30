@@ -36,7 +36,9 @@ npx cap sync android
 ```
 
 `npm test -- --grep @claim:<id>` runs each observable claim listed in
-`.factory/claims.json`. The production static site is written to `dist/`.
+`.factory/claims.json`. The release-assets command also downloads and checks
+the published APK, AAB, checksums, source record, tag, and release notes. The
+production static site is written to `dist/`.
 After a release is published, run `npm run test:release`. It downloads the
 APK, AAB, checksums, and source record from GitHub. It checks that the tag,
 release notes, source record, and both packages name this repository commit.
@@ -55,12 +57,12 @@ exact checksums are in `tests/fixtures`.
 
 ## Android downloads
 
-- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.10/app-release.apk)
-- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.10/app-release.aab)
-- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.10/SHA256SUMS)
-- [Download source record](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.10/RELEASE_PROVENANCE.json)
+- [Download APK](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.11/app-release.apk)
+- [Download AAB](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.11/app-release.aab)
+- [Download SHA256SUMS](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.11/SHA256SUMS)
+- [Download source record](https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.11/RELEASE_PROVENANCE.json)
 
-These links use the fixed `v0.5.10` release. Compare each file fingerprint with
+These links use the fixed `v0.5.11` release. Compare each file fingerprint with
 `SHA256SUMS`. Then use `RELEASE_PROVENANCE.json`, the source record, to confirm
 which repository commit built the files.
 

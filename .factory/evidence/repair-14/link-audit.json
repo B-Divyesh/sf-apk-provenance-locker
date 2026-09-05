@@ -1,0 +1,82 @@
+[
+  {
+    "url": "https://api.sociobot.in/api/v1/products/apk-provenance-locker/checkout",
+    "status": 200,
+    "finalUrl": "https://checkout.dodopayments.com/session/[redacted]"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/#locker",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/#locker"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/#main",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/#main"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/404.html#main",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/404.html#main"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/?demo=1",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/demo",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/demo"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/demo#main",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/demo#main"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/privacy",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/privacy"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/privacy#main",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/privacy#main"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/terms",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/terms"
+  },
+  {
+    "url": "https://apk-provenance-locker.sociobot.in/terms#main",
+    "status": 200,
+    "finalUrl": "https://apk-provenance-locker.sociobot.in/terms#main"
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.12/RELEASE_PROVENANCE.json",
+    "status": 200,
+    "finalUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1349508324/95dd8e18-4d4a-418b-b1a1-2f676c7110c1"
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.12/SHA256SUMS",
+    "status": 200,
+    "finalUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1349508324/1b907f33-a0c2-4217-b4b4-5cf503fbe09e"
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.12/app-release.aab",
+    "status": 200,
+    "finalUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1349508324/5ad296fe-c5d1-42b9-9c8b-362512b1d430"
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-apk-provenance-locker/releases/download/v0.5.12/app-release.apk",
+    "status": 200,
+    "finalUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/1349508324/58659068-40e1-4101-a3fc-1038aef46094"
+  }
+]

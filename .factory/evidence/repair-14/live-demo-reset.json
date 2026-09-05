@@ -1,0 +1,59 @@
+{
+  "checkedAt": "2026-09-05T22:53:45.839Z",
+  "viewports": [
+    {
+      "viewport": "phone",
+      "firstScreen": {
+        "heading": "Verify APKs before restoring",
+        "audience": "For Android users keeping APK files, this checks each app, version, signing history, and SHA-256 file fingerprint before a reinstall.",
+        "action": "Try it with sample data"
+      },
+      "initialPackages": [
+        "org.fdroid.fdroid 1.21.0 (1021050)",
+        "com.kunzisoft.keepass.free 4.1.7 (148)"
+      ],
+      "changedCount": 3,
+      "afterReset": {
+        "demoRecords": [
+          "org.fdroid.fdroid",
+          "com.kunzisoft.keepass.free"
+        ],
+        "realRecords": "[{\"sentinel\":\"real\"}]",
+        "realBytes": [
+          7,
+          8,
+          9
+        ],
+        "banner": "Demo — sample data, nothing is savedReset demoStart for real"
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "firstScreen": {
+        "heading": "Verify APKs before restoring",
+        "audience": "For Android users keeping APK files, this checks each app, version, signing history, and SHA-256 file fingerprint before a reinstall.",
+        "action": "Try it with sample data"
+      },
+      "initialPackages": [
+        "org.fdroid.fdroid 1.21.0 (1021050)",
+        "com.kunzisoft.keepass.free 4.1.7 (148)"
+      ],
+      "changedCount": 3,
+      "afterReset": {
+        "demoRecords": [
+          "org.fdroid.fdroid",
+          "com.kunzisoft.keepass.free"
+        ],
+        "realRecords": "[{\"sentinel\":\"real\"}]",
+        "realBytes": [
+          7,
+          8,
+          9
+        ],
+        "banner": "Demo — sample data, nothing is savedReset demoStart for real"
+      },
+      "errors": []
+    }
+  ]
+}

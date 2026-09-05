@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-09-05T22:55:13.712Z",
+  "endpoint": "https://api.sociobot.in/api/v1/products/apk-provenance-locker/checkout",
+  "attempts": [
+    {
+      "number": 1,
+      "status": 303,
+      "redirectHost": "checkout.dodopayments.com",
+      "isDodo": true
+    },
+    {
+      "number": 2,
+      "status": 303,
+      "redirectHost": "checkout.dodopayments.com",
+      "isDodo": true
+    },
+    {
+      "number": 3,
+      "status": 303,
+      "redirectHost": "checkout.dodopayments.com",
+      "isDodo": true
+    }
+  ],
+  "hosted": {
+    "title": "Sociobot | Checkout",
+    "host": "checkout.dodopayments.com",
+    "namePresent": true,
+    "pricePresent": true,
+    "providerConsole": [
+      "Permissions policy violation: accelerometer is not allowed in this document.",
+      "Permissions policy violation: accelerometer is not allowed in this document."
+    ]
+  }
+}

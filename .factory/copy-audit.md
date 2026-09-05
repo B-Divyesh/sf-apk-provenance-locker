@@ -1,6 +1,6 @@
 # Copy audit
 
-Checked 2026-08-30 for repair work order 12. Counts use whitespace-delimited words;
+Rechecked 2026-09-05 for repair work order 14. Counts use whitespace-delimited words;
 hyphenated terms, URLs, paths, and filenames count as one word. No audited
 sentence exceeds 22 words or uses a banned marketing word. **File fingerprint**
 is the product term for the SHA-256 digest. **Signing history** is the product

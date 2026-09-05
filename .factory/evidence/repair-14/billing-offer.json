@@ -1,0 +1,13 @@
+{
+  "slug": "apk-provenance-locker",
+  "name": "APK Provenance Locker Plus",
+  "price_minor": 1200,
+  "currency": "USD",
+  "price_type": "one_time_price",
+  "return_url": "https://apk-provenance-locker.sociobot.in/",
+  "price_evidence": "The live Dodo checkout order summary shows APK Provenance Locker Plus at $12.00 total.",
+  "paid_features": [
+    "Private device labels for sorting APK records by device"
+  ],
+  "license_validation_path": "https://api.sociobot.in/api/v1/products/apk-provenance-locker/verify?license={token}"
+}

@@ -1,0 +1,588 @@
+
+CLAIM hash-check
+COMMAND npm test -- --grep @claim:hash-check
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:hash-check
+
+[WebServer] (node:7367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7402) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:7423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.7s)
+PASS hash-check
+
+CLAIM signature-verification
+COMMAND npm test -- --grep @claim:signature-verification
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:signature-verification
+
+[WebServer] (node:7567) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7601) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:7622) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7622) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.4s)
+PASS signature-verification
+
+CLAIM v1-verification
+COMMAND npm test -- --grep @claim:v1-verification
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:v1-verification
+
+[WebServer] (node:7769) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7803) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:7824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.1s)
+PASS v1-verification
+
+CLAIM tamper-rejection
+COMMAND npm test -- --grep @claim:tamper-rejection
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:tamper-rejection
+
+[WebServer] (node:7969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8003) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:8024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.1s)
+PASS tamper-rejection
+
+CLAIM lineage-integrity
+COMMAND npm test -- --grep @claim:lineage-integrity
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:lineage-integrity
+
+[WebServer] (node:8165) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8199) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:8220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.2s)
+PASS lineage-integrity
+
+CLAIM apk-identity
+COMMAND npm test -- --grep @claim:apk-identity
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:apk-identity
+
+[WebServer] (node:8364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8398) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:8419) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8419) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.5s)
+PASS apk-identity
+
+CLAIM downgrade-risk
+COMMAND npm test -- --grep @claim:downgrade-risk
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:downgrade-risk
+
+[WebServer] (node:8566) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:8621) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8621) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.6s)
+PASS downgrade-risk
+
+CLAIM signer-drift
+COMMAND npm test -- --grep @claim:signer-drift
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:signer-drift
+
+[WebServer] (node:8782) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8816) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:8838) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8838) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.6s)
+PASS signer-drift
+
+CLAIM apk-structure
+COMMAND npm test -- --grep @claim:apk-structure
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:apk-structure
+
+[WebServer] (node:8979) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9013) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:9034) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9034) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.3s)
+PASS apk-structure
+
+CLAIM encrypted-export
+COMMAND npm test -- --grep @claim:encrypted-export
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:encrypted-export
+
+[WebServer] (node:9178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:9233) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9233) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.7s)
+PASS encrypted-export
+
+CLAIM password-not-stored
+COMMAND npm test -- --grep @claim:password-not-stored
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:password-not-stored
+
+[WebServer] (node:9376) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9410) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:9431) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9431) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.0s)
+PASS password-not-stored
+
+CLAIM local-storage
+COMMAND npm test -- --grep @claim:local-storage
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:local-storage
+
+[WebServer] (node:9577) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:9633) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9633) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.4s)
+PASS local-storage
+
+CLAIM android-backup-disabled
+COMMAND npm test -- --grep @claim:android-backup-disabled
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:android-backup-disabled
+
+[WebServer] (node:9776) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:9850) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9850) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.7s)
+PASS android-backup-disabled
+
+CLAIM saved-copy-erasure
+COMMAND npm test -- --grep @claim:saved-copy-erasure
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:saved-copy-erasure
+
+[WebServer] (node:9995) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:10029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:10050) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10050) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.6s)
+PASS saved-copy-erasure
+
+CLAIM demo-sandbox
+COMMAND npm test -- --grep @claim:demo-sandbox
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:demo-sandbox
+
+[WebServer] (node:10195) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:10229) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:10250) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10250) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (6.5s)
+PASS demo-sandbox
+
+CLAIM no-account-network
+COMMAND npm test -- --grep @claim:no-account-network
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:no-account-network
+
+[WebServer] (node:10414) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:10449) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:10470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.3s)
+PASS no-account-network
+
+CLAIM apk-never-uploaded
+COMMAND npm test -- --grep @claim:apk-never-uploaded
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:apk-never-uploaded
+
+[WebServer] (node:10615) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:10650) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:10671) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10671) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.4s)
+PASS apk-never-uploaded
+
+CLAIM offline-reload
+COMMAND npm test -- --grep @claim:offline-reload
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:offline-reload
+
+[WebServer] (node:10813) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:10846) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:10867) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10867) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.0s)
+PASS offline-reload
+
+CLAIM offline-verification
+COMMAND npm test -- --grep @claim:offline-verification
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:offline-verification
+
+[WebServer] (node:11031) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:11066) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:11087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.3s)
+PASS offline-verification
+
+CLAIM release-assets
+COMMAND npm test -- --grep @claim:release-assets
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:release-assets
+
+[WebServer] (node:11230) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:11265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:11286) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11286) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.9s)
+{
+  "tag": "v0.5.12",
+  "expectedCommit": "058fe2ce981fead74ea63fd612da05baaadaecfe",
+  "tagCommit": "058fe2ce981fead74ea63fd612da05baaadaecfe",
+  "provenance": {
+    "schema": "https://sociobot.in/schemas/android-release-provenance/v1",
+    "product": "apk-provenance-locker",
+    "repository": "B-Divyesh/sf-apk-provenance-locker",
+    "version": "0.5.12",
+    "tag": "v0.5.12",
+    "commit": "058fe2ce981fead74ea63fd612da05baaadaecfe",
+    "artifacts": [
+      {
+        "name": "app-release.apk",
+        "bytes": 5589035,
+        "sha256": "ed96782a51f06c21129edca3ff94f811796a801f5d7d438672aac795d2ae272b"
+      },
+      {
+        "name": "app-release.aab",
+        "bytes": 5409557,
+        "sha256": "a217c32fbe6736006bef2b989a33ab9e60083b8d6c6190c008513575a37d8601"
+      }
+    ]
+  },
+  "apk": {
+    "bytes": 5589035,
+    "sha256": "ed96782a51f06c21129edca3ff94f811796a801f5d7d438672aac795d2ae272b",
+    "identity": {
+      "product": "apk-provenance-locker",
+      "version": "0.5.12",
+      "commit": "058fe2ce981fead74ea63fd612da05baaadaecfe"
+    }
+  },
+  "aab": {
+    "bytes": 5409557,
+    "sha256": "a217c32fbe6736006bef2b989a33ab9e60083b8d6c6190c008513575a37d8601",
+    "identity": {
+      "product": "apk-provenance-locker",
+      "version": "0.5.12",
+      "commit": "058fe2ce981fead74ea63fd612da05baaadaecfe"
+    }
+  },
+  "demoErasure": [
+    {
+      "exit": "Start for real",
+      "demoErased": true,
+      "realStoragePreserved": true,
+      "reseededRecords": 2,
+      "errors": []
+    },
+    {
+      "exit": "Locker",
+      "demoErased": true,
+      "realStoragePreserved": true,
+      "reseededRecords": 2,
+      "errors": []
+    },
+    {
+      "exit": "wordmark",
+      "demoErased": true,
+      "realStoragePreserved": true,
+      "reseededRecords": 2,
+      "errors": []
+    }
+  ]
+}
+PASS release-assets
+
+CLAIM paid-unlock
+COMMAND npm test -- --grep @claim:paid-unlock
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:paid-unlock
+
+[WebServer] (node:11518) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:11552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:11573) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11573) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.0s)
+PASS paid-unlock
+
+CLAIM free-core-features
+COMMAND npm test -- --grep @claim:free-core-features
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:free-core-features
+
+[WebServer] (node:11714) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:11748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:11769) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11769) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.4s)
+PASS free-core-features
+
+CLAIM revoked-license
+COMMAND npm test -- --grep @claim:revoked-license
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:revoked-license
+
+[WebServer] (node:11915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:11948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:11969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.4s)
+PASS revoked-license
+
+CLAIM hosted-checkout
+COMMAND npm test -- --grep @claim:hosted-checkout
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:hosted-checkout
+
+[WebServer] (node:12131) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:12166) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:12187) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12187) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.3s)
+PASS hosted-checkout
+
+CLAIM restore-import
+COMMAND npm test -- --grep @claim:restore-import
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:restore-import
+
+[WebServer] (node:12330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:12364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:12385) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12385) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.4s)
+PASS restore-import
+
+CLAIM saved-apk-download
+COMMAND npm test -- --grep @claim:saved-apk-download
+
+> apk-provenance-locker@0.5.12 test
+> node scripts/test.mjs --grep @claim:saved-apk-download
+
+[WebServer] (node:12539) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:12574) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:12595) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12595) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.0s)
+PASS saved-apk-download
+
+PASS all 26 declared claims

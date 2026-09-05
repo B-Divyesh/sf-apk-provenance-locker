@@ -6,6 +6,10 @@ Repair work order `apk-provenance-locker-repair-14` is complete and deployed.
 The live site serves implementation `614badd1471bf84e7bffec1f4dd042eb5eb63b08`
 at <https://apk-provenance-locker.sociobot.in>.
 
+The documentation and evidence snapshot is
+`2348afab412e5e9d9a335ff3dadc4c696fe60370`; it is report-only and was not
+deployed over the implementation build.
+
 The final Azure Static Web Apps deployment is
 `547c4c63-0a98-4431-84fb-f108f8157ff3`. Live `/build.json` names the exact
 implementation commit. A preliminary upload in this session was immediately

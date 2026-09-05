@@ -1,0 +1,109 @@
+
+> apk-provenance-locker@0.5.12 lint
+> tsc --noEmit
+
+
+> apk-provenance-locker@0.5.12 build
+> tsc --noEmit && vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/build.json                  0.12 kB │ gzip:  0.12 kB
+dist/index.html                  1.42 kB │ gzip:  0.56 kB
+dist/assets/style-BQGQnk5n.css  11.22 kB │ gzip:  3.35 kB
+dist/assets/apk-CnouU1ML.js      9.73 kB │ gzip:  4.41 kB
+dist/assets/index-CLftqs4k.js   36.47 kB │ gzip: 12.11 kB
+
+✓ built in 92ms
+found 0 vulnerabilities
+✔ Copying web assets from dist to android/app/src/main/assets/public in 34.94ms
+✔ Creating capacitor.config.json in android/app/src/main/assets in 781.90μs
+✔ copy android in 49.37ms
+✔ Updating Android plugins in 2.51ms
+✔ update android in 34.50ms
+[info] Sync finished in 0.107s
+
+> apk-provenance-locker@0.5.12 test:candidate
+> node scripts/verify-release-candidate.mjs --expected-commit 614badd1471bf84e7bffec1f4dd042eb5eb63b08
+
+{
+  "repository": "B-Divyesh/sf-apk-provenance-locker",
+  "branch": "main",
+  "expectedCommit": "614badd1471bf84e7bffec1f4dd042eb5eb63b08",
+  "branchRelation": "identical",
+  "obtainable": true,
+  "containedByMain": true
+}
+
+> apk-provenance-locker@0.5.12 test:release
+> node scripts/verify-android-release.mjs
+
+{
+  "tag": "v0.5.12",
+  "expectedCommit": "058fe2ce981fead74ea63fd612da05baaadaecfe",
+  "tagCommit": "058fe2ce981fead74ea63fd612da05baaadaecfe",
+  "provenance": {
+    "schema": "https://sociobot.in/schemas/android-release-provenance/v1",
+    "product": "apk-provenance-locker",
+    "repository": "B-Divyesh/sf-apk-provenance-locker",
+    "version": "0.5.12",
+    "tag": "v0.5.12",
+    "commit": "058fe2ce981fead74ea63fd612da05baaadaecfe",
+    "artifacts": [
+      {
+        "name": "app-release.apk",
+        "bytes": 5589035,
+        "sha256": "ed96782a51f06c21129edca3ff94f811796a801f5d7d438672aac795d2ae272b"
+      },
+      {
+        "name": "app-release.aab",
+        "bytes": 5409557,
+        "sha256": "a217c32fbe6736006bef2b989a33ab9e60083b8d6c6190c008513575a37d8601"
+      }
+    ]
+  },
+  "apk": {
+    "bytes": 5589035,
+    "sha256": "ed96782a51f06c21129edca3ff94f811796a801f5d7d438672aac795d2ae272b",
+    "identity": {
+      "product": "apk-provenance-locker",
+      "version": "0.5.12",
+      "commit": "058fe2ce981fead74ea63fd612da05baaadaecfe"
+    }
+  },
+  "aab": {
+    "bytes": 5409557,
+    "sha256": "a217c32fbe6736006bef2b989a33ab9e60083b8d6c6190c008513575a37d8601",
+    "identity": {
+      "product": "apk-provenance-locker",
+      "version": "0.5.12",
+      "commit": "058fe2ce981fead74ea63fd612da05baaadaecfe"
+    }
+  },
+  "demoErasure": [
+    {
+      "exit": "Start for real",
+      "demoErased": true,
+      "realStoragePreserved": true,
+      "reseededRecords": 2,
+      "errors": []
+    },
+    {
+      "exit": "Locker",
+      "demoErased": true,
+      "realStoragePreserved": true,
+      "reseededRecords": 2,
+      "errors": []
+    },
+    {
+      "exit": "wordmark",
+      "demoErased": true,
+      "realStoragePreserved": true,
+      "reseededRecords": 2,
+      "errors": []
+    }
+  ]
+}

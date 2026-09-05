@@ -568,6 +568,23 @@ test('opens sample records above the fold from the first-screen demo action',asy
   expect((await record.boundingBox())?.y||Infinity).toBeLessThan(844);
 });
 
+test('keeps the first screen light and loads APK parsing only when verification starts',async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('/');
+  const entryPath=await page.locator('script[type="module"]').getAttribute('src');
+  expect(entryPath).toBeTruthy();
+  const entry=await page.request.get(entryPath!);
+  expect((await entry.body()).byteLength).toBeLessThanOrEqual(40_000);
+  expect(await page.locator('.hero img').evaluate(image=>(image as HTMLImageElement).currentSrc)).toContain('/archive-locker-640.webp');
+  const initialChunks=await page.evaluate(()=>performance.getEntriesByType('resource').map(entry=>entry.name).filter(name=>/\/assets\/[^/]+\.js$/.test(name)));
+  expect(initialChunks).toHaveLength(1);
+
+  await chooseApk(page,v1Fixture);
+  const verificationChunks=await page.evaluate(()=>performance.getEntriesByType('resource').map(entry=>entry.name).filter(name=>/\/assets\/[^/]+\.js$/.test(name)));
+  expect(verificationChunks.length).toBeGreaterThan(initialChunks.length);
+  await expect(page.getByText('Signature verified · v1')).toBeVisible();
+});
+
 test('moves client routes to their heading and restores the exact Back scroll position',async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto('/');
@@ -673,6 +690,6 @@ test('checks for service-worker updates and removes old cache versions',async({p
     return {script:registration.active?.scriptURL,caches:await caches.keys()};
   });
   expect(state.script).toMatch(/\/sw\.js$/);
-  expect(state.caches).toContain('apk-locker-v22');
-  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v22']);
+  expect(state.caches).toContain('apk-locker-v23');
+  expect(state.caches.filter(name=>name.startsWith('apk-locker-'))).toEqual(['apk-locker-v23']);
 });

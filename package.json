@@ -20,7 +20,7 @@
   "dependencies": {
     "@capacitor/android": "6.2.1",
     "@capacitor/core": "6.2.1",
-    "fflate": "0.8.2"
+    "fflate": "0.8.3"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",

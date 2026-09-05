@@ -39,8 +39,9 @@ containing labeled-but-unreadable app parcels, certificate seals, and a hash
 strip, on midnight ink. It contains no text, brands, people, logos, or
 watermarks. Generated with the factory Azure image workflow on 2026-08-28;
 prompt sidecar sits beside the source image. It is converted to WebP for the
-site and used as the source for the adaptive Android icon. All interface icons
-are authored SVG/CSS marks.
+site and used as the source for the adaptive Android icon. A 640px WebP
+derivative serves phone layouts without changing the artwork. All interface
+icons are authored SVG/CSS marks.
 
 ## Why this fits
 

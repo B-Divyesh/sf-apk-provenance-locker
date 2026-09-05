@@ -59,7 +59,7 @@ describe('deployment and Android release configuration',()=>{
 
   it('precaches the pinned local signature verifier for offline use',()=>{
     const worker=readFileSync('public/sw.js','utf8');
-    expect(worker).toContain("CACHE='apk-locker-v22'");
+    expect(worker).toContain("CACHE='apk-locker-v23'");
     expect(worker).toContain("'/vendor/apksig/apksig.wasm'");
     expect(readFileSync('tests/fixtures/SHA256SUMS','utf8')).toContain('v1v2v3-lineage.apk');
   });

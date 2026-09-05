@@ -1,11 +1,17 @@
-const CACHE='apk-locker-v22';
-const ASSETS=['/','/index.html','/archive-locker.webp','/manifest.webmanifest','/icons/favicon.svg','/icons/icon-192.png','/icons/icon-512.png','/vendor/apksig/wasm_exec.js','/vendor/apksig/apksig.wasm'];
+const CACHE='apk-locker-v23';
+const ASSETS=['/','/index.html','/archive-locker-640.webp','/archive-locker.webp','/manifest.webmanifest','/icons/favicon.svg','/icons/icon-192.png','/icons/icon-512.png','/vendor/apksig/wasm_exec.js','/vendor/apksig/apksig.wasm'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
   const cache=await caches.open(CACHE);
   await cache.addAll(ASSETS);
   const html=await (await cache.match('/index.html')).text();
   const builtAssets=[...html.matchAll(/(?:src|href)="(\/assets\/[^"]+)"/g)].map(match=>match[1]);
   if(builtAssets.length)await cache.addAll(builtAssets);
+  const lazyChunks=[];
+  for(const asset of builtAssets.filter(path=>path.endsWith('.js'))){
+    const source=await (await cache.match(asset)).text();
+    for(const match of source.matchAll(/import\(["'`](\.\/[^"'`]+\.js)["'`]\)/g))lazyChunks.push(new URL(match[1],new URL(asset,self.location.origin)).pathname);
+  }
+  if(lazyChunks.length)await cache.addAll([...new Set(lazyChunks)]);
   await self.skipWaiting();
 })()));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));

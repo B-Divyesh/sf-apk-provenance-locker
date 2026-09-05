@@ -1,5 +1,17 @@
 # Repair handoff — APK Provenance Locker
 
+## Independent verification 21
+
+Verification work order `apk-provenance-locker-verify-21` completed with
+**PASS** on 2026-09-05 UTC: zero findings and zero untested public claims.
+The implementation reviewed was
+`614badd1471bf84e7bffec1f4dd042eb5eb63b08`; the later documentation/evidence
+revision was `05ab79387182a604c469f9b212ef0aeb7936992f`. See
+`.factory/verification-21.md` for complete independent evidence. It records
+26/26 claim commands, 24 unit + 41 browser tests, live desktop/phone flows,
+checkout redirects, rate limiting, accessibility, offline behavior, Android
+artifact provenance, links, and the disposition of every earlier finding.
+
 ## Status
 
 Repair work order `apk-provenance-locker-repair-14` is complete and deployed.

@@ -1,5 +1,23 @@
 # Repair handoff — APK Provenance Locker
 
+## Strict review 6
+
+Work order `apk-provenance-locker-review-6` completed with **PASS** on
+2026-09-05 UTC: zero findings and zero untested public claims. The reviewed
+implementation is `614badd1471bf84e7bffec1f4dd042eb5eb63b08`; the current
+documentation/report revision is `4938f992a0d028643c1c2c41664889b5ab4b9bdf`.
+Live `/build.json` reports the intervening documentation-only revision
+`05ab79387182a604c469f9b212ef0aeb7936992f`; live hashed runtime assets match
+the reviewed implementation.
+
+The review used a fresh clone and ran all 26 exact claim commands, `npm test`
+(24 unit + 41 browser tests), lint, build, audit, candidate ancestry, Android
+release provenance, and live desktop/mobile verification. Fresh live checks
+also covered the one-click demo/reset, legal/404 routes, factory URL verifier,
+Axe, keyboard/reduced-motion behavior, checkout redirect, rate allowance, and
+mobile Lighthouse (100 performance, 1.16 s LCP, zero CLS). See
+`.factory/review-6.md` and `.factory/review-6-evidence/`.
+
 ## Independent verification 21
 
 Verification work order `apk-provenance-locker-verify-21` completed with
